@@ -1,3 +1,5 @@
+import dual_simplex
+
 M = 1000000
 
 def check_feasible_positive_sol(matrix):
@@ -73,7 +75,7 @@ def optimize(basic_vars, matrix, is_max):
         pivot_col_var = select_pivot_col(obj_row, is_max, blocked_cols)
         if pivot_col_var == -1:
             print("Cannot be optimized")
-            return matrix
+            return basic_vars, matrix
         ratio_col = create_ratio_col(matrix, pivot_col_var)
         if min(ratio_col) == M:
             blocked_cols.append(pivot_col_var)
@@ -86,31 +88,21 @@ def optimize(basic_vars, matrix, is_max):
 def get_feasible(basic_vars, matrix):
     
     if check_feasible_positive_sol(matrix):
-        # fix_pos_col()
-        pass
+        basic_vars, matrix = dual_simplex.dual_simplex(basic_vars, matrix)
 
     matrix =  fix_feasible_0_1_pattern(basic_vars, matrix)
 
     return matrix
 
 def solve_linear_programming(basic_vars, matrix, is_max):
-    matrix = get_feasible(basic_vars, matrix)
-    print(matrix)
+    
+    while check_feasible_positive_sol(matrix):
+        matrix = get_feasible(basic_vars, matrix)
+        print(matrix)
 
-    obj_row = matrix[0][:-1]
     while(not(check_optimal(matrix[0][:-1], is_max))):
           basic_vars, matrix = optimize(basic_vars, matrix, is_max)
           matrix = get_feasible(basic_vars, matrix)
           print("basic variables: \n", basic_vars)
           print("matrix: \n",matrix)
           
-
-
-# matrix = [[-5, -4, 0, 0, 0], [6, 4, 1, 0, 24], [1, 2, 0, 1, 6]]
-# basic_vars = [0, 3, 4]
-
-matrix = [[-5, -4, 0, 0, 0, 0], [6, 4, 1, 0, 0, 24], [1, 2, 0, 1, 0, 6], [-1, 1, 0, 0, 1, 1]]
-basic_vars = [0, 3, 4, 5]
-
-# print(next_simplex_sol(basic_vars, matrix, True))
-solve_linear_programming(basic_vars, matrix, True)
