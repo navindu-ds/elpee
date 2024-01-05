@@ -3,14 +3,14 @@ WIDTH = 7
 # creates the list of variables including
     # objective, decision, slack and artificial variables
 def get_var_list(n_decision_vars, n_slack_vars, n_artificials):
-    var_names = ['P']
+    var_names = ['P'.center(WIDTH)]
     for i in range(n_decision_vars):
-        var_names.append(("X"+str(i+1)).ljust(WIDTH))
+        var_names.append(("X"+str(i+1)).center(WIDTH))
     for i in range(n_slack_vars):
-        var_names.append(("S"+str(i+1)).ljust(WIDTH))
+        var_names.append(("S"+str(i+1)).center(WIDTH))
     for i in range(n_artificials):
-        var_names.append(("A"+str(i+1)).ljust(WIDTH))
-    var_names.append("Sol")
+        var_names.append(("A"+str(i+1)).center(WIDTH))
+    var_names.append("Sol".center(WIDTH))
     return var_names
 
 # generates the simplex table in user friendly manner on command line prompt into list of text
@@ -23,16 +23,16 @@ def get_simplex_table_text(basic_vars, matrix, n_decision_vars, is_max, n_artifi
 
     # prepare first row
     if is_max:
-        head_simplex_row = "MAX".ljust(WIDTH)
+        head_simplex_row = "MAX".center(WIDTH)
     else:
-        head_simplex_row = "MIN".ljust(WIDTH)
+        head_simplex_row = "MIN".center(WIDTH)
     head_simplex_row += "".join(map(str, var_names[1:]))
     rows_list.append(head_simplex_row)
 
     # for other rows representing constraint rows
     for i in range(n_constraints+1):
         simplex_row = var_names[basic_vars[i]].ljust(WIDTH)
-        matrix_row_str = [str(n).ljust(WIDTH) for n in matrix[i]]
+        matrix_row_str = [str(round(n,2)).center(WIDTH) for n in matrix[i]]
         simplex_row += "".join(map(str, matrix_row_str))
         rows_list.append(simplex_row)
     
