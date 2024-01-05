@@ -48,5 +48,6 @@ def dual_simplex(basic_vars, matrix):
                 j += 1
             else:
                 basic_vars[pivot_row] = pivot_col_var
-                return basic_vars, matrix
-        print("No feasible solution")
+                return True, basic_vars, matrix
+    print("No feasible solution")
+    return False, basic_vars, matrix

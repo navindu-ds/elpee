@@ -75,8 +75,7 @@ def optimize(basic_vars, matrix, is_max):
     while len(blocked_cols) < n_cols:
         pivot_col_var = select_pivot_col(obj_row, is_max, blocked_cols)
         if pivot_col_var == -1:
-            print("Cannot be optimized")
-            return basic_vars, matrix
+            return False, None, None
         ratio_col = create_ratio_col(matrix, pivot_col_var)
         if min(ratio_col) == M:
             blocked_cols.append(pivot_col_var)
@@ -84,16 +83,18 @@ def optimize(basic_vars, matrix, is_max):
             pivot_row_var = ratio_col.index(min(ratio_col)) + 1
             break
     basic_vars[pivot_row_var] = pivot_col_var
-    return basic_vars, matrix
+    return True, basic_vars, matrix
 
 def get_feasible(basic_vars, matrix, n_decision_vars, is_max):
     
     if check_feasible_positive_sol(matrix):
-        basic_vars, matrix = dual_simplex(basic_vars, matrix)
+        is_dual_simplexed, basic_vars, matrix = dual_simplex(basic_vars, matrix)
+        if not(is_dual_simplexed):
+            return False, None
 
     matrix =  fix_feasible_0_1_pattern(basic_vars, matrix)
 
-    return matrix
+    return True, matrix
 
 def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
 
@@ -102,16 +103,27 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
     while check_feasible_positive_sol(matrix):
         print("\n...Generating Initial Feasible Solution for")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
-        matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
+        is_feasible, matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
+        if not(is_feasible):
+            print("No feasible solution found")
+            return
 
     print(f"\nFeasible Solution # {feasible_count}")
     print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
 
+    is_optimizable = True
     while(not(check_optimal(matrix[0][:-1], is_max))):
         feasible_count += 1
-        basic_vars, matrix = optimize(basic_vars, matrix, is_max)
-        matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
+        is_optimizable, basic_vars, matrix = optimize(basic_vars, matrix, is_max)
+        if not(is_optimizable):
+            print("\nCannot be optimized")
+            break
+        is_feasible, matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
+        if not(is_feasible):
+            print("No feasible solution found")
+            return
         print(f"\nFeasible Solution # {feasible_count}")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
 
-    print("\nOptimized!")
+    if is_optimizable:
+        print("\nOptimized!")
