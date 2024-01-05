@@ -1,4 +1,5 @@
-import dual_simplex
+from dual_simplex import dual_simplex
+from print_simplex import print_simplex_table_cli
 
 M = 1000000
 
@@ -85,24 +86,28 @@ def optimize(basic_vars, matrix, is_max):
     basic_vars[pivot_row_var] = pivot_col_var
     return basic_vars, matrix
 
-def get_feasible(basic_vars, matrix):
+def get_feasible(basic_vars, matrix, n_decision_vars, is_max):
     
     if check_feasible_positive_sol(matrix):
-        basic_vars, matrix = dual_simplex.dual_simplex(basic_vars, matrix)
+        basic_vars, matrix = dual_simplex(basic_vars, matrix)
 
     matrix =  fix_feasible_0_1_pattern(basic_vars, matrix)
 
     return matrix
 
-def solve_linear_programming(basic_vars, matrix, is_max):
+def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
+
+    feasible_count = 1
     
     while check_feasible_positive_sol(matrix):
-        matrix = get_feasible(basic_vars, matrix)
-        print(matrix)
+        matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
+
+    print(f"\nFeasible Solution # {feasible_count}")
+    print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
 
     while(not(check_optimal(matrix[0][:-1], is_max))):
-          basic_vars, matrix = optimize(basic_vars, matrix, is_max)
-          matrix = get_feasible(basic_vars, matrix)
-          print("basic variables: \n", basic_vars)
-          print("matrix: \n",matrix)
-          
+        feasible_count += 1
+        basic_vars, matrix = optimize(basic_vars, matrix, is_max)
+        matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
+        print(f"\nFeasible Solution # {feasible_count}")
+        print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
