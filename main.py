@@ -26,20 +26,20 @@ is_max = True
 # basic_vars = [0, 5, 6, 7]
 # n_decision_vars = 4
 
-# fail - divide by zero error
-# matrix = [[  1, -2,  1,  0,  0,  0,  0],
-#           [  1,  2,  1,  1,  0,  0, 12],
-#           [  2,  1, -1,  0,  1,  0,  6],
-#           [ -1,  3,  0,  0,  0,  1,  9]]
-# basic_vars = [0, 4, 5, 6]
-# is_max = False
-
-matrix = [[ -5, -6,  0,  0,  0],
-          [ -1, -1,  1,  0, -2],
-          [ -4, -2,  0,  1, -4]]
-basic_vars = [0, 3, 4]
-n_decision_vars = 2
+matrix = [[  1, -2,  1,  0,  0,  0,  0],
+          [  1,  2,  1,  1,  0,  0, 12],
+          [  2,  1, -1,  0,  1,  0,  6],
+          [ -1,  3,  0,  0,  0,  1,  9]]
+basic_vars = [0, 4, 5, 6]
+n_decision_vars = 3
 is_max = False
+
+# matrix = [[ -5, -6,  0,  0,  0],
+#           [ -1, -1,  1,  0, -2],
+#           [ -4, -2,  0,  1, -4]]
+# basic_vars = [0, 3, 4]
+# n_decision_vars = 2
+# is_max = False
 
 # # failed case - infinite loop
 # matrix = [[-3,  1, -1,  0,  0,  0,  0], 

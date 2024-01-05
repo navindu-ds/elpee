@@ -7,7 +7,7 @@ def check_feasible_positive_sol(matrix):
     n_rows = len(matrix)
     dual_simplex_flag = False
 
-    for i in range(n_rows):
+    for i in range(1, n_rows):
         if matrix[i][-1] < 0:
             dual_simplex_flag = True
             break
