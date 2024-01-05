@@ -100,6 +100,8 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
     feasible_count = 1
     
     while check_feasible_positive_sol(matrix):
+        print("\n...Generating Initial Feasible Solution for")
+        print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
         matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
 
     print(f"\nFeasible Solution # {feasible_count}")
@@ -111,3 +113,5 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
         matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
         print(f"\nFeasible Solution # {feasible_count}")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
+
+    print("\nOptimized!")
