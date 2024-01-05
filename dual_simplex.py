@@ -10,7 +10,7 @@ def select_pivot_row(basic_vars, matrix, blocked_rows):
     for i in range(len(sorted_idx)):
         if basic_vars[sorted_idx[i]+1] not in blocked_rows:
             return sorted_idx[i]+1
-    print("No suitable pivot row - Cannot make feasible solution")
+    print("\nNo suitable pivot row - Cannot make feasible solution")
     return -1
         
 def create_ratio_row(matrix, pivot_row, pivot_row_var):

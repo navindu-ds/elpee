@@ -41,7 +41,6 @@ is_max = True
 # n_decision_vars = 2
 # is_max = False
 
-# # failed case - infinite loop
 # matrix = [[-3,  1, -1,  0,  0,  0,  0], 
 #           [ 4, -1,  0,  1,  0,  0,  8],
 #           [-8, -1, -3,  0,  1,  0,-12],
@@ -49,7 +48,6 @@ is_max = True
 # basic_vars = [0, 4, 5, 6]
 # n_decision_vars = 3
 
-# # failed case - infinite loop
 # matrix = [[ 1, -2, 0, 0, 0, 0], 
 #           [-1, -1, 1, 0, 0, -2], 
 #           [ 1, -1, 0, 1, 0, -1], 
