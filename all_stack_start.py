@@ -5,14 +5,28 @@ M = 1000000
 
 def check_feasible_positive_sol(matrix):
     n_rows = len(matrix)
-    dual_simplex_flag = False
 
     for i in range(1, n_rows):
         if matrix[i][-1] < 0:
-            dual_simplex_flag = True
-            break
+            return False
 
-    return dual_simplex_flag
+    return True
+
+def check_feasibility(basic_vars, matrix):
+    if check_feasible_positive_sol(matrix):
+        if check_0_1_pattern(basic_vars, matrix):
+            return True
+    return False
+
+def check_0_1_pattern(basic_vars, matrix):
+    for i, var in enumerate(basic_vars[1:]):
+        print(var)
+        column = [row[var-1] for row in matrix]
+        print(column)
+
+        if column[i+1] != 1 or (column.count(0) != (len(column) -1)):
+            return False
+    return True
 
 def fix_feasible_0_1_pattern(basic_vars, matrix):
     n_rows = len(matrix)
@@ -87,7 +101,7 @@ def optimize(basic_vars, matrix, is_max):
 
 def get_feasible(basic_vars, matrix, n_decision_vars, is_max):
     
-    if check_feasible_positive_sol(matrix):
+    if not(check_feasible_positive_sol(matrix)):
         is_dual_simplexed, basic_vars, matrix = dual_simplex(basic_vars, matrix)
         if not(is_dual_simplexed):
             return False, None
@@ -100,7 +114,7 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
 
     feasible_count = 1
     
-    while check_feasible_positive_sol(matrix):
+    while not(check_feasible_positive_sol(matrix)):
         print("\n...Generating Initial Feasible Solution for")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
         is_feasible, matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
@@ -127,3 +141,25 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
 
     if is_optimizable:
         print("\nOptimized Solution Received!")
+
+# column = [0,1,0,0,0]
+# x=3
+# if column[x] == 1 and column.count(0) == (len(column) -1):
+#     print("Yay")
+# else:
+#     print("Noo")
+
+# matrix = [[ 0, 13/7, 0, 71/7, -2/7, 0, 10/7, 970/7],
+#           [ 1,  5/7, 0, -5/7, 10/7, 0, -1/7,  50/7],
+#           [ 0, -6/7, 0, 13/7,-61/7, 1,  4/7, 325/7],
+#           [ 0,  2/7, 1, 12/7, -3/7, 0,  1/7,  55/7]]
+# basic_vars = [0, 1, 6, 3]
+# n_decision_vars = 4
+
+# matrix = [[0, 0, 1, 0, 0, 15],
+#           [1, 1, 1,-1, 0,  5],
+#           [1, 0, 0, 1, 0, 10],
+#           [0, 0,-1, 1, 1,  5]]
+# basic_vars = [0, 2, 1, 5]
+# n_decision_vars = 2
+# print(check_feasibility(basic_vars, matrix))
