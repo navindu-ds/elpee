@@ -6,12 +6,12 @@ is_max = True
 # basic_vars = [0, 3, 4]
 # n_decision_vars = 2
 
-matrix = [[-5, -4, 0, 0, 0,  0], 
-          [ 6,  4, 1, 0, 0, 24], 
-          [ 1,  2, 0, 1, 0,  6], 
-          [-1,  1, 0, 0, 1,  1]]
-basic_vars = [0, 3, 4, 5]
-n_decision_vars = 2
+# matrix = [[-5, -4, 0, 0, 0,  0], 
+#           [ 6,  4, 1, 0, 0, 24], 
+#           [ 1,  2, 0, 1, 0,  6], 
+#           [-1,  1, 0, 0, 1,  1]]
+# basic_vars = [0, 3, 4, 5]
+# n_decision_vars = 2
 
 # matrix = [[-3, 1, 0, 0, 0], 
 #           [4, -1, 1, 0, 8], 
@@ -93,5 +93,35 @@ n_decision_vars = 2
 # n_decision_vars = 4
 # is_max = False
 
-# print(next_simplex_sol(basic_vars, matrix, True))
+# matrix = [[ -4, -5, -9, -11, 0, 0, 0,   0],
+#           [  1,  1,  1,   1, 1, 0, 0,  15],
+#           [  7,  5,  3,   2, 0, 1, 0, 120],
+#           [  3,  5, 10,  15, 0, 0, 1, 100]]
+# basic_vars = [0, 5, 6, 7]
+# n_decision_vars = 4
+
+# matrix = [[ -4, -5, -9, -11, 0, 0, 0, 0,     0],
+#           [  1,  1,  1,   1, 1, 0, 0, 0,    15],
+#           [  7,  5,  3,   2, 0, 1, 0, 0,   120],
+#           [  3,  5, 10,  15, 0, 0, 1, 0,   100],
+#           [  3,  4,  7,   5, 0, 0, 0, 1, 500/7]]
+# basic_vars = [0, 5, 6, 7, 8]
+# n_decision_vars = 4
+
+# TEST THIS
+matrix = [[0, 0, 1, 0, 0, 15],
+          [1, 1, 1,-1, 0,  5],
+          [1, 0, 0, 1, 0, 10],
+          [0, 0,-1, 1, 1,  5]]
+basic_vars = [0, 2, 1, 5]
+n_decision_vars = 2
+
+# a half solution
+# matrix = [[ 0, 13/7, 0, 71/7, -2/7, 0, 10/7, 970/7],
+#           [ 1,  5/7, 0, -5/7, 10/7, 0, -1/7,  50/7],
+#           [ 0, -6/7, 0, 13/7,-61/7, 1,  4/7, 325/7],
+#           [ 0,  2/7, 1, 12/7, -3/7, 0,  1/7,  55/7]]
+# basic_vars = [0, 1, 6, 3]
+# n_decision_vars = 4
+
 all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max)

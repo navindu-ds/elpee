@@ -1,4 +1,5 @@
-WIDTH = 7
+WIDTH = 8
+DECIMALS = 3
 
 # creates the list of variables including
     # objective, decision, slack and artificial variables
@@ -32,7 +33,7 @@ def get_simplex_table_text(basic_vars, matrix, n_decision_vars, is_max, n_artifi
     # for other rows representing constraint rows
     for i in range(n_constraints+1):
         simplex_row = var_names[basic_vars[i]].ljust(WIDTH)
-        matrix_row_str = [str(round(n,2)).center(WIDTH) for n in matrix[i]]
+        matrix_row_str = [str(round(n,DECIMALS)).center(WIDTH) for n in matrix[i]]
         simplex_row += "".join(map(str, matrix_row_str))
         rows_list.append(simplex_row)
     

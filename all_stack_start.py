@@ -105,7 +105,7 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
         is_feasible, matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
         if not(is_feasible):
-            print("No feasible solution found")
+            print("\nNo feasible solution found")
             return
 
     print(f"\nFeasible Solution # {feasible_count}")
@@ -120,7 +120,7 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
             break
         is_feasible, matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
         if not(is_feasible):
-            print("\nNo feasible solution found")
+            print("\nNo further feasible solution found")
             return
         print(f"\nFeasible Solution # {feasible_count}")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
