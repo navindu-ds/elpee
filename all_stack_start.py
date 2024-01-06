@@ -62,7 +62,7 @@ def create_ratio_col(matrix, pivot_col_var):
     for row_i in range(1, n_rows):
         if matrix[row_i][pivot_col_var-1] != 0:
             ratio_col[row_i-1] = matrix[row_i][-1] / matrix[row_i][pivot_col_var-1]
-            if ratio_col[row_i-1] < 0:
+            if ratio_col[row_i-1] <= 0:
                 ratio_col[row_i-1] = M
         else:
             ratio_col[row_i-1] = M

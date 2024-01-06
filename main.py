@@ -6,12 +6,12 @@ is_max = True
 # basic_vars = [0, 3, 4]
 # n_decision_vars = 2
 
-# matrix = [[-5, -4, 0, 0, 0,  0], 
-#           [ 6,  4, 1, 0, 0, 24], 
-#           [ 1,  2, 0, 1, 0,  6], 
-#           [-1,  1, 0, 0, 1,  1]]
-# basic_vars = [0, 3, 4, 5]
-# n_decision_vars = 2
+matrix = [[-5, -4, 0, 0, 0,  0], 
+          [ 6,  4, 1, 0, 0, 24], 
+          [ 1,  2, 0, 1, 0,  6], 
+          [-1,  1, 0, 0, 1,  1]]
+basic_vars = [0, 3, 4, 5]
+n_decision_vars = 2
 
 # matrix = [[-3, 1, 0, 0, 0], 
 #           [4, -1, 1, 0, 8], 
@@ -55,13 +55,43 @@ is_max = True
 # basic_vars = [0, 3, 4, 5]
 # n_decision_vars = 2
 
-matrix = [[-1, -1, 0, 0, 0,  0],
-          [-1,  1, 1, 0, 0,  2],
-          [-6, -4, 0, 1, 0,-24],
-          [ 0, -1, 0, 0, 1, -1]]
-basic_vars = [0, 3, 4, 5]
-n_decision_vars = 2
-is_max = False
+# matrix = [[-1, -1, 0, 0, 0,  0],
+#           [-1,  1, 1, 0, 0,  2],
+#           [-6, -4, 0, 1, 0,-24],
+#           [ 0, -1, 0, 0, 1, -1]]
+# basic_vars = [0, 3, 4, 5]
+# n_decision_vars = 2
+# is_max = False
+
+# matrix = [[ -2.35, -3, -2.85, 0, 0, 0,    0],
+#           [    10,  9,    14, 1, 0, 0, 4000],
+#           [     5,  6,    12, 0, 1, 0, 3000],
+#           [     0,  1,     0, 0, 0, 1,  250]]
+# basic_vars = [0, 4, 5, 6]
+# n_decision_vars = 3
+
+# matrix = [[-3, -4, 0, 0, 0, 0,    0],
+#           [ 2,  3, 1, 0, 0, 0, 1200],
+#           [ 2,  1, 0, 1, 0, 0, 1000],
+#           [ 0,  4, 0, 0, 1, 0,  800],
+#           [ 1,  4, 0, 0, 0, 1, 1000]]
+# basic_vars = [0, 3, 4, 5, 6]
+# n_decision_vars = 2
+
+# matrix = [[ 3,  2, 0, 0, 0, 0,  0],
+#           [-1, -1, 1, 0, 0, 0, -1],
+#           [ 1,  1, 0, 1, 0, 0,  7],
+#           [-1, -2, 0, 0, 1, 0,-10],
+#           [ 0,  1, 0, 0, 0, 1,  3]]
+# basic_vars = [0, 3, 4, 5, 6]
+# n_decision_vars = 2
+
+# matrix = [[-24, -6, -1, -2, 0, 0,  0],
+#           [ -6, -1,  1,  0, 1, 0, -5],
+#           [ -4, -2, -1, -1, 0, 1, -4]]
+# basic_vars = [0, 5, 6]
+# n_decision_vars = 4
+# is_max = False
 
 # print(next_simplex_sol(basic_vars, matrix, True))
 all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max)
