@@ -5,14 +5,26 @@ M = 1000000
 
 def check_feasible_positive_sol(matrix):
     n_rows = len(matrix)
-    dual_simplex_flag = False
 
-    for i in range(n_rows):
+    for i in range(1, n_rows):
         if matrix[i][-1] < 0:
-            dual_simplex_flag = True
-            break
+            return False
 
-    return dual_simplex_flag
+    return True
+
+def is_feasible(basic_vars, matrix):
+    if check_feasible_positive_sol(matrix):
+        if check_0_1_pattern(basic_vars, matrix):
+            return True
+    return False
+
+def check_0_1_pattern(basic_vars, matrix):
+    for i, var in enumerate(basic_vars[1:]):
+        column = [row[var-1] for row in matrix]
+
+        if column[i+1] != 1 or (column.count(0) != (len(column) -1)):
+            return False
+    return True
 
 def fix_feasible_0_1_pattern(basic_vars, matrix):
     n_rows = len(matrix)
@@ -35,13 +47,11 @@ def fix_feasible_0_1_pattern(basic_vars, matrix):
         
     return matrix
 
-def check_optimal(obj_row, is_max):
-    is_optimal = False
+def is_optimal(obj_row, is_max):
     if is_max:
-        is_optimal = all(element >= 0 for element in obj_row)
+        return all(element >= 0 for element in obj_row)
     else:
-        is_optimal = all(element <= 0 for element in obj_row)
-    return is_optimal
+        return all(element <= 0 for element in obj_row)
 
 def select_pivot_col(obj_row, is_max, blocked_cols):
     if not(is_max):
@@ -62,7 +72,7 @@ def create_ratio_col(matrix, pivot_col_var):
     for row_i in range(1, n_rows):
         if matrix[row_i][pivot_col_var-1] != 0:
             ratio_col[row_i-1] = matrix[row_i][-1] / matrix[row_i][pivot_col_var-1]
-            if ratio_col[row_i-1] < 0:
+            if ratio_col[row_i-1] <= 0:
                 ratio_col[row_i-1] = M
         else:
             ratio_col[row_i-1] = M
@@ -75,8 +85,7 @@ def optimize(basic_vars, matrix, is_max):
     while len(blocked_cols) < n_cols:
         pivot_col_var = select_pivot_col(obj_row, is_max, blocked_cols)
         if pivot_col_var == -1:
-            print("Cannot be optimized")
-            return basic_vars, matrix
+            return None, None
         ratio_col = create_ratio_col(matrix, pivot_col_var)
         if min(ratio_col) == M:
             blocked_cols.append(pivot_col_var)
@@ -88,30 +97,40 @@ def optimize(basic_vars, matrix, is_max):
 
 def get_feasible(basic_vars, matrix, n_decision_vars, is_max):
     
-    if check_feasible_positive_sol(matrix):
+    if not(check_feasible_positive_sol(matrix)):
         basic_vars, matrix = dual_simplex(basic_vars, matrix)
+        if matrix == None:
+            return None, None
 
     matrix =  fix_feasible_0_1_pattern(basic_vars, matrix)
-
-    return matrix
+    return basic_vars, matrix
 
 def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
 
     feasible_count = 1
-    
-    while check_feasible_positive_sol(matrix):
+
+    while not(is_feasible(basic_vars, matrix)):
         print("\n...Generating Initial Feasible Solution for")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
-        matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
-
+        basic_vars, matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
+        if matrix == None:
+            print("\nNo feasible solution found")
+            return
+        
     print(f"\nFeasible Solution # {feasible_count}")
     print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
-
-    while(not(check_optimal(matrix[0][:-1], is_max))):
+    
+    while not(is_optimal(matrix[0][:-1], is_max)):
         feasible_count += 1
         basic_vars, matrix = optimize(basic_vars, matrix, is_max)
-        matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
+        if matrix == None:
+            print("\nCannot be optimized further")
+            return 
+        basic_vars, matrix = get_feasible(basic_vars, matrix, n_decision_vars, is_max)
+        if matrix == None:
+            print("\nNo further feasible solution found")
+            return 
         print(f"\nFeasible Solution # {feasible_count}")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
-
-    print("\nOptimized!")
+    
+    print("\nOptimized Solution Received!")
