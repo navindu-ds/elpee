@@ -108,7 +108,6 @@ is_max = True
 # basic_vars = [0, 5, 6, 7, 8]
 # n_decision_vars = 4
 
-# TEST THIS
 matrix = [[0, 0, 1, 0, 0, 15],
           [1, 1, 1,-1, 0,  5],
           [1, 0, 0, 1, 0, 10],

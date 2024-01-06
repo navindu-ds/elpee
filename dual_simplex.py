@@ -2,12 +2,15 @@ M = 1000000
 
 def select_pivot_row(basic_vars, matrix, blocked_rows):
     sol_col = []
+    neg_sol = 0
     for i, row in enumerate(matrix):
         if i !=0:
             sol_col.append(row[-1])
+            if row[-1] < 0:
+                neg_sol += 1
     sorted_idx = sorted(range(len(sol_col)), key=lambda k: sol_col[k])
     
-    for i in range(len(sorted_idx)):
+    for i in range(neg_sol):
         if basic_vars[sorted_idx[i]+1] not in blocked_rows:
             return sorted_idx[i]+1
     print("\nNo suitable pivot row - Cannot make feasible solution")
@@ -48,6 +51,7 @@ def dual_simplex(basic_vars, matrix):
                 j += 1
             else:
                 basic_vars[pivot_row] = pivot_col_var
-                return True, basic_vars, matrix
-    print("No feasible solution")
-    return False, basic_vars, matrix
+                return basic_vars, matrix
+        blocked_rows.append(pivot_row)
+    # print("\nNo feasible solution")
+    return None, None
