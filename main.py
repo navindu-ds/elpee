@@ -1,6 +1,9 @@
+M = 1000000
+
 import all_stack_start
 
 is_max = True
+n_artificials = 0
 
 # matrix = [[-5, -4, 0, 0, 0], [6, 4, 1, 0, 24], [1, 2, 0, 1, 6]]
 # basic_vars = [0, 3, 4]
@@ -93,12 +96,12 @@ is_max = True
 # n_decision_vars = 4
 # is_max = False
 
-matrix = [[ -4, -5, -9, -11, 0, 0, 0,   0],
-          [  1,  1,  1,   1, 1, 0, 0,  15],
-          [  7,  5,  3,   2, 0, 1, 0, 120],
-          [  3,  5, 10,  15, 0, 0, 1, 100]]
-basic_vars = [0, 5, 6, 7]
-n_decision_vars = 4
+# matrix = [[ -4, -5, -9, -11, 0, 0, 0,   0],
+#           [  1,  1,  1,   1, 1, 0, 0,  15],
+#           [  7,  5,  3,   2, 0, 1, 0, 120],
+#           [  3,  5, 10,  15, 0, 0, 1, 100]]
+# basic_vars = [0, 5, 6, 7]
+# n_decision_vars = 4
 
 # matrix = [[ -4, -5, -9, -11, 0, 0, 0, 0,     0],
 #           [  1,  1,  1,   1, 1, 0, 0, 0,    15],
@@ -130,4 +133,31 @@ n_decision_vars = 4
 # basic_vars = [0, 1, 3, 4]
 # n_decision_vars = 4
 
-all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max)
+# matrix = [[-1, -1, 0, 0, 0, -M, -M,  0],
+#           [-1,  1, 1, 0, 0,  0,  0,  2],
+#           [ 6,  4, 0,-1, 0,  1,  0, 24],
+#           [ 0,  1, 0, 0,-1,  0,  1,  1]]
+# basic_vars = [0, 3, 6, 7]
+# n_decision_vars = 2
+# n_artificials = 2
+# is_max = False
+
+# matrix = [[-6, 7,  4, 0,  0, M, M,  0],
+#           [ 2, 5, -1, 1,  0, 0, 0, 18],
+#           [-1, 1,  2, 0, -1, 1, 0, 14],
+#           [ 3, 2,  2, 0,  0, 0, 1, 26]]
+# basic_vars = [0, 4, 6, 7]
+# n_decision_vars = 3
+# n_artificials = 2
+# is_max = True
+
+matrix = [[-3,  1, -1, 0,  0, 0, M,  0],
+          [ 4, -1,  0, 1,  0, 0, 0,  8],
+          [ 8,  1,  3, 0, -1, 0, 1, 12],
+          [ 5,  0, -1, 0,  0, 1, 0, 13]]
+basic_vars = [0, 4, 7, 6]
+n_decision_vars = 3
+n_artificials = 1
+is_max = True
+
+all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)

@@ -1,4 +1,4 @@
-WIDTH = 8
+WIDTH = 12
 DECIMALS = 3
 
 # creates the list of variables including
@@ -17,7 +17,7 @@ def get_var_list(n_decision_vars, n_slack_vars, n_artificials):
 # generates the simplex table in user friendly manner on command line prompt into list of text
 def get_simplex_table_text(basic_vars, matrix, n_decision_vars, is_max, n_artificials=0):
     n_constraints = len(matrix) - 1
-    n_slack_vars = len(matrix[0]) - 1 - n_decision_vars
+    n_slack_vars = len(matrix[0]) - 1 - n_decision_vars - n_artificials
     var_names = get_var_list(n_decision_vars, n_slack_vars, n_artificials)
 
     rows_list = []

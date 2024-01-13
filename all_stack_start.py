@@ -162,7 +162,7 @@ def get_feasible(basic_vars, matrix):
     matrix =  fix_feasible_0_1_pattern(basic_vars, matrix)
     return basic_vars, matrix
 
-def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
+def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials=0):
     """
     Main executing function to run the linear programming methodology for 
     all stack starting and dual simplex methods 
@@ -171,14 +171,14 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
 
     while not(is_feasible(basic_vars, matrix)):
         print("\n...Generating Initial Feasible Solution for")
-        print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
+        print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
         basic_vars, matrix = get_feasible(basic_vars, matrix)
         if matrix == None:
             print("\nNo feasible solution found")
             return
         
     print(f"\nFeasible Solution # {feasible_count}")
-    print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
+    print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
     
     while not(is_optimal(matrix[0][:-1], is_max)):
         feasible_count += 1
@@ -191,6 +191,6 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max):
             print("\nNo further feasible solution found")
             return 
         print(f"\nFeasible Solution # {feasible_count}")
-        print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max)
+        print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
     
     print("\nOptimized Solution Received!")
