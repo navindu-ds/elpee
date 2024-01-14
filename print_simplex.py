@@ -1,9 +1,12 @@
-WIDTH = 8
+WIDTH = 12
 DECIMALS = 3
 
 # creates the list of variables including
     # objective, decision, slack and artificial variables
 def get_var_list(n_decision_vars, n_slack_vars, n_artificials):
+    """
+    Creates names of variables used in the problem
+    """
     var_names = ['P'.center(WIDTH)]
     for i in range(n_decision_vars):
         var_names.append(("X"+str(i+1)).center(WIDTH))
@@ -16,8 +19,11 @@ def get_var_list(n_decision_vars, n_slack_vars, n_artificials):
 
 # generates the simplex table in user friendly manner on command line prompt into list of text
 def get_simplex_table_text(basic_vars, matrix, n_decision_vars, is_max, n_artificials=0):
+    """
+    Creates a list of text strings to display contents of the simplex table
+    """
     n_constraints = len(matrix) - 1
-    n_slack_vars = len(matrix[0]) - 1 - n_decision_vars
+    n_slack_vars = len(matrix[0]) - 1 - n_decision_vars - n_artificials
     var_names = get_var_list(n_decision_vars, n_slack_vars, n_artificials)
 
     rows_list = []
@@ -42,6 +48,9 @@ def get_simplex_table_text(basic_vars, matrix, n_decision_vars, is_max, n_artifi
 
 # prints the simplex table on the command line interface
 def print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials=0):
+    """
+    Prints the simplex table onto the command line interface
+    """
     rows_list = get_simplex_table_text(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
     for row in rows_list:
         print(row)
