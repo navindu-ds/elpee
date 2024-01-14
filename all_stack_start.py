@@ -1,5 +1,6 @@
 from dual_simplex import dual_simplex
 from print_simplex import print_simplex_table_cli
+from bigM_handler import check_artificial_basic_vars
 
 M = 1000000
 
@@ -193,4 +194,7 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
         print(f"\nFeasible Solution # {feasible_count}")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
     
-    print("\nOptimized Solution Received!")
+    if (check_artificial_basic_vars(basic_vars, matrix[0][:-1], n_decision_vars, n_artificials)):
+        print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
+    else:
+        print("\nOptimized Solution Received!")
