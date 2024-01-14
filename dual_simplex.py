@@ -1,6 +1,9 @@
 M = 1000000
 
 def select_pivot_col(ratio_row, blocked_cols):
+    """
+    Selects the pivot column based on ratio row and not in blocked list
+    """
     sorted_idx = sorted(range(len(ratio_row)), key=lambda k: ratio_row[k])
     for n in sorted_idx:
         pivot_col_var = n + 1
@@ -10,6 +13,9 @@ def select_pivot_col(ratio_row, blocked_cols):
     return -1
 
 def select_pivot_row(basic_vars, matrix, blocked_rows):
+    """
+    Selects the appropriate pivot row that has a negative solution value and not in blocked list
+    """
     sol_col = []
     neg_sol = 0
     for i, row in enumerate(matrix):
@@ -26,6 +32,11 @@ def select_pivot_row(basic_vars, matrix, blocked_rows):
     return -1
         
 def create_ratio_row(matrix, pivot_row, pivot_row_var):
+    """
+    Creates the ratio row given the selected pivot row as 
+        absolute value of (objective_row / pivot row)
+    Marks 0 and infinity ratios as M
+    """
     obj_row = matrix[0][:-1]
     ratio_row = [0]*len(obj_row)
     for i in range(len(obj_row)):
@@ -39,6 +50,9 @@ def create_ratio_row(matrix, pivot_row, pivot_row_var):
     return ratio_row
         
 def dual_simplex(basic_vars, matrix):
+    """
+    Main executing function to execute dual simplex adjustments to the simplex matrix
+    """
     blocked_rows = []
     n_rows = len(matrix)
     n_cols = len(matrix[0][:-1])
