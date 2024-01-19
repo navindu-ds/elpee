@@ -1,6 +1,35 @@
 WIDTH = 12
 DECIMALS = 3
 
+def print_var_name(var_num, n_decision_vars, n_slack_vars, n_artificials=0):
+    """
+    Prints the variable name as Decision, Slack or Artificial variable using the general index of the variable
+    """
+    var_idx = var_num
+    if var_idx <= n_decision_vars:
+        return f"X{var_num}"
+    var_idx -= n_decision_vars
+    if var_idx <= n_slack_vars:
+        return f"S{var_idx}"
+    var_idx -= n_slack_vars
+    if var_idx <= n_artificials:
+        return f"A{var_idx}"
+    return "Unknown"
+
+def print_entering_leaving_vars(old_basic_vars, new_basic_vars, n_decision_vars, n_slack_vars, n_artificials=0):
+    """
+    Prints the entering and leaving variable used after each iteration of optimization or dual simplex
+    by comparing the previous basic_vars list and updated basic_vars list
+    If no basic variables were changed, nothing is printed.
+    """
+    for before_var_idx, after_var_idx in zip(old_basic_vars, new_basic_vars):
+        if before_var_idx != after_var_idx:
+            leaving_var = print_var_name(before_var_idx, n_decision_vars, n_slack_vars, n_artificials)
+            entering_var = print_var_name(after_var_idx, n_decision_vars, n_slack_vars, n_artificials)
+
+            print(f"\nTaking {leaving_var} = 0; Entering {entering_var} as a new basic variable;")
+            return 
+
 # creates the list of variables including
     # objective, decision, slack and artificial variables
 def get_var_list(n_decision_vars, n_slack_vars, n_artificials):

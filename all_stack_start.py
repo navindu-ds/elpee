@@ -1,5 +1,5 @@
 from dual_simplex import dual_simplex
-from print_simplex import print_simplex_table_cli
+from print_simplex import print_simplex_table_cli, print_entering_leaving_vars
 from bigM_handler import check_artificial_basic_vars
 
 M = 1000000
@@ -168,29 +168,36 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
     Main executing function to run the linear programming methodology for 
     all stack starting and dual simplex methods 
     """
+    n_slack_vars = len(matrix[0][:-1]) - n_decision_vars - n_artificials 
     feasible_count = 1
 
     while not(is_feasible(basic_vars, matrix)):
         print("\n...Generating Initial Feasible Solution for")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+        old_basic_vars = basic_vars.copy()
         basic_vars, matrix = get_feasible(basic_vars, matrix)
         if matrix == None:
             print("\nNo feasible solution found")
             return
+        print_entering_leaving_vars(old_basic_vars, basic_vars, n_decision_vars, n_slack_vars, n_artificials)
         
     print(f"\nFeasible Solution # {feasible_count}")
     print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
     
     while not(is_optimal(matrix[0][:-1], is_max)):
         feasible_count += 1
+        old_basic_vars = basic_vars.copy()
         basic_vars, matrix = optimize(basic_vars, matrix, is_max)
         if matrix == None:
             print("\nCannot be optimized further")
             return 
+        print_entering_leaving_vars(old_basic_vars, basic_vars, n_decision_vars, n_slack_vars, n_artificials)
+        old_basic_vars = basic_vars.copy()
         basic_vars, matrix = get_feasible(basic_vars, matrix)
         if matrix == None:
             print("\nNo further feasible solution found")
             return 
+        print_entering_leaving_vars(old_basic_vars, basic_vars, n_decision_vars, n_slack_vars, n_artificials)
         print(f"\nFeasible Solution # {feasible_count}")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
     
