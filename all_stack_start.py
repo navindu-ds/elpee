@@ -1,6 +1,7 @@
 from dual_simplex import dual_simplex
-from print_simplex import print_simplex_table_cli, print_entering_leaving_vars
+from print_simplex import print_simplex_table_cli, print_entering_leaving_vars, print_var_name
 from bigM_handler import check_artificial_basic_vars
+from alternate_solutions import check_alternate_solutions, get_entering_cols_for_alternates
 
 M = 1000000
 
@@ -203,5 +204,13 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
     
     if (check_artificial_basic_vars(basic_vars, matrix[0][:-1], n_decision_vars, n_artificials)):
         print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
+        return None
     else:
         print("\nOptimized Solution Received!")
+
+    if check_alternate_solutions(matrix[0][:-1], len(matrix)-1):
+        print("\nThere are Alternate Optimal Solutions")
+        alternate_cols = get_entering_cols_for_alternates(basic_vars, matrix[0][:-1])
+        for i, col in enumerate(alternate_cols):
+            var_name = print_var_name(col, n_decision_vars, n_slack_vars, n_artificials)
+            print(f"{i+1}. Taking {var_name} as a Basic Variable will return an alternate solution")
