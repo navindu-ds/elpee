@@ -133,6 +133,13 @@ matrix = [[0, 0, 0, 0, 2, 1, 3, 1827],
 basic_vars = [0, 1, 3, 4]
 n_decision_vars = 4
 
+# Case with multiple variables to change for alternate solution
+# matrix = [[0, 0, 0, 0, 2, 1, 1827],
+#           [1, 1, 0, 2, 1, 2,   39],
+#           [0, 1, 1, 3, 0, 4,   48]]
+# basic_vars = [0, 1, 3]
+# n_decision_vars = 4
+
 # matrix = [[-1, -1, 0, 0, 0, -M, -M,  0],
 #           [-1,  1, 1, 0, 0,  0,  0,  2],
 #           [ 6,  4, 0,-1, 0,  1,  0, 24],

@@ -92,5 +92,5 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
         print("\nThere are Alternate Optimal Solutions")
         alternate_cols = get_entering_cols_for_alternates(basic_vars, matrix[0][:-1])
         for i, col in enumerate(alternate_cols):
-            var_name = print_var_name(col, n_decision_vars, n_slack_vars, n_artificials)
-            print(f"{i+1}. Taking {var_name} as a Basic Variable will return an alternate solution")
+            print(f"\nAlternate Solution #{i+1}")
+            get_alternate_solutions(basic_vars, matrix, is_max, col, n_decision_vars, n_slack_vars, n_artificials)
