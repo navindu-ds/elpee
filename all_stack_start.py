@@ -190,13 +190,13 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
         basic_vars, matrix = optimize(basic_vars, matrix, is_max)
         if matrix == None:
             print("\nCannot be optimized further")
-            return 
+            return None, None
         print_entering_leaving_vars(old_basic_vars, basic_vars, n_decision_vars, n_slack_vars, n_artificials)
         old_basic_vars = basic_vars.copy()
         basic_vars, matrix = get_feasible(basic_vars, matrix)
         if matrix == None:
             print("\nNo further feasible solution found")
-            return 
+            return None, None
         print_entering_leaving_vars(old_basic_vars, basic_vars, n_decision_vars, n_slack_vars, n_artificials)
         print(f"\nFeasible Solution # {feasible_count}")
         print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
@@ -205,3 +205,4 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
         print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
     else:
         print("\nOptimized Solution Received!")
+    return basic_vars, matrix
