@@ -178,7 +178,7 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
         basic_vars, matrix = get_feasible(basic_vars, matrix)
         if matrix == None:
             print("\nNo feasible solution found")
-            return
+            return None, None
         print_entering_leaving_vars(old_basic_vars, basic_vars, n_decision_vars, n_slack_vars, n_artificials)
         
     print(f"\nFeasible Solution # {feasible_count}")
@@ -203,6 +203,7 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
     
     if (check_artificial_basic_vars(basic_vars, matrix[0][:-1], n_decision_vars, n_artificials)):
         print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
+        return None, None
     else:
         print("\nOptimized Solution Received!")
     return basic_vars, matrix
