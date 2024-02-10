@@ -88,9 +88,14 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
     else:
         print("\nOptimized Solution Received!")
 
+    org_basic_vars = basic_vars.copy()
+    org_matrix = matrix.copy()
+
     if check_alternate_solutions(matrix[0][:-1], len(matrix)-1):
         print("\nThere are Alternate Optimal Solutions")
         alternate_cols = get_entering_cols_for_alternates(basic_vars, matrix[0][:-1])
         for i, col in enumerate(alternate_cols):
             print(f"\nAlternate Solution #{i+1}")
             get_alternate_solutions(basic_vars, matrix, is_max, col, n_decision_vars, n_slack_vars, n_artificials)
+
+    return org_basic_vars, org_matrix
