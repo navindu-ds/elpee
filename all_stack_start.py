@@ -93,6 +93,7 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
         alternate_cols = get_entering_cols_for_alternates(basic_vars, matrix[0][:-1])
         alterations_combo_list = get_subsets(alternate_cols)[1:]
         print(f"There are {len(alterations_combo_list)} Alternate Solutions for this problem!")
-        print(f"Use alternate_solutions.extract_alternate_solution() method using version numbers from 1 to {len(alterations_combo_list)}.")
-        
+        print(f">> Use alternate_solutions.extract_alternate_solution() method using version numbers from 1 to {len(alterations_combo_list)}.")
+        print(f">> Use alternate_solutions.display_all_alternate_solutions() method to display all alternate solutions")
+
     return basic_vars, matrix

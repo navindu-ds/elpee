@@ -94,3 +94,23 @@ def extract_alternate_solution(version_num, basic_vars, matrix, is_max, n_decisi
     else:
         print("There are no alternate solutions!")
         return None, None
+    
+def display_all_alternate_solutions(basic_vars, matrix, is_max, n_decision_vars, n_artificials=0):
+    n_slack_vars = len(matrix[0][:-1]) - n_decision_vars - n_artificials 
+
+    if check_alternate_solutions(matrix[0][:-1], len(matrix)-1):
+        # obtain list of variables for generating alternate solutions
+        alternate_cols = get_entering_cols_for_alternates(basic_vars, matrix[0][:-1])
+        # obtain a list of combinations of columns for creating all possible alternate solutions
+            # exclude the null set when extracting the subsets
+        alterations_combo_list = get_subsets(alternate_cols)[1:]
+
+        for i, alteration_combo in enumerate(alterations_combo_list):
+            print(f"\nAlternate Solution #{i+1}")
+
+            new_basic_vars = basic_vars.copy()
+            new_matrix = matrix.copy()
+
+            get_alternate_solutions(new_basic_vars, new_matrix, is_max, alteration_combo, n_decision_vars, n_slack_vars, n_artificials)
+    else:
+        print("\nThere are no alternate solutions to display!")
