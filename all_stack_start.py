@@ -89,19 +89,10 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
         print("\nOptimized Solution Received!")
 
     if check_alternate_solutions(matrix[0][:-1], len(matrix)-1):
-        print("\nThere are Alternate Optimal Solutions")
-        
         # obtain list of variables for generating alternate solutions
         alternate_cols = get_entering_cols_for_alternates(basic_vars, matrix[0][:-1])
-        # obtain a list of combinations of columns for creating all possible alternate solutions
-            # exclude the null set when extracting the subsets
         alterations_combo_list = get_subsets(alternate_cols)[1:]
-
-        # for each combination (a set of alterations to be made)
-        for i, alteration_combo in enumerate(alterations_combo_list):
-            new_basic_vars = basic_vars.copy()
-            new_matrix = matrix.copy()
-            print(f"\nAlternate Solution #{i+1}")
-            get_alternate_solutions(new_basic_vars, new_matrix, is_max, alteration_combo, n_decision_vars, n_slack_vars, n_artificials)
-
+        print(f"There are {len(alterations_combo_list)} Alternate Solutions for this problem!")
+        print(f"Use alternate_solutions.extract_alternate_solution() method using version numbers from 1 to {len(alterations_combo_list)}.")
+        
     return basic_vars, matrix

@@ -1,6 +1,6 @@
 M = 1000000
 
-from utilities import create_ratio_col, get_feasible
+from utilities import create_ratio_col, get_feasible, get_subsets
 from print_simplex import print_var_name, print_simplex_table_cli
 
 def check_alternate_solutions(obj_row, n_constraints):
@@ -65,6 +65,32 @@ def get_alternate_solutions(basic_vars, matrix, is_max, alteration_combo, n_deci
         basic_vars, matrix = apply_simplex_update(basic_vars, matrix, col, n_decision_vars, n_slack_vars, n_artificials)
         if matrix == None:
             print("\nFeasible alternate solution not found")
-            return None
+            return None, None
     # print the final alternate solution based on set of columns provided
     print_simplex_table_cli(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    return basic_vars, matrix
+
+def extract_alternate_solution(version_num, basic_vars, matrix, is_max, n_decision_vars, n_artificials=0):
+    """
+    Extracts an alternate solution based on version_num provided 
+    """
+    n_slack_vars = len(matrix[0][:-1]) - n_decision_vars - n_artificials 
+
+    if check_alternate_solutions(matrix[0][:-1], len(matrix)-1):
+        # obtain list of variables for generating alternate solutions
+        alternate_cols = get_entering_cols_for_alternates(basic_vars, matrix[0][:-1])
+        # obtain a list of combinations of columns for creating all possible alternate solutions
+            # exclude the null set when extracting the subsets
+        alterations_combo_list = get_subsets(alternate_cols)[1:]
+
+        if version_num <= len(alterations_combo_list):
+            print(f"\nAlternate Solution #{version_num}")
+            basic_vars, matrix = get_alternate_solutions(basic_vars, matrix, is_max, alterations_combo_list[version_num-1], n_decision_vars, n_slack_vars, n_artificials)
+            return basic_vars, matrix
+        else:
+            print(f"\nThere are only {len(alterations_combo_list)} versions for Alternate Solutions!")
+            print(f"Cannot return Alternate Solution #{version_num}")
+            return None, None
+    else:
+        print("There are no alternate solutions!")
+        return None, None

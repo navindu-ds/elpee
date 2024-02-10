@@ -1,6 +1,7 @@
 M = 1000000
 
 import all_stack_start
+from alternate_solutions import extract_alternate_solution
 
 is_max = True
 n_artificials = 0
@@ -139,6 +140,8 @@ matrix = [[0, 0, 0, 0, 2, 1, 1827],
           [0, 1, 1, 3, 0, 4,   48]]
 basic_vars = [0, 1, 3]
 n_decision_vars = 4
+new_basic_vars, new_matrix = all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+new_basic_vars, new_matrix = extract_alternate_solution(3, new_basic_vars, new_matrix, is_max, n_decision_vars, n_artificials)
 
 # matrix = [[-1, -1, 0, 0, 0, -M, -M,  0],
 #           [-1,  1, 1, 0, 0,  0,  0,  2],
@@ -213,4 +216,4 @@ n_decision_vars = 4
 # n_artificials = 1
 # is_max = False
 
-all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+# all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
