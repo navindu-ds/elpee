@@ -2,7 +2,7 @@ from dual_simplex import dual_simplex
 from print_simplex import print_simplex_table_cli, print_entering_leaving_vars, print_var_name
 from bigM_handler import check_artificial_basic_vars
 from alternate_solutions import check_alternate_solutions, get_entering_cols_for_alternates, get_alternate_solutions
-from utilities import create_ratio_col, is_feasible, get_feasible, select_pivot_col
+from utilities import create_ratio_col, is_feasible, get_feasible, select_pivot_col, get_subsets
 
 M = 1000000
 
@@ -88,14 +88,20 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
     else:
         print("\nOptimized Solution Received!")
 
-    org_basic_vars = basic_vars.copy()
-    org_matrix = matrix.copy()
-
     if check_alternate_solutions(matrix[0][:-1], len(matrix)-1):
         print("\nThere are Alternate Optimal Solutions")
+        
+        # obtain list of variables for generating alternate solutions
         alternate_cols = get_entering_cols_for_alternates(basic_vars, matrix[0][:-1])
-        for i, col in enumerate(alternate_cols):
-            print(f"\nAlternate Solution #{i+1}")
-            get_alternate_solutions(basic_vars, matrix, is_max, col, n_decision_vars, n_slack_vars, n_artificials)
+        # obtain a list of combinations of columns for creating all possible alternate solutions
+            # exclude the null set when extracting the subsets
+        alterations_combo_list = get_subsets(alternate_cols)[1:]
 
-    return org_basic_vars, org_matrix
+        # for each combination (a set of alterations to be made)
+        for i, alteration_combo in enumerate(alterations_combo_list):
+            new_basic_vars = basic_vars.copy()
+            new_matrix = matrix.copy()
+            print(f"\nAlternate Solution #{i+1}")
+            get_alternate_solutions(new_basic_vars, new_matrix, is_max, alteration_combo, n_decision_vars, n_slack_vars, n_artificials)
+
+    return basic_vars, matrix

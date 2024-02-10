@@ -117,3 +117,20 @@ def get_feasible(basic_vars, matrix):
 
     matrix =  fix_feasible_0_1_pattern(basic_vars, matrix)
     return basic_vars, matrix
+
+def get_subsets(main_list):
+    """
+    Returns a list of subsets of the given list
+    Returns as a list of lists
+    """
+    if len(main_list) == 0:
+        # Base case: empty list has one subset - itself
+        return [[]]  
+    else:
+        # Recrusively generate subsets without the last element
+        subsets = get_subsets(main_list[:-1]) 
+        last_element = main_list[-1] 
+        # Add last element to each subset generated for smaller list
+        new_subsets = [subset + [last_element] for subset in subsets] 
+        # Combine all subsets 
+        return subsets + new_subsets  
