@@ -1,2 +1,5 @@
 # ignore __pycache__ files
 __pycache__
+
+# keep requirements.txt file for env hidden
+requirements.txt

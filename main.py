@@ -1,6 +1,7 @@
 M = 1000000
 
 import all_stack_start
+from alternate_solutions import extract_alternate_solution, display_all_alternate_solutions
 
 is_max = True
 n_artificials = 0
@@ -133,6 +134,16 @@ n_artificials = 0
 # basic_vars = [0, 1, 3, 4]
 # n_decision_vars = 4
 
+# Case with multiple variables to change for alternate solution
+matrix = [[0, 0, 0, 0, 2, 1, 1827],
+          [1, 1, 0, 2, 1, 2,   39],
+          [0, 1, 1, 3, 0, 4,   48]]
+basic_vars = [0, 1, 3]
+n_decision_vars = 4
+new_basic_vars, new_matrix = all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+# new_basic_vars, new_matrix = extract_alternate_solution(3, new_basic_vars, new_matrix, is_max, n_decision_vars, n_artificials)
+display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_vars, n_artificials)
+
 # matrix = [[-1, -1, 0, 0, 0, -M, -M,  0],
 #           [-1,  1, 1, 0, 0,  0,  0,  2],
 #           [ 6,  4, 0,-1, 0,  1,  0, 24],
@@ -197,13 +208,13 @@ n_artificials = 0
 # n_artificials = 0
 # is_max = True
 
-matrix = [[0, -1/3, 0, -1/6, 0, 13/3],
-          [0,  5/3, 1, -1/6, 0, 13/3],
-          [1,  2/3, 0, -1/6, 0, 10/3],
-          [0,   -1, 0,    0, 1,    2]]
-basic_vars = [0, 3, 1, 5]
-n_decision_vars = 2
-n_artificials = 1
-is_max = False
+# matrix = [[0, -1/3, 0, -1/6, 0, 13/3],
+#           [0,  5/3, 1, -1/6, 0, 13/3],
+#           [1,  2/3, 0, -1/6, 0, 10/3],
+#           [0,   -1, 0,    0, 1,    2]]
+# basic_vars = [0, 3, 1, 5]
+# n_decision_vars = 2
+# n_artificials = 1
+# is_max = False
 
-all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+# all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)

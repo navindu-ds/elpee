@@ -154,8 +154,8 @@ def test_solver18():
     is_max = True
     n_artificials = 0
 
-    output_matrix = matrix
-    output_basic_vars = basic_vars
+    output_matrix = matrix.copy()
+    output_basic_vars = basic_vars.copy()
 
     assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
 
@@ -250,3 +250,5 @@ def test_solver26():
     output_basic_vars = None
 
     assert all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials) == (output_basic_vars, output_matrix)
+
+test_solver17()
