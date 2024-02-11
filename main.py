@@ -1,15 +1,18 @@
-M = 1000000
-
 import all_stack_start
 from alternate_solutions import extract_alternate_solution, display_all_alternate_solutions
+from sympy import Symbol, sympify
+
+M = Symbol('M')
 
 is_max = True
 n_artificials = 0
 
+# # test 1
 # matrix = [[-5, -4, 0, 0, 0], [6, 4, 1, 0, 24], [1, 2, 0, 1, 6]]
 # basic_vars = [0, 3, 4]
 # n_decision_vars = 2
 
+# # test 2
 # matrix = [[-5, -4, 0, 0, 0,  0], 
 #           [ 6,  4, 1, 0, 0, 24], 
 #           [ 1,  2, 0, 1, 0,  6], 
@@ -17,12 +20,14 @@ n_artificials = 0
 # basic_vars = [0, 3, 4, 5]
 # n_decision_vars = 2
 
+# # test 3
 # matrix = [[-3, 1, 0, 0, 0], 
 #           [4, -1, 1, 0, 8], 
 #           [-8, -1, 0, 1, -12]]
 # basic_vars = [0, 3, 4]
 # n_decision_vars = 2
 
+# # test 4
 # matrix = [[-19,-13,-12,-17,  0,  0,  0,  0],
 #           [  3,  2,  1,  2,  1,  0,  0,225],
 #           [  1,  1,  1,  1,  0,  1,  0,117],
@@ -30,6 +35,7 @@ n_artificials = 0
 # basic_vars = [0, 5, 6, 7]
 # n_decision_vars = 4
 
+# # test 5
 # matrix = [[  1, -2,  1,  0,  0,  0,  0],
 #           [  1,  2,  1,  1,  0,  0, 12],
 #           [  2,  1, -1,  0,  1,  0,  6],
@@ -38,6 +44,7 @@ n_artificials = 0
 # n_decision_vars = 3
 # is_max = False
 
+# # test 6
 # matrix = [[ -5, -6,  0,  0,  0],
 #           [ -1, -1,  1,  0, -2],
 #           [ -4, -2,  0,  1, -4]]
@@ -45,6 +52,7 @@ n_artificials = 0
 # n_decision_vars = 2
 # is_max = False
 
+# # test 7
 # matrix = [[-3,  1, -1,  0,  0,  0,  0], 
 #           [ 4, -1,  0,  1,  0,  0,  8],
 #           [-8, -1, -3,  0,  1,  0,-12],
@@ -52,6 +60,7 @@ n_artificials = 0
 # basic_vars = [0, 4, 5, 6]
 # n_decision_vars = 3
 
+# # test 8
 # matrix = [[ 1, -2, 0, 0, 0,  0], 
 #           [-1, -1, 1, 0, 0, -2], 
 #           [ 1, -1, 0, 1, 0, -1], 
@@ -59,6 +68,7 @@ n_artificials = 0
 # basic_vars = [0, 3, 4, 5]
 # n_decision_vars = 2
 
+# # test 9
 # matrix = [[-1, -1, 0, 0, 0,  0],
 #           [-1,  1, 1, 0, 0,  2],
 #           [-6, -4, 0, 1, 0,-24],
@@ -67,6 +77,7 @@ n_artificials = 0
 # n_decision_vars = 2
 # is_max = False
 
+# # test 10
 # matrix = [[ -2.35, -3, -2.85, 0, 0, 0,    0],
 #           [    10,  9,    14, 1, 0, 0, 4000],
 #           [     5,  6,    12, 0, 1, 0, 3000],
@@ -74,6 +85,7 @@ n_artificials = 0
 # basic_vars = [0, 4, 5, 6]
 # n_decision_vars = 3
 
+# # test 11
 # matrix = [[-3, -4, 0, 0, 0, 0,    0],
 #           [ 2,  3, 1, 0, 0, 0, 1200],
 #           [ 2,  1, 0, 1, 0, 0, 1000],
@@ -82,6 +94,7 @@ n_artificials = 0
 # basic_vars = [0, 3, 4, 5, 6]
 # n_decision_vars = 2
 
+# # test 12
 # matrix = [[ 3,  2, 0, 0, 0, 0,  0],
 #           [-1, -1, 1, 0, 0, 0, -1],
 #           [ 1,  1, 0, 1, 0, 0,  7],
@@ -90,6 +103,7 @@ n_artificials = 0
 # basic_vars = [0, 3, 4, 5, 6]
 # n_decision_vars = 2
 
+# # test 13
 # matrix = [[-24, -6, -1, -2, 0, 0,  0],
 #           [ -6, -1,  1,  0, 1, 0, -5],
 #           [ -4, -2, -1, -1, 0, 1, -4]]
@@ -97,6 +111,7 @@ n_artificials = 0
 # n_decision_vars = 4
 # is_max = False
 
+# # test 14
 # matrix = [[ -4, -5, -9, -11, 0, 0, 0,   0],
 #           [  1,  1,  1,   1, 1, 0, 0,  15],
 #           [  7,  5,  3,   2, 0, 1, 0, 120],
@@ -104,6 +119,7 @@ n_artificials = 0
 # basic_vars = [0, 5, 6, 7]
 # n_decision_vars = 4
 
+# # test 15
 # matrix = [[ -4, -5, -9, -11, 0, 0, 0, 0,     0],
 #           [  1,  1,  1,   1, 1, 0, 0, 0,    15],
 #           [  7,  5,  3,   2, 0, 1, 0, 0,   120],
@@ -112,6 +128,7 @@ n_artificials = 0
 # basic_vars = [0, 5, 6, 7, 8]
 # n_decision_vars = 4
 
+# # test 16
 # matrix = [[0, 0, 1, 0, 0, 15],
 #           [1, 1, 1,-1, 0,  5],
 #           [1, 0, 0, 1, 0, 10],
@@ -119,7 +136,8 @@ n_artificials = 0
 # basic_vars = [0, 2, 1, 5]
 # n_decision_vars = 2
 
-# a half solution
+# # test 17
+# # a half solution
 # matrix = [[ 0, 13/7, 0, 71/7, -2/7, 0, 10/7, 970/7],
 #           [ 1,  5/7, 0, -5/7, 10/7, 0, -1/7,  50/7],
 #           [ 0, -6/7, 0, 13/7,-61/7, 1,  4/7, 325/7],
@@ -127,6 +145,7 @@ n_artificials = 0
 # basic_vars = [0, 1, 6, 3]
 # n_decision_vars = 4
 
+# # test 18
 # matrix = [[0, 0, 0, 0, 2, 1, 3, 1827],
 #           [1, 1, 0, 0, 1, 2,-1,   39],
 #           [0, 1, 1, 0, 0, 4,-1,   48],
@@ -134,16 +153,18 @@ n_artificials = 0
 # basic_vars = [0, 1, 3, 4]
 # n_decision_vars = 4
 
-# Case with multiple variables to change for alternate solution
-matrix = [[0, 0, 0, 0, 2, 1, 1827],
-          [1, 1, 0, 2, 1, 2,   39],
-          [0, 1, 1, 3, 0, 4,   48]]
-basic_vars = [0, 1, 3]
-n_decision_vars = 4
-new_basic_vars, new_matrix = all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
-# new_basic_vars, new_matrix = extract_alternate_solution(3, new_basic_vars, new_matrix, is_max, n_decision_vars, n_artificials)
-display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_vars, n_artificials)
+# # test 19
+# # Case with multiple variables to change for alternate solution
+# matrix = [[0, 0, 0, 0, 2, 1, 1827],
+#           [1, 1, 0, 2, 1, 2,   39],
+#           [0, 1, 1, 3, 0, 4,   48]]
+# basic_vars = [0, 1, 3]
+# n_decision_vars = 4
+# new_basic_vars, new_matrix = all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+# # new_basic_vars, new_matrix = extract_alternate_solution(3, new_basic_vars, new_matrix, is_max, n_decision_vars, n_artificials)
+# display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_vars, n_artificials)
 
+# # test 20
 # matrix = [[-1, -1, 0, 0, 0, -M, -M,  0],
 #           [-1,  1, 1, 0, 0,  0,  0,  2],
 #           [ 6,  4, 0,-1, 0,  1,  0, 24],
@@ -153,6 +174,7 @@ display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_v
 # n_artificials = 2
 # is_max = False
 
+# # test 21
 # matrix = [[-6, 7,  4, 0,  0, M, M,  0],
 #           [ 2, 5, -1, 1,  0, 0, 0, 18],
 #           [-1, 1,  2, 0, -1, 1, 0, 14],
@@ -162,6 +184,7 @@ display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_v
 # n_artificials = 2
 # is_max = True
 
+# # test 22
 # matrix = [[-3,  1, -1, 0,  0, 0, M,  0],
 #           [ 4, -1,  0, 1,  0, 0, 0,  8],
 #           [ 8,  1,  3, 0, -1, 0, 1, 12],
@@ -171,16 +194,18 @@ display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_v
 # n_artificials = 1
 # is_max = True
 
+# # test 23
 # # Test for this
-# matrix = [[  1, -2,  0,  0,  0,  M,  M, 0],
-#           [  1,  1, -1,  0,  0,  1,  0, 2],
-#           [ -1,  1,  0, -1,  0,  0,  1, 1],
-#           [  0,  1,  0,  0,  1,  0,  0, 3]]
-# basic_vars = [0, 6, 7, 5]
-# n_decision_vars = 2
-# n_artificials = 2
-# is_max = True
+matrix = [[  1, -2,  0,  0,  0,  M,  M, 0],
+          [  1,  1, -1,  0,  0,  1,  0, 2],
+          [ -1,  1,  0, -1,  0,  0,  1, 1],
+          [  0,  1,  0,  0,  1,  0,  0, 3]]
+basic_vars = [0, 6, 7, 5]
+n_decision_vars = 2
+n_artificials = 2
+is_max = True
 
+# # test 24
 # matrix = [[-6,  4,  0,  0, -M, -M, 0],
 #           [ 3,  1,  1,  0,  0,  0, 5],
 #           [-6,  4,  0, -1,  1,  0, 2],
@@ -190,6 +215,8 @@ display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_v
 # n_artificials = 2
 # is_max = False
 
+# # test 25
+# # Half dual simplex and half big M approach
 # matrix = [[-6,  4,  0,  0, -M,  0],
 #           [ 3,  1,  1,  0,  0,  5],
 #           [ 6, -4,  0,  1,  0, -2],
@@ -199,6 +226,7 @@ display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_v
 # n_artificials = 1
 # is_max = False
 
+# # test 26
 # matrix = [[-0.50, -0.5,  0,  0,  0,   0],
 #           [ 0.30,  0.1,  1,  0,  0, 2.7],
 #           [ 0.50,  0.5,  0,  1,  0, 6.0],
@@ -208,6 +236,8 @@ display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_v
 # n_artificials = 0
 # is_max = True
 
+# # test 27
+# # Infesible due to artificial solutions
 # matrix = [[0, -1/3, 0, -1/6, 0, 13/3],
 #           [0,  5/3, 1, -1/6, 0, 13/3],
 #           [1,  2/3, 0, -1/6, 0, 10/3],
@@ -217,4 +247,4 @@ display_all_alternate_solutions(new_basic_vars, new_matrix, is_max, n_decision_v
 # n_artificials = 1
 # is_max = False
 
-# all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)

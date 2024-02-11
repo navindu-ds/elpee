@@ -1,5 +1,3 @@
-M = 1000000
-
 from utilities import create_ratio_col, get_feasible, get_subsets
 from print_simplex import print_var_name, print_simplex_table_cli
 
@@ -35,6 +33,8 @@ def apply_simplex_update(basic_vars, matrix, pivot_col_var, n_decision_vars, n_s
     Applies simplex update for the given pivot col to get an updated simplex table
     Returns updated basic_vars list and matrix
     """
+    M = 1000000
+    
     new_var_name = print_var_name(pivot_col_var, n_decision_vars, n_slack_vars, n_artificials)
     # create a ratio column for the pivot col provided
     ratio_col = create_ratio_col(matrix, pivot_col_var)
@@ -96,6 +96,7 @@ def extract_alternate_solution(version_num, basic_vars, matrix, is_max, n_decisi
         return None, None
     
 def display_all_alternate_solutions(basic_vars, matrix, is_max, n_decision_vars, n_artificials=0):
+    print("\nDisplaying all Alternate Optimal Solutions for Simplex Table Provided...")
     n_slack_vars = len(matrix[0][:-1]) - n_decision_vars - n_artificials 
 
     if check_alternate_solutions(matrix[0][:-1], len(matrix)-1):

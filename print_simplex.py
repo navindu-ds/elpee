@@ -1,4 +1,6 @@
-WIDTH = 12
+from utilities import convert_num_to_padded_text
+
+WIDTH = 13
 DECIMALS = 3
 
 def print_var_name(var_num, n_decision_vars, n_slack_vars, n_artificials=0):
@@ -68,7 +70,8 @@ def get_simplex_table_text(basic_vars, matrix, n_decision_vars, is_max, n_artifi
     # for other rows representing constraint rows
     for i in range(n_constraints+1):
         simplex_row = var_names[basic_vars[i]].ljust(WIDTH)
-        matrix_row_str = [str(round(n,DECIMALS)).center(WIDTH) for n in matrix[i]]
+        # convert each number/element in row into padded text for printing
+        matrix_row_str = convert_num_to_padded_text(matrix[i], WIDTH, DECIMALS)
         simplex_row += "".join(map(str, matrix_row_str))
         rows_list.append(simplex_row)
     
