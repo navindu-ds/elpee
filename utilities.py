@@ -1,6 +1,8 @@
 from dual_simplex import dual_simplex
 from sympy import Symbol, preorder_traversal, Float
 
+DECIMALS = 3
+
 def check_0_1_pattern(basic_vars, matrix):
     """
     Criteria 2 for feasibility
@@ -187,3 +189,11 @@ def round_off_expr_coefficients(expression):
         if isinstance(a, Float):
             rounded_expression = rounded_expression.subs(a, round(a, 2))
     return rounded_expression
+
+def round_off_simplex_matrix(matrix):
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            elem = matrix[i][j]
+            if (isinstance(elem, int)) | (isinstance(elem, float)):
+                matrix[i][j] = round(elem, DECIMALS)
+    return matrix
