@@ -196,14 +196,14 @@ n_artificials = 0
 
 # # test 23
 # # Test for this
-matrix = [[  1, -2,  0,  0,  0,  M,  M, 0],
-          [  1,  1, -1,  0,  0,  1,  0, 2],
-          [ -1,  1,  0, -1,  0,  0,  1, 1],
-          [  0,  1,  0,  0,  1,  0,  0, 3]]
-basic_vars = [0, 6, 7, 5]
-n_decision_vars = 2
-n_artificials = 2
-is_max = True
+# matrix = [[  1, -2,  0,  0,  0,  M,  M, 0],
+#           [  1,  1, -1,  0,  0,  1,  0, 2],
+#           [ -1,  1,  0, -1,  0,  0,  1, 1],
+#           [  0,  1,  0,  0,  1,  0,  0, 3]]
+# basic_vars = [0, 6, 7, 5]
+# n_decision_vars = 2
+# n_artificials = 2
+# is_max = True
 
 # # test 24
 # matrix = [[-6,  4,  0,  0, -M, -M, 0],
@@ -246,5 +246,52 @@ is_max = True
 # n_decision_vars = 2
 # n_artificials = 1
 # is_max = False
+
+# # test 28
+# matrix = [[-3,  1, -1, 0, 0, 0,   0],
+#           [ 4, -1,  0, 1, 0, 0, -11],
+#           [-8, -1,  3, 0, 1, 0, -12],
+#           [ 5,  0, -1, 0, 0, 1,  13]]
+# basic_vars = [0, 4, 5, 6]
+# n_decision_vars = 3
+# n_artificials = 0
+# is_max = True
+# # Cannot be fully optimized
+# # last_basic_vars_output = [0, 2, 1, 3]
+# # last_matrix_ouput = [[0, 0, 0, -0.333, 1.333, 3, 26.667],
+# #                      [0, 1, 0, -2.333, 1.333, 4, 61.667],
+# #                      [1, 0, 0, -0.333, 0.333, 1, 12.667],
+# #                      [0, 0, 1, -1.667, 1.667, 4, 50.333]] 
+
+# # test 29
+# matrix = [[-6, -4, 0,  0,  0, -M, -M, -M, 0],
+#           [ 3,  1, 1,  0,  0,  0,  0,  0, 5],
+#           [ 5,  5, 0, -1,  0,  1,  0,  0, 3],
+#           [-6, -4, 0,  0, -1,  0,  1,  0, 2],
+#           [ 2, -1, 0,  0,  0,  0,  0,  1, 5]]
+# basic_vars = [0, 3, 6, 7, 8]
+# n_decision_vars = 2
+# n_artificials = 3
+# is_max = False
+
+# # test 30
+# matrix = [[-6, -4, 0,  0,-M, -M, 0],
+#           [ 3,  1, 1,  0, 0,  0, 5],
+#           [ 5,  5, 0, -1, 1,  0, 3],
+#           [ 2, -1, 0,  0, 0,  1, 5]]
+# basic_vars = [0, 3, 5, 6]
+# n_decision_vars = 2
+# n_artificials = 2
+# is_max = False
+
+# # test 31
+matrix = [[-6, -4, 0,  0,  0,  0],
+          [ 3,  1, 1,  0,  0,  5],
+          [-5, -5, 0,  1,  0, -3],
+          [-1,  1, 0,  0,  1, -2]]
+basic_vars = [0, 3, 4, 5]
+n_decision_vars = 2
+n_artificials = 0
+is_max = False
 
 all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
