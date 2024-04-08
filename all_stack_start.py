@@ -2,26 +2,28 @@ from dual_simplex import dual_simplex
 from print_simplex import print_simplex_table_cli, print_entering_leaving_vars, print_var_name
 from bigM_handler import check_artificial_basic_vars
 from alternate_solutions import check_alternate_solutions, get_entering_cols_for_alternates, get_alternate_solutions
-from utilities import create_ratio_col, is_feasible, get_feasible, select_pivot_col, get_subsets
-
-M = 1000000
+from utilities import create_ratio_col, is_feasible, get_feasible, select_pivot_col, subsitute_big_M_for_row, get_subsets, round_off_simplex_matrix
+from sympy import Symbol
 
 def is_optimal(obj_row, is_max):
     """
     Returns true if the objective row of the matrix (first row without solution value) indicates optimal solution 
     """
+    # substituting for M with large number (1,000,000) before doing comparision
+    
     if is_max:
         # for maximization, all coefficients of objective row should be non-negative
-        return all(element >= 0 for element in obj_row)
+        return all(element >= 0 for element in subsitute_big_M_for_row(obj_row))
     else:
         # for minimization, all coefficients of objective row should be non-positive
-        return all(element <= 0 for element in obj_row)
+        return all(element <= 0 for element in subsitute_big_M_for_row(obj_row))
 
 def optimize(basic_vars, matrix, is_max):
     """
     Core function for optimizing the matrix by changing the basic variables
     When matrix cannot be optimized will return None
     """
+    M = 1000000
     obj_row = matrix[0][:-1]
     n_cols = len(obj_row)
     blocked_cols = []
@@ -96,4 +98,6 @@ def solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_arti
         print(f">> Use alternate_solutions.extract_alternate_solution() method using version numbers from 1 to {len(alterations_combo_list)}.")
         print(f">> Use alternate_solutions.display_all_alternate_solutions() method to display all alternate solutions")
 
+    # round off coefficients in matrix
+    matrix = round_off_simplex_matrix(matrix)
     return basic_vars, matrix

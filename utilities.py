@@ -1,6 +1,7 @@
 from dual_simplex import dual_simplex
+from sympy import Symbol, preorder_traversal, Float
 
-M = 1000000
+DECIMALS = 3
 
 def check_0_1_pattern(basic_vars, matrix):
     """
@@ -46,6 +47,9 @@ def create_ratio_col(matrix, pivot_col_var):
     Creates the ratio column = Solution column / pivot column
     For ratio values that are zero, negative or infinity will be taken as M 
     """
+    # Consider as infinity for rows with non-positive ratios
+    M = 1000000
+    
     n_rows = len(matrix)
     ratio_col = [0]*(n_rows-1)
     for row_i in range(1, n_rows):
@@ -68,10 +72,13 @@ def select_pivot_col(obj_row, is_max, blocked_cols):
     if not(is_max):
         obj_row = [element * -1 for element in obj_row]
 
-    if sum(1 for elem in obj_row if elem < 0) <= len(blocked_cols):
+    # substitute big M with a very large number before doing ordering
+    obj_row_copy = subsitute_big_M_for_row(obj_row)
+
+    if sum(1 for elem in obj_row_copy if elem < 0) <= len(blocked_cols):
         return -1
 
-    sorted_idx = sorted(range(len(obj_row)), key=lambda k: obj_row[k])
+    sorted_idx = sorted(range(len(obj_row_copy)), key=lambda k: obj_row_copy[k])
     for n in sorted_idx:
         pivot_col_var = n + 1
         if pivot_col_var not in blocked_cols:
@@ -134,3 +141,59 @@ def get_subsets(main_list):
         new_subsets = [subset + [last_element] for subset in subsets] 
         # Combine all subsets 
         return subsets + new_subsets  
+    
+def convert_num_to_padded_text(row, width, decimals):
+    """
+    For a given row (list of numbers/algebraic expressions) will round off 
+    and add padded text to the expression for the purpose of printing
+    """
+    padded_row = []
+    for num in row:
+        # check if number is from sympy class
+        if not (isinstance(num, int)) | (isinstance(num, float)):
+            # if from sympy class, identify if have algebraic terms
+            if num.free_symbols:
+                # round of the algebraic expression and add padded text to expression
+                rounded_expr = str(round_off_expr_coefficients(num)).center(width)
+                padded_row.append(rounded_expr)
+                continue
+            else:
+                # if sympy class variable is a pure number, convert into python integer or float
+                num = eval(str(num))
+        # round off the number and add padded text
+        padded_row.append(str(round(num,decimals)).center(width))
+            
+    return padded_row
+
+def subsitute_big_M_for_row(row):
+    """
+    Apply substitution to big M as 1,000,000 for given row
+    Returns the row with substituted values
+    """
+    M = Symbol('M')
+    row_copy = row.copy()
+    for i in range(len(row_copy)):
+        num = row_copy[i]
+        # apply substitution only if number is not an integer or float
+        if not (isinstance(num, int)) | (isinstance(num, float)):
+            row_copy[i] = num.subs({M:1000000})
+    return row_copy
+
+def round_off_expr_coefficients(expression):
+    """
+    Rounding off the coefficients and numeric numbers in the algebraic expression
+    Returns the rounded off expression
+    """
+    rounded_expression = expression
+    for a in preorder_traversal(expression):
+        if isinstance(a, Float):
+            rounded_expression = rounded_expression.subs(a, round(a, 2))
+    return rounded_expression
+
+def round_off_simplex_matrix(matrix):
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            elem = matrix[i][j]
+            if (isinstance(elem, int)) | (isinstance(elem, float)):
+                matrix[i][j] = round(elem, DECIMALS)
+    return matrix
