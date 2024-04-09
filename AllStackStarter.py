@@ -1,9 +1,8 @@
 import LPProblem
 from alternate_solutions import check_alternate_solutions, get_entering_cols_for_alternates
 from bigM_handler import check_artificial_basic_vars
-from print_simplex import print_entering_leaving_vars, print_simplex_table_cli
 from utilities import create_ratio_col, get_feasible, get_subsets, is_feasible, round_off_simplex_matrix, select_pivot_col, subsitute_big_M_for_row
-
+from SimplexPrinter import SimplexPrinter
 
 class AllStackStarter():
     """
@@ -21,6 +20,7 @@ class AllStackStarter():
         self.n_cols = len(problem.matrix[0][:-1])
         self.n_constraints = len(self.problem.matrix) - 1
         self.feasible_count = 0
+        self.simplex_printer = SimplexPrinter()
 
     def __is_optimal(self):
         """
@@ -70,7 +70,7 @@ class AllStackStarter():
         Function to obtain the initial feasible solutions step by step
         """
         print("\n...Generating Initial Feasible Solution for")
-        print_simplex_table_cli(self.problem.basic_vars, self.problem.matrix, self.n_decision_vars, self.is_max, self.n_artificials) # XXX format inputs to be encapsulated within self
+        self.simplex_printer.print_simplex_table_cli(self.problem) # XXX format inputs to be encapsulated within self
         return self.__make_feasible()
     
     def __optimize_step(self):
@@ -82,7 +82,7 @@ class AllStackStarter():
         if not optimizable:
             print("\nCannot be optimized further")
             return False
-        print_entering_leaving_vars(old_basic_vars, self.problem.basic_vars, self.n_decision_vars, self.n_slack_vars, self.n_artificials)
+        self.simplex_printer.print_entering_leaving_vars(old_basic_vars, self.problem)
         return True
     
     def __make_feasible(self):
@@ -97,7 +97,7 @@ class AllStackStarter():
             else:
                 print("\nNo feasible solution found")
             return False
-        print_entering_leaving_vars(old_basic_vars, self.problem.basic_vars, self.n_decision_vars, self.n_slack_vars, self.n_artificials)
+        self.simplex_printer.print_entering_leaving_vars(old_basic_vars, self.problem)
         return True
 
     def __increment_feasible_sol_num(self):
@@ -106,7 +106,7 @@ class AllStackStarter():
     def __display_new_feasible_sol(self):
         self.__increment_feasible_sol_num()
         print(f"\nFeasible Solution # {self.feasible_count}")
-        print_simplex_table_cli(self.problem.basic_vars, self.problem.matrix, self.n_decision_vars, self.is_max, self.n_artificials)
+        self.simplex_printer.print_simplex_table_cli(self.problem)
 
     def solver(self):
         """

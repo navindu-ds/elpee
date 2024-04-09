@@ -16,9 +16,16 @@ class LPProblem():
         self.is_max = is_max
         self.n_artificials = n_artificials
         self.n_slack_vars = self.__get_n_slack_vars()
+        self.n_constraints = self.__get_n_constraints()
 
     def __get_n_slack_vars(self):
         """
         Class method to calculate the number of slack variables used for the problem (S1, S2, etc..)
         """
         return len(self.matrix[0][:-1]) - self.n_decision_vars - self.n_artificials
+
+    def __get_n_constraints(self):
+        """
+        Class method to calculate the number of constraints used for the problem
+        """
+        return len(self.matrix) - 1
