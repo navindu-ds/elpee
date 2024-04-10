@@ -90,7 +90,7 @@ class AllStackStarter():
         Function that converts the optimal solution to a feasible optimal solution
         """
         old_basic_vars = self.problem.basic_vars.copy()
-        self.problem.basic_vars, self.problem.matrix = get_feasible(self.problem.basic_vars, self.problem.matrix)
+        self.problem.basic_vars, self.problem.matrix = get_feasible(self.problem)
         if self.problem.matrix == None:
             if self.feasible_count != 0:
                 print("\nNo further feasible solution found")

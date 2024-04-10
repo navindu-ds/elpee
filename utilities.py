@@ -1,3 +1,5 @@
+from DualSimplexSolver import DualSimplexSolver
+from LPProblem import LPProblem
 from dual_simplex import dual_simplex
 from sympy import Symbol, preorder_traversal, Float
 
@@ -112,6 +114,7 @@ def fix_feasible_0_1_pattern(basic_vars, matrix):
         
     return matrix
 
+# XXX to be deprecated as old version
 def get_feasible(basic_vars, matrix):
     """
     Applies the functionalities for correcting the matrix table to obtain feasibility
@@ -124,6 +127,21 @@ def get_feasible(basic_vars, matrix):
 
     matrix =  fix_feasible_0_1_pattern(basic_vars, matrix)
     return basic_vars, matrix
+
+# TODO to be used as new implementation
+def get_feasible(problem:LPProblem):
+    """
+    Applies the functionalities for correcting the matrix table to obtain feasibility
+    If no feasible solution exists --> return None
+    """
+    ds_solver = DualSimplexSolver(problem)
+    if not(check_feasible_positive_sol(problem.matrix)):
+        problem.basic_vars, problem.matrix = ds_solver.solver()
+        if problem.matrix == None:
+            return None, None
+
+    problem.matrix =  fix_feasible_0_1_pattern(problem.basic_vars, problem.matrix)
+    return problem.basic_vars, problem.matrix
 
 def get_subsets(main_list):
     """
