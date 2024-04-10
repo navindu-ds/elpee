@@ -36,3 +36,12 @@ class LPProblem():
         Public class function to obtain the objective row in the matrix
         """
         return self.matrix[0][:-1]
+    
+    def copy(self):
+        return LPProblem(
+            matrix=self.matrix.copy(),
+            basic_vars=self.basic_vars.copy(),
+            n_decision_vars=self.n_decision_vars,
+            is_max=self.is_max,
+            n_artificials=self.n_artificials
+        )

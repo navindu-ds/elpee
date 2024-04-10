@@ -118,7 +118,7 @@ class AllStackStarter():
             obtained_feasible = self.__generate_initial_feasible_sol_step()
             if not obtained_feasible:
                 # no feasible solution
-                return False
+                return self.problem
         
         self.__display_new_feasible_sol()
         
@@ -126,18 +126,18 @@ class AllStackStarter():
             obtained_optimizable = self.__optimize_step()
             if not obtained_optimizable:
                 # cannot be optimized
-                return False
+                return self.problem
         
             obtained_feasible = self.__make_feasible()
             if not obtained_feasible:
                 # no further feasible solution
-                return False
+                return self.problem
             
             self.__display_new_feasible_sol()
 
         if (check_artificial_basic_vars(self.problem)):
             print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
-            return False
+            return self.problem
         else:
             print("\nOptimized Solution Received!")
 
@@ -151,6 +151,6 @@ class AllStackStarter():
 
         # round off coefficients in matrix
         self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
-        return True
+        return self.problem
 
             
