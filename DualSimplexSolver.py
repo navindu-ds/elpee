@@ -48,7 +48,7 @@ class DualSimplexSolver():
             absolute value of (objective_row / pivot row)
         Marks 0 and infinity ratios as M
         """
-        obj_row = self.problem.matrix[0][:-1]
+        obj_row = self.problem.obj_row
         ratio_row = [0]*len(obj_row)
         for i in range(len(obj_row)):
             if self.problem.matrix[pivot_row][i] == 0:
@@ -66,7 +66,7 @@ class DualSimplexSolver():
         """
         blocked_rows = []
         n_rows = self.problem.n_constraints + 1
-        n_cols = len(self.problem.matrix[0][:-1])
+        n_cols = len(self.problem.obj_row)
         while len(blocked_rows) < n_rows:
             pivot_row = self.__select_pivot_row_dual_simplex(blocked_rows)
             if pivot_row == -1:

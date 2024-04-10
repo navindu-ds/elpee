@@ -17,8 +17,8 @@ class AllStackStarter():
         self.n_decision_vars = problem.n_decision_vars
         self.n_slack_vars = problem.n_slack_vars
         self.n_artificials = problem.n_artificials
-        self.n_cols = len(problem.matrix[0][:-1])
-        self.n_constraints = len(self.problem.matrix) - 1
+        self.n_cols = len(problem.obj_row)
+        self.n_constraints = problem.n_constraints
         self.feasible_count = 0
         self.simplex_printer = SimplexPrinter()
 
@@ -30,10 +30,10 @@ class AllStackStarter():
 
         if self.is_max:
             # for maximization, all coefficients of objective row should be non-negative
-            return all(element >= 0 for element in subsitute_big_M_for_row(self.problem.matrix[0][:-1]))
+            return all(element >= 0 for element in subsitute_big_M_for_row(self.problem.obj_row))
         else:
             # for minimization, all coefficients of objective row should be non-positive
-            return all(element <= 0 for element in subsitute_big_M_for_row(self.problem.matrix[0][:-1]))
+            return all(element <= 0 for element in subsitute_big_M_for_row(self.problem.obj_row))
 
     def __optimize(self):
         """
@@ -43,7 +43,7 @@ class AllStackStarter():
         M = 1000000
         blocked_cols = []
         while len(blocked_cols) < self.n_cols:
-            pivot_col_var = select_pivot_col(self.problem.matrix[0][:-1], self.is_max, blocked_cols)
+            pivot_col_var = select_pivot_col(self.problem.obj_row, self.is_max, blocked_cols)
             if pivot_col_var == -1:
                 # No suitable pivot column available
                 print("\nNo suitable entering varaible for selection")
@@ -135,15 +135,15 @@ class AllStackStarter():
             
             self.__display_new_feasible_sol()
 
-        if (check_artificial_basic_vars(self.problem.basic_vars, self.problem.matrix[0][:-1], self.n_decision_vars, self.n_artificials)):
+        if (check_artificial_basic_vars(self.problem.basic_vars, self.problem.obj_row, self.n_decision_vars, self.n_artificials)):
             print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
             return False
         else:
             print("\nOptimized Solution Received!")
 
-        if check_alternate_solutions(self.problem.matrix[0][:-1], self.n_constraints):
+        if check_alternate_solutions(self.problem.obj_row, self.n_constraints):
             # obtain list of variables for generating alternate solutions
-            alternate_cols = get_entering_cols_for_alternates(self.problem.basic_vars, self.problem.matrix[0][:-1])
+            alternate_cols = get_entering_cols_for_alternates(self.problem.basic_vars, self.problem.obj_row)
             alterations_combo_list = get_subsets(alternate_cols)[1:]
             print(f"There are {len(alterations_combo_list)} Alternate Solutions for this problem!")
             print(f">> Use alternate_solutions.extract_alternate_solution() method using version numbers from 1 to {len(alterations_combo_list)}.")

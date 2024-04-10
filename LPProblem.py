@@ -22,10 +22,17 @@ class LPProblem():
         """
         Class method to calculate the number of slack variables used for the problem (S1, S2, etc..)
         """
-        return len(self.matrix[0][:-1]) - self.n_decision_vars - self.n_artificials
+        return len(self.obj_row) - self.n_decision_vars - self.n_artificials
 
     def __get_n_constraints(self):
         """
         Class method to calculate the number of constraints used for the problem
         """
         return len(self.matrix) - 1
+    
+    @property
+    def obj_row(self):
+        """
+        Public class function to obtain the objective row in the matrix
+        """
+        return self.matrix[0][:-1]
