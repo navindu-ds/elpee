@@ -135,7 +135,7 @@ class AllStackStarter():
             
             self.__display_new_feasible_sol()
 
-        if (check_artificial_basic_vars(self.problem.basic_vars, self.problem.obj_row, self.n_decision_vars, self.n_artificials)):
+        if (check_artificial_basic_vars(self.problem)):
             print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
             return False
         else:
