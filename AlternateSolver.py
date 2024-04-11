@@ -68,19 +68,19 @@ class AlternateSolver():
         # return the updated basic_vars, matrix after simplex updates
         return self.problem.basic_vars, self.problem.matrix
     
-    def __get_alternate_solutions(self, alteration_combo, problem:LPProblem):
+    def __get_alternate_solutions(self, alteration_combo):
         """
         For a given set of columns for which an alternate solution can be derived,
         apply simplex updates to all the columns provided in alteration combo list and prints final alternate solution
         """
         for pivot_col in alteration_combo:
-            problem.basic_vars, problem.matrix = self.__apply_simplex_update(pivot_col)
+            self.problem.basic_vars, self.problem.matrix = self.__apply_simplex_update(pivot_col)
             if self.problem.matrix == None:
                 print("\nFeasible alternate solution not found")
                 return None, None
         # print the final alternate solution based on set of columns provided
-        self.printer.print_simplex_table_cli(problem)
-        return problem.basic_vars, problem.matrix
+        self.printer.print_simplex_table_cli(self.problem)
+        return self.problem.basic_vars, self.problem.matrix
     
     def __get_alterations_combo_list(self):
         # obtain list of variables for generating alternate solutions
@@ -114,12 +114,12 @@ class AlternateSolver():
 
         if self.check_alternate_solutions():
             alterations_combo_list = self.__get_alterations_combo_list()
+            initial_problem = self.problem.copy()
 
             for i, alteration_combo in enumerate(alterations_combo_list):
                 print(f"\nAlternate Solution #{i+1}")
+                self.__get_alternate_solutions(alteration_combo)
 
-                new_problem = self.problem.copy()
-
-                self.__get_alternate_solutions(alteration_combo, new_problem)
+                self.problem = initial_problem
         else:
             print("\nThere are no alternate solutions to display!")
