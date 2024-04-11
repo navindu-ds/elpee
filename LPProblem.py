@@ -17,6 +17,7 @@ class LPProblem():
         self.n_artificials = n_artificials
         self.n_slack_vars = self.__get_n_slack_vars()
         self.n_constraints = self.__get_n_constraints()
+        self.__is_feasible = True # default
 
     def __get_n_slack_vars(self):
         """
@@ -29,6 +30,16 @@ class LPProblem():
         Class method to calculate the number of constraints used for the problem
         """
         return len(self.matrix) - 1
+    
+    def update_feasible_status(self, feasibility_status):
+        """
+        Class method to update the feasibility status to True/False depending on the checks
+        """
+        self.__is_feasible = feasibility_status
+
+    @property
+    def is_feasible(self):
+        return self.__is_feasible
     
     @property
     def obj_row(self):

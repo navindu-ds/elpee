@@ -71,7 +71,8 @@ class DualSimplexSolver():
             pivot_row = self.__select_pivot_row_dual_simplex(blocked_rows)
             if pivot_row == -1:
                 # print("\nNo further feasible solution")
-                return None, None
+                self.problem.update_feasible_status(False)
+                return self.problem
             pivot_row_var = self.problem.basic_vars[pivot_row]
 
             blocked_cols = []
@@ -88,9 +89,11 @@ class DualSimplexSolver():
                         j += 1
                     else:
                         self.problem.basic_vars[pivot_row] = pivot_col_var
-                        return self.problem.basic_vars, self.problem.matrix
+                        self.problem.update_feasible_status(True)
+                        return self.problem
                 else:
                     continue
             blocked_rows.append(pivot_row)
         # print("\nNo further feasible solution")
-        return None, None
+        self.problem.update_feasible_status(False)
+        return self.problem

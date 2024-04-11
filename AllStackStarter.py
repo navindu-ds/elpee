@@ -1,3 +1,4 @@
+from FeasibleHandler import FeasibleHandler
 import LPProblem
 from alternate_solutions import check_alternate_solutions, get_entering_cols_for_alternates
 from bigM_handler import check_artificial_basic_vars
@@ -21,6 +22,7 @@ class AllStackStarter():
         self.n_constraints = problem.n_constraints
         self.feasible_count = 0
         self.simplex_printer = SimplexPrinter()
+        self.feasible_handler = FeasibleHandler()
 
     def __is_optimal(self):
         """
@@ -71,7 +73,7 @@ class AllStackStarter():
         """
         print("\n...Generating Initial Feasible Solution for")
         self.simplex_printer.print_simplex_table_cli(self.problem) # XXX format inputs to be encapsulated within self
-        return self.__make_feasible()
+        self.__make_feasible()
     
     def __optimize_step(self):
         """
@@ -90,15 +92,14 @@ class AllStackStarter():
         Function that converts the optimal solution to a feasible optimal solution
         """
         old_basic_vars = self.problem.basic_vars.copy()
-        self.problem.basic_vars, self.problem.matrix = get_feasible(self.problem)
-        if self.problem.matrix == None:
+        self.problem = self.feasible_handler.get_feasible(self.problem)
+        if self.problem.is_feasible == False:
             if self.feasible_count != 0:
                 print("\nNo further feasible solution found")
             else:
                 print("\nNo feasible solution found")
-            return False
-        self.simplex_printer.print_entering_leaving_vars(old_basic_vars, self.problem)
-        return True
+        else:
+            self.simplex_printer.print_entering_leaving_vars(old_basic_vars, self.problem)
 
     def __increment_feasible_sol_num(self):
         self.feasible_count = self.feasible_count + 1
@@ -115,8 +116,8 @@ class AllStackStarter():
         """
 
         while not(is_feasible(self.problem.basic_vars, self.problem.matrix)):
-            obtained_feasible = self.__generate_initial_feasible_sol_step()
-            if not obtained_feasible:
+            self.__generate_initial_feasible_sol_step()
+            if not self.problem.is_feasible:
                 # no feasible solution
                 return self.problem
         
@@ -128,8 +129,8 @@ class AllStackStarter():
                 # cannot be optimized
                 return self.problem
         
-            obtained_feasible = self.__make_feasible()
-            if not obtained_feasible:
+            self.__make_feasible()
+            if not self.problem.is_feasible:
                 # no further feasible solution
                 return self.problem
             
