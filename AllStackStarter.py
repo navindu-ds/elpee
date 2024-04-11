@@ -83,9 +83,10 @@ class AllStackStarter():
         optimizable = self.__optimize()
         if not optimizable:
             print("\nCannot be optimized further")
-            return False
-        self.simplex_printer.print_entering_leaving_vars(old_basic_vars, self.problem)
-        return True
+            self.problem.update_optimal_reachability_status(False)
+        else:
+            self.simplex_printer.print_entering_leaving_vars(old_basic_vars, self.problem)
+            self.problem.update_optimal_reachability_status(True)
     
     def __make_feasible(self):
         """
@@ -124,8 +125,8 @@ class AllStackStarter():
         self.__display_new_feasible_sol()
         
         while not(self.__is_optimal()):
-            obtained_optimizable = self.__optimize_step()
-            if not obtained_optimizable:
+            self.__optimize_step()
+            if not self.problem.is_optimal_reachable:
                 # cannot be optimized
                 return self.problem
         
@@ -140,6 +141,7 @@ class AllStackStarter():
             print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
             return self.problem
         else:
+            self.problem.update_optimal_status(True)
             print("\nOptimized Solution Received!")
 
         if check_alternate_solutions(self.problem.obj_row, self.n_constraints):

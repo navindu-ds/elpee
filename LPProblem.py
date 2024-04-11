@@ -18,6 +18,8 @@ class LPProblem():
         self.n_slack_vars = self.__get_n_slack_vars()
         self.n_constraints = self.__get_n_constraints()
         self.__is_feasible = True # default
+        self.__is_optimal = False # deafult
+        self.__reachable_optimal = True # default - does the LP Problem reach an optimal solution
 
     def __get_n_slack_vars(self):
         """
@@ -37,9 +39,29 @@ class LPProblem():
         """
         self.__is_feasible = feasibility_status
 
+    def update_optimal_reachability_status(self, reachability_status):
+        """
+        Class method to update the whether the problem can reach optimal status to True/False depending on the optimization steps
+        """
+        self.__reachable_optimal = reachability_status
+
+    def update_optimal_status(self, optimal_status):
+        """
+        Class method to update the status of problem of having reached the final optimal solution
+        """
+        self.__is_optimal = optimal_status
+
     @property
     def is_feasible(self):
         return self.__is_feasible
+    
+    @property
+    def is_optimal_reachable(self):
+        return self.__reachable_optimal
+    
+    @property
+    def is_optimal(self):
+        return self.__is_optimal
     
     @property
     def obj_row(self):

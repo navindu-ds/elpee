@@ -94,6 +94,10 @@ class AlternateSolver():
         """
         Extracts an alternate solution based on version_num provided 
         """
+        if not self.problem.is_optimal:
+            print(f"\nGiven problem is not optimal. No alternate solutions exist.")
+            return None
+
         if self.check_alternate_solutions():
             alterations_combo_list = self.__get_alterations_combo_list()
 
@@ -112,14 +116,17 @@ class AlternateSolver():
     def display_all_alternate_solutions(self):
         print("\nDisplaying all Alternate Optimal Solutions for Simplex Table Provided...")
 
-        if self.check_alternate_solutions():
-            alterations_combo_list = self.__get_alterations_combo_list()
-            initial_problem = self.problem.copy()
-
-            for i, alteration_combo in enumerate(alterations_combo_list):
-                print(f"\nAlternate Solution #{i+1}")
-                self.__get_alternate_solutions(alteration_combo)
-
-                self.problem = initial_problem
+        if not self.problem.is_optimal:
+            print("\nGiven problem is not optimal. No alternate solutions exist.")
         else:
-            print("\nThere are no alternate solutions to display!")
+            if self.check_alternate_solutions():
+                alterations_combo_list = self.__get_alterations_combo_list()
+                initial_problem = self.problem.copy()
+
+                for i, alteration_combo in enumerate(alterations_combo_list):
+                    print(f"\nAlternate Solution #{i+1}")
+                    self.__get_alternate_solutions(alteration_combo)
+
+                    self.problem = initial_problem
+            else:
+                print("\nThere are no alternate solutions to display!")
