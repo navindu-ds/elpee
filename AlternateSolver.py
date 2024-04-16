@@ -80,7 +80,6 @@ class AlternateSolver():
                 return None, None
         # print the final alternate solution based on set of columns provided
         self.printer.print_simplex_table_cli(self.problem)
-        return self.problem.basic_vars, self.problem.matrix
     
     def __get_alterations_combo_list(self):
         # obtain list of variables for generating alternate solutions
@@ -103,7 +102,7 @@ class AlternateSolver():
 
             if version_num <= len(alterations_combo_list):
                 print(f"\nAlternate Solution #{version_num}")
-                self.problem.basic_vars, self.problem.matrix = self.__get_alternate_solutions(alterations_combo_list[version_num-1], self.problem)
+                self.__get_alternate_solutions(alterations_combo_list[version_num-1])
                 return self.problem
             else:
                 print(f"\nThere are only {len(alterations_combo_list)} versions for Alternate Solutions!")

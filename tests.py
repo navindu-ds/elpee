@@ -1,7 +1,7 @@
 from AllStackStarter import AllStackStarter
 from AlternateSolver import AlternateSolver
 from LPProblem import LPProblem
-import all_stack_start
+
 M = 1000000
 
 def test_solver01():

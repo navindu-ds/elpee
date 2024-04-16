@@ -60,6 +60,11 @@ class DualSimplexSolver():
         ratio_row[pivot_row_var-1] = M
         return ratio_row
     
+    def __set_infeasible_status(self):
+        self.problem.update_feasible_status(False)
+        self.problem.update_optimal_reachability_status(False)
+        self.problem.update_optimal_status(False)
+    
     def solver(self):
         """
         Main executing function to execute dual simplex adjustments to the simplex matrix
@@ -71,7 +76,7 @@ class DualSimplexSolver():
             pivot_row = self.__select_pivot_row_dual_simplex(blocked_rows)
             if pivot_row == -1:
                 # print("\nNo further feasible solution")
-                self.problem.update_feasible_status(False)
+                self.__set_infeasible_status()
                 return self.problem
             pivot_row_var = self.problem.basic_vars[pivot_row]
 
@@ -95,5 +100,5 @@ class DualSimplexSolver():
                     continue
             blocked_rows.append(pivot_row)
         # print("\nNo further feasible solution")
-        self.problem.update_feasible_status(False)
+        self.__set_infeasible_status()
         return self.problem

@@ -110,6 +110,11 @@ class AllStackStarter():
         print(f"\nFeasible Solution # {self.feasible_count}")
         self.simplex_printer.print_simplex_table_cli(self.problem)
 
+    def __set_infeasible_status(self):
+        self.problem.update_feasible_status(False)
+        self.problem.update_optimal_reachability_status(False)
+        self.problem.update_optimal_status(False)
+
     def solver(self):
         """
         Main executing function to run the linear programming methodology for 
@@ -119,6 +124,7 @@ class AllStackStarter():
         while not(is_feasible(self.problem.basic_vars, self.problem.matrix)):
             self.__generate_initial_feasible_sol_step()
             if not self.problem.is_feasible:
+                self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
                 # no feasible solution
                 return self.problem
         
@@ -127,17 +133,21 @@ class AllStackStarter():
         while not(self.__is_optimal()):
             self.__optimize_step()
             if not self.problem.is_optimal_reachable:
+                self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
                 # cannot be optimized
                 return self.problem
         
             self.__make_feasible()
             if not self.problem.is_feasible:
+                self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
                 # no further feasible solution
                 return self.problem
             
             self.__display_new_feasible_sol()
 
         if (check_artificial_basic_vars(self.problem)):
+            self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
+            self.__set_infeasible_status()
             print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
             return self.problem
         else:
