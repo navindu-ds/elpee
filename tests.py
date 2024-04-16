@@ -1,6 +1,6 @@
-from AllStackStarter import AllStackStarter
-from AlternateSolver import AlternateSolver
-from LPProblem import LPProblem
+from elpee.algorithms.AllStackStarter import AllStackStarter
+from elpee.algorithms.AlternateSolver import AlternateSolver
+from elpee.utils.protocols.LPProblem import LPProblem
 
 M = 1000000
 

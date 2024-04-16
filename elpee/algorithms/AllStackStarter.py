@@ -1,9 +1,9 @@
-from FeasibleHandler import FeasibleHandler
-import LPProblem
-from alternate_solutions import check_alternate_solutions, get_entering_cols_for_alternates
-from bigM_handler import check_artificial_basic_vars
-from utilities import create_ratio_col, get_feasible, get_subsets, is_feasible, round_off_simplex_matrix, select_pivot_col, subsitute_big_M_for_row
-from SimplexPrinter import SimplexPrinter
+from elpee.utils.FeasibleHandler import FeasibleHandler
+from elpee.utils.protocols.LPProblem import LPProblem
+from elpee.algorithms.AlternateSolver import AlternateSolver
+from elpee.algorithms.bigM_handler import check_artificial_basic_vars
+from elpee.utils.utilities import create_ratio_col, round_off_simplex_matrix, select_pivot_col, subsitute_big_M_for_row
+from elpee.utils.SimplexPrinter import SimplexPrinter
 
 class AllStackStarter():
     """
@@ -121,7 +121,7 @@ class AllStackStarter():
         all stack starting and dual simplex methods 
         """
 
-        while not(is_feasible(self.problem.basic_vars, self.problem.matrix)):
+        while not(self.feasible_handler.is_feasible(self.problem)):
             self.__generate_initial_feasible_sol_step()
             if not self.problem.is_feasible:
                 self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
@@ -153,14 +153,10 @@ class AllStackStarter():
         else:
             self.problem.update_optimal_status(True)
             print("\nOptimized Solution Received!")
-
-        if check_alternate_solutions(self.problem.obj_row, self.n_constraints):
-            # obtain list of variables for generating alternate solutions
-            alternate_cols = get_entering_cols_for_alternates(self.problem.basic_vars, self.problem.obj_row)
-            alterations_combo_list = get_subsets(alternate_cols)[1:]
-            num_alternate_sols = len(alterations_combo_list)
-            self.problem.set_num_alternates(num_alternate_sols)
-            print(f"There are {num_alternate_sols} Alternate Solutions for this problem!")
+        
+        alternator = AlternateSolver(self.problem)
+        if alternator.n_alternates != 0:
+            print(f"There are {alternator.n_alternates} Alternate Solutions for this problem!")
             # print(f">> Use alternate_solutions.extract_alternate_solution() method using version numbers from 1 to {num_alternate_sols}.")
             # print(f">> Use alternate_solutions.display_all_alternate_solutions() method to display all alternate solutions")
 

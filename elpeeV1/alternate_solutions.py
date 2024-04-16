@@ -1,4 +1,4 @@
-from utilities import create_ratio_col, get_feasible, get_subsets
+from elpee.utils.utilities import create_ratio_col, get_feasible, get_subsets
 from print_simplex import print_var_name, print_simplex_table_cli
 
 def check_alternate_solutions(obj_row, n_constraints):

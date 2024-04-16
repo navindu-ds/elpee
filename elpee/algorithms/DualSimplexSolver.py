@@ -1,5 +1,5 @@
 from typing import List
-from LPProblem import LPProblem
+from elpee.utils.protocols.LPProblem import LPProblem
 
 M = 1000000
 

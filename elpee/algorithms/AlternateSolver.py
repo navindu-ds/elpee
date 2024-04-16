@@ -1,6 +1,7 @@
-from LPProblem import LPProblem
-from SimplexPrinter import SimplexPrinter
-from utilities import create_ratio_col, get_feasible, get_subsets
+from elpee.utils.FeasibleHandler import FeasibleHandler
+from elpee.utils.protocols.LPProblem import LPProblem
+from elpee.utils.SimplexPrinter import SimplexPrinter
+from elpee.utils.utilities import create_ratio_col, get_subsets
 
 class AlternateSolver():
     """
@@ -11,7 +12,12 @@ class AlternateSolver():
     def __init__(self, problem:LPProblem):
         self.problem = problem
         self.printer = SimplexPrinter()
+        self.feasible_handler = FeasibleHandler()
         self.n_alternates = len(self.__get_alterations_combo_list())
+        self.__update_num_alternates()
+
+    def __update_num_alternates(self):
+        self.problem.set_num_alternates(self.n_alternates)
     
     def check_alternate_solutions(self):
         """
@@ -61,7 +67,7 @@ class AlternateSolver():
         self.problem.basic_vars[pivot_row] = pivot_col_var
         
         # apply feasibility fixes for the matrix with basic variables updated
-        self.problem.basic_vars, self.problem.matrix = get_feasible(self.problem)
+        self.problem = self.feasible_handler.get_feasible(self.problem)
         if self.problem.matrix == None: 
             return None, None
         

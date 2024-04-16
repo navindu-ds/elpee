@@ -1,6 +1,5 @@
-from DualSimplexSolver import DualSimplexSolver
-from LPProblem import LPProblem
-
+from elpee.algorithms.DualSimplexSolver import DualSimplexSolver
+from elpee.utils.protocols.LPProblem import LPProblem
 
 DECIMALS = 3
 

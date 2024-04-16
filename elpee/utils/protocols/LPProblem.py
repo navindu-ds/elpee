@@ -1,5 +1,5 @@
 from typing import List
-from sympy import Symbol, sympify
+from sympy import Symbol
 
 M = Symbol('M')
 

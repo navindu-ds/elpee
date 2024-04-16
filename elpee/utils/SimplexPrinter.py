@@ -1,5 +1,5 @@
-from LPProblem import LPProblem
-from utilities import convert_num_to_padded_text
+from elpee.utils.protocols.LPProblem import LPProblem
+from elpee.utils.utilities import convert_num_to_padded_text
 
 WIDTH = 13
 DECIMALS = 3

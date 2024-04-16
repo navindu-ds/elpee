@@ -1,6 +1,5 @@
-from DualSimplexSolver import DualSimplexSolver
-from LPProblem import LPProblem
-from dual_simplex import dual_simplex
+from elpee.algorithms.DualSimplexSolver import DualSimplexSolver
+from elpee.utils.protocols.LPProblem import LPProblem
 from sympy import Symbol, preorder_traversal, Float
 
 DECIMALS = 3
@@ -113,20 +112,6 @@ def fix_feasible_0_1_pattern(basic_vars, matrix):
                     matrix[i] = [a-b for a,b in zip(matrix[i], scaled_piv_row)]
         
     return matrix
-
-# XXX to be deprecated as old version
-def get_feasible(basic_vars, matrix):
-    """
-    Applies the functionalities for correcting the matrix table to obtain feasibility
-    If no feasible solution exists --> return None
-    """
-    if not(check_feasible_positive_sol(matrix)):
-        basic_vars, matrix = dual_simplex(basic_vars, matrix)
-        if matrix == None:
-            return None, None
-
-    matrix =  fix_feasible_0_1_pattern(basic_vars, matrix)
-    return basic_vars, matrix
 
 # TODO to be used as new implementation
 def get_feasible(problem:LPProblem):
