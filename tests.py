@@ -1,3 +1,6 @@
+from AllStackStarter import AllStackStarter
+from AlternateSolver import AlternateSolver
+from LPProblem import LPProblem
 import all_stack_start
 M = 1000000
 
@@ -16,7 +19,25 @@ def test_solver01():
                      [0, 1, -0.125,  0.75,  1.5]]
     output_basic_vars = [0, 1, 2]
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver02():
 
@@ -35,7 +56,25 @@ def test_solver02():
                      [0.0, 0.0, 0.375, -1.25, 1.0, 2.5]]
     output_basic_vars = [0, 1, 2, 5]
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver03():
 
@@ -52,7 +91,25 @@ def test_solver03():
                      [1.0, -0.25, 0.25, 0.0, 2.0]]
     output_basic_vars = [0, 4, 1]
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver04():
 
@@ -71,7 +128,25 @@ def test_solver04():
                      [0.0, -1.0, 0.0, 1.0, -1.0, -5.0, 2.0, 30.0]]
     output_basic_vars = [0, 1, 3, 4]
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver05():
 
@@ -90,7 +165,25 @@ def test_solver05():
                      [0.0, 4.0, 0.0, 0.333, 0.333, 1.0, 15.0]]
     output_basic_vars = [0, 3, 1, 6]
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver07():
 
@@ -103,10 +196,31 @@ def test_solver07():
     is_max = False
     n_artificials = 0
 
-    output_matrix = None
-    output_basic_vars = None
+    output_matrix = [[-11.0, 0.0, -4.0, 0.0, 1.0, 0.0, -12.0],
+                     [ 12.0, 0.0,  3.0, 1.0,-1.0, 0.0,  20.0],
+                     [  8.0, 1.0,  3.0,-0.0,-1.0,-0.0,  12.0],
+                     [  5.0, 0.0, -1.0, 0.0, 0.0, 1.0,  13.0]]
+    output_basic_vars = [0, 4, 2, 6]
+    
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_reachability_status(False)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver16():
 
@@ -119,10 +233,32 @@ def test_solver16():
     is_max = False
     n_artificials = 0
 
-    output_matrix = None
-    output_basic_vars = None
+    output_matrix = [[0, 0, 1, 0, 0, 15],
+                     [0, 1, 1,-2, 0, -5],
+                     [1, 0, 0, 1, 0, 10],
+                     [0, 0,-1, 1, 1,  5]]
+    output_basic_vars = [0, 2, 1, 5]
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_reachability_status(False)
+    solution.update_feasible_status(False)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver17():
 
@@ -141,7 +277,25 @@ def test_solver17():
                      [0.3, 0.5, 1.0, 1.5, 0.0, 0.0, 0.1, 10.0]]
     output_basic_vars = [0, 5, 6, 3]
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver18():
 
@@ -157,7 +311,43 @@ def test_solver18():
     output_matrix = matrix.copy()
     output_basic_vars = basic_vars.copy()
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
+
+    assert solution == all_stack_starter.solver()
+
+    alternate_matrix = [[ 0, 0, 0, 0, 2, 1, 3, 1827],
+                        [ 1, 1, 0, 0, 1, 2,-1,   39],
+                        [-1, 0, 1, 0,-1, 2, 0,    9],
+                        [ 1, 0, 0, 1, 0,-3, 1,   69]]
+    alternate_basic_vars = [0, 2, 3, 4]
+    alternate = LPProblem(
+        matrix=alternate_matrix,
+        basic_vars=alternate_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    alternate.update_optimal_status(True)
+
+    alternator = AlternateSolver(all_stack_starter.solver())
+
+    assert alternate == alternator.extract_alternate_solution(1)
 
 def test_solver19():
 
@@ -176,9 +366,25 @@ def test_solver19():
                      [0, 1, 0, 0, -1, 0, 1, 1]]
     output_basic_vars = [0, 3, 1, 2]
 
-    assert (output_basic_vars, output_matrix) == all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
 
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
 
+    assert solution == all_stack_starter.solver()
 
 def test_solver21():
 
@@ -191,10 +397,31 @@ def test_solver21():
     n_artificials = 1
     is_max = True
 
-    output_matrix = None
-    output_basic_vars = None
+    output_matrix = [[0, 0.25, -1, 0.75, 0, 0, M, 6],
+                     [0, -3,   -3,  2,   1, 0,-1, 4],
+                     [1,-0.25,  0, 0.25, 0, 0, 0, 2],
+                     [0, 1.25, -1,-1.25, 0, 1, 0, 3]]
+    output_basic_vars = [0, 5, 1, 6]
 
-    assert all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials) == (output_basic_vars, output_matrix)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_reachability_status(False)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver22():
 
@@ -213,7 +440,25 @@ def test_solver22():
                      [-1.0, 0.0, 1.0, 0.0, 1.0, -1.0, 0.0, 1.0]]
     output_basic_vars = [0, 4, 2, 3]
 
-    assert all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials) == (output_basic_vars, output_matrix)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
+
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver23():
 
@@ -232,8 +477,25 @@ def test_solver23():
                      [7.6, 0.0, 0.0, 1.0, -1.0, 0.8, 2.8]]
     output_basic_vars = [0, 3, 2, 4]
 
-    assert all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials) == (output_basic_vars, output_matrix)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
 
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_optimal_status(True)
+
+    assert solution == all_stack_starter.solver()
 
 def test_solver26():
 
@@ -246,9 +508,29 @@ def test_solver26():
     n_artificials = 1
     is_max = False
 
-    output_matrix = None
-    output_basic_vars = None
+    output_matrix = [[0, -0.333, 0, -0.167, 0, 4.333],
+                     [0,  1.667, 1, -0.167, 0, 4.333],
+                     [1,  0.667, 0, -0.167, 0, 3.333],
+                     [0, -1,     0,  0,     1, 2    ]]
+    output_basic_vars = [0, 3, 1, 5]
 
-    assert all_stack_start.solve_linear_programming(basic_vars, matrix, n_decision_vars, is_max, n_artificials) == (output_basic_vars, output_matrix)
+    problem = LPProblem(
+        matrix=matrix,
+        basic_vars=basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    all_stack_starter = AllStackStarter(problem)
 
-test_solver17()
+    solution = LPProblem(
+        matrix=output_matrix,
+        basic_vars=output_basic_vars,
+        n_decision_vars=n_decision_vars,
+        is_max=is_max,
+        n_artificials=n_artificials
+    )
+    solution.update_feasible_status(False)
+    solution.update_optimal_reachability_status(False)
+
+    assert solution == all_stack_starter.solver()

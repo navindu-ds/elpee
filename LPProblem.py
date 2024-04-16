@@ -78,3 +78,20 @@ class LPProblem():
             is_max=self.is_max,
             n_artificials=self.n_artificials
         )
+    
+    def __eq__(self, other: object) -> bool:
+        """
+        Compares between two objects in LPProblem class for similarity
+        """
+        if isinstance(other, LPProblem):
+            return (self.matrix == other.matrix) & \
+            (self.basic_vars == other.basic_vars) & \
+            (self.n_decision_vars == other.n_decision_vars) & \
+            (self.is_max == other.is_max) & \
+            (self.n_artificials == other.n_artificials) & \
+            (self.n_slack_vars == other.n_slack_vars) & \
+            (self.n_constraints == other.n_constraints) & \
+            (self.is_feasible == other.is_feasible) & \
+            (self.is_optimal_reachable == other.is_optimal_reachable) & \
+            (self.is_optimal == other.is_optimal)
+        return False
