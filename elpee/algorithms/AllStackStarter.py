@@ -7,12 +7,50 @@ from elpee.utils.SimplexPrinter import SimplexPrinter
 
 class AllStackStarter():
     """
-    Class Description for the All Stack Starting Method of solving 
-    Linear Programming Optimization Problems
-    Acts as the base code for all other LP optimization problems
+    A class used to solve problems using All Stack Starting Method
+
+    Attributes
+    ----------
+    problem : elpee.utils.protocols.LPProblem
+        The problem given to the AllStackSolver to be solved
+    is_max : bool
+        Whether given LP problem is a maximization or 
+        minimization problem
+    n_decision_vars : int
+        Number of decision variables (X_i) in given LP problem
+    n_slack_vars : int
+        Number of slack variables (S_i) in given LP problem
+    n_artificials : int
+        Number of artificial variables (A_i) in LP problem
+    n_cols : int
+        Number of variables present in the simplex table of 
+        the LP problem
+    n_constraints : int
+        Number of constraints in given LP problem
+    feasible_count : int
+        Step counter to optimal solution counting number of
+        intermediate feasible solutions generated
+    simplex_printer : elpee.utils.SimplexPrinter 
+        An instance of printer to visualize the simplex table
+        of given LP problem
+    feasible_handler : elpee.utils.FeasibleHandler
+        An instance of handler object to retain feasibility of
+        LP problem and its solutions
+
+    Methods
+    -------
+    solver() -> elpee.utils.protocols.LPProblem
+        Solves the LP problem given to AllStackStarter instance
     """
 
     def __init__(self, problem: LPProblem):
+        """
+        Parameters
+        ----------
+        problem : elpee.utils.protocols.LPProblem
+            LP problem to be solved using All Stack Starting Method
+        """
+        
         self.problem = problem
         self.is_max = problem.is_max
         self.n_decision_vars = problem.n_decision_vars
@@ -24,10 +62,12 @@ class AllStackStarter():
         self.simplex_printer = SimplexPrinter()
         self.feasible_handler = FeasibleHandler()
 
-    def __is_optimal(self):
+    def __is_optimal(self) -> bool:
         """
-        Returns true if the objective row of the matrix (first row without solution value) indicates optimal solution 
+        Returns true if the objective row of the matrix (first row without 
+        solution value) indicates optimal solution 
         """
+
         # substituting for M with large number (1,000,000) before doing comparision
 
         if self.is_max:
@@ -37,11 +77,12 @@ class AllStackStarter():
             # for minimization, all coefficients of objective row should be non-positive
             return all(element <= 0 for element in subsitute_big_M_for_row(self.problem.obj_row))
 
-    def __optimize(self):
+    def __optimize(self) -> bool:
         """
         Core function for optimizing the matrix by changing the basic variables
         When matrix cannot be optimized will return None
         """
+
         M = 1000000
         blocked_cols = []
         while len(blocked_cols) < self.n_cols:
@@ -67,31 +108,34 @@ class AllStackStarter():
         # successfully optimized
         return True
     
-    def __generate_initial_feasible_sol_step(self):
+    def __generate_initial_feasible_sol_step(self) -> None:
         """
         Function to obtain the initial feasible solutions step by step
         """
+
         print("\n...Generating Initial Feasible Solution for")
         self.simplex_printer.print_simplex_table_cli(self.problem) # XXX format inputs to be encapsulated within self
         self.__make_feasible()
     
-    def __optimize_step(self):
+    def __optimize_step(self) -> None:
         """
         Function that contains 1 iteration of the optimization step
         """
+
         old_basic_vars = self.problem.basic_vars.copy()
         optimizable = self.__optimize()
         if not optimizable:
             print("\nCannot be optimized further")
-            self.problem.update_optimal_reachability_status(False)
         else:
             self.simplex_printer.print_entering_leaving_vars(old_basic_vars, self.problem)
-            self.problem.update_optimal_reachability_status(True)
+        self.problem.update_optimal_reachability_status(optimizable)
     
-    def __make_feasible(self):
+    def __make_feasible(self) -> None:
         """
-        Function that converts the optimal solution to a feasible optimal solution
+        Function that converts the optimal solution to a feasible optimal 
+        solution
         """
+
         old_basic_vars = self.problem.basic_vars.copy()
         self.problem = self.feasible_handler.get_feasible(self.problem)
         if self.problem.is_feasible == False:
@@ -102,23 +146,46 @@ class AllStackStarter():
         else:
             self.simplex_printer.print_entering_leaving_vars(old_basic_vars, self.problem)
 
-    def __increment_feasible_sol_num(self):
+    def __increment_feasible_sol_num(self) -> None:
+        """
+        Function to increment the number of feasible solutions count
+        """
+        
         self.feasible_count = self.feasible_count + 1
 
-    def __display_new_feasible_sol(self):
+    def __display_new_feasible_sol(self) -> None:
+        """
+        Function to display the current contents of the LPProblem object
+        as a simplex table 
+
+        This function is called only after generating a feasible solution 
+        at each iteration of the all stack starting method
+        """
+
         self.__increment_feasible_sol_num()
         print(f"\nFeasible Solution # {self.feasible_count}")
         self.simplex_printer.print_simplex_table_cli(self.problem)
 
-    def __set_infeasible_status(self):
+    def __set_infeasible_status(self) -> None:
+        """
+        Function to update the status attributes of the LPProblem object
+        when the problem is infeasible to be solved
+        """
+
         self.problem.update_feasible_status(False)
         self.problem.update_optimal_reachability_status(False)
         self.problem.update_optimal_status(False)
 
-    def solver(self):
+    def solver(self) -> LPProblem:
         """
-        Main executing function to run the linear programming methodology for 
-        all stack starting and dual simplex methods 
+        Executing function to solve the linear programming problems using 
+        all stack starting method 
+
+        Return
+        ------
+        LPProblem object after optimizing using the all stack starting 
+        method. May return a suboptimal or infeasible LPProblem object if
+        the problem cannot be optimized. 
         """
 
         while not(self.feasible_handler.is_feasible(self.problem)):
