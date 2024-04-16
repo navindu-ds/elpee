@@ -97,7 +97,7 @@ class AlternateSolver():
             print(f"\nGiven problem is not optimal. No alternate solutions exist.")
             return None
 
-        if self.check_alternate_solutions():
+        if self.problem.num_alternates != 0:
             alterations_combo_list = self.__get_alterations_combo_list()
 
             if version_num <= len(alterations_combo_list):
@@ -118,7 +118,7 @@ class AlternateSolver():
         if not self.problem.is_optimal:
             print("\nGiven problem is not optimal. No alternate solutions exist.")
         else:
-            if self.check_alternate_solutions():
+            if self.problem.num_alternates != 0:
                 alterations_combo_list = self.__get_alterations_combo_list()
                 initial_problem = self.problem.copy()
 

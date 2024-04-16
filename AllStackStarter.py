@@ -158,9 +158,11 @@ class AllStackStarter():
             # obtain list of variables for generating alternate solutions
             alternate_cols = get_entering_cols_for_alternates(self.problem.basic_vars, self.problem.obj_row)
             alterations_combo_list = get_subsets(alternate_cols)[1:]
-            print(f"There are {len(alterations_combo_list)} Alternate Solutions for this problem!")
-            print(f">> Use alternate_solutions.extract_alternate_solution() method using version numbers from 1 to {len(alterations_combo_list)}.")
-            print(f">> Use alternate_solutions.display_all_alternate_solutions() method to display all alternate solutions")
+            num_alternate_sols = len(alterations_combo_list)
+            self.problem.set_num_alternates(num_alternate_sols)
+            print(f"There are {num_alternate_sols} Alternate Solutions for this problem!")
+            # print(f">> Use alternate_solutions.extract_alternate_solution() method using version numbers from 1 to {num_alternate_sols}.")
+            # print(f">> Use alternate_solutions.display_all_alternate_solutions() method to display all alternate solutions")
 
         # round off coefficients in matrix
         self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)

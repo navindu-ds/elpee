@@ -20,6 +20,7 @@ class LPProblem():
         self.__is_feasible = True # default
         self.__is_optimal = False # deafult
         self.__reachable_optimal = True # default - does the LP Problem reach an optimal solution
+        self.__n_alternates = 0 # default
 
     def __get_n_slack_vars(self):
         """
@@ -51,6 +52,12 @@ class LPProblem():
         """
         self.__is_optimal = optimal_status
 
+    def set_num_alternates(self, n_alternates):
+        """
+        Class method to update if the optimal problem has alternate optimal solutions
+        """
+        self.__n_alternates = n_alternates
+
     @property
     def is_feasible(self):
         return self.__is_feasible
@@ -62,6 +69,10 @@ class LPProblem():
     @property
     def is_optimal(self):
         return self.__is_optimal
+    
+    @property
+    def num_alternates(self):
+        return self.__n_alternates
     
     @property
     def obj_row(self):
@@ -93,5 +104,6 @@ class LPProblem():
             (self.n_constraints == other.n_constraints) & \
             (self.is_feasible == other.is_feasible) & \
             (self.is_optimal_reachable == other.is_optimal_reachable) & \
-            (self.is_optimal == other.is_optimal)
+            (self.is_optimal == other.is_optimal) & \
+            (self.num_alternates == other.num_alternates)
         return False

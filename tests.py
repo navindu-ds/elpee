@@ -182,6 +182,7 @@ def test_solver05():
         n_artificials=n_artificials
     )
     solution.update_optimal_status(True)
+    solution.set_num_alternates(1)
 
     assert solution == all_stack_starter.solver()
 
@@ -328,6 +329,7 @@ def test_solver18():
         n_artificials=n_artificials
     )
     solution.update_optimal_status(True)
+    solution.set_num_alternates(1)
 
     assert solution == all_stack_starter.solver()
 
@@ -344,6 +346,7 @@ def test_solver18():
         n_artificials=n_artificials
     )
     alternate.update_optimal_status(True)
+    alternate.set_num_alternates(1)
 
     alternator = AlternateSolver(all_stack_starter.solver())
 
