@@ -1,46 +1,6 @@
-from dual_simplex import dual_simplex
 from sympy import Symbol, preorder_traversal, Float
 
 DECIMALS = 3
-
-def check_0_1_pattern(basic_vars, matrix):
-    """
-    Criteria 2 for feasibility
-    Checks if the columns that correspond to the basic variables of the matrix contains the 0-1 pattern
-    where the column has all zeros except at the row of the same basic variable
-        i.e. matrix[basic_var][basic_var] = 1
-        else for each row, matrix[row][basic_var] = 0
-    If returns false --> requires to fix the pattern using linear algebraic row operations
-    """
-    for i, var in enumerate(basic_vars[1:]):
-        column = [row[var-1] for row in matrix]
-
-        if column[i+1] != 1 or (column.count(0) != (len(column) -1)):
-            return False
-    return True
-
-def check_feasible_positive_sol(matrix):
-    """
-    Criteria 1 for feasibility
-    Checks feasibility of matrix by checking the if the solution is positive for the constraint rows (not the objective row)
-    If returns false --> matrix requires dual simplex handling 
-    """
-    n_rows = len(matrix)
-
-    for i in range(1, n_rows):
-        if matrix[i][-1] < 0:
-            return False
-
-    return True
-
-def is_feasible(basic_vars, matrix):
-    """
-    Checks overall feasibility of the matrix based on the 2 criteria
-    """
-    if check_feasible_positive_sol(matrix):
-        if check_0_1_pattern(basic_vars, matrix):
-            return True
-    return False
 
 def create_ratio_col(matrix, pivot_col_var):
     """
@@ -111,19 +71,6 @@ def fix_feasible_0_1_pattern(basic_vars, matrix):
                     matrix[i] = [a-b for a,b in zip(matrix[i], scaled_piv_row)]
         
     return matrix
-
-def get_feasible(basic_vars, matrix):
-    """
-    Applies the functionalities for correcting the matrix table to obtain feasibility
-    If no feasible solution exists --> return None
-    """
-    if not(check_feasible_positive_sol(matrix)):
-        basic_vars, matrix = dual_simplex(basic_vars, matrix)
-        if matrix == None:
-            return None, None
-
-    matrix =  fix_feasible_0_1_pattern(basic_vars, matrix)
-    return basic_vars, matrix
 
 def get_subsets(main_list):
     """

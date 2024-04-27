@@ -1,8 +1,8 @@
 from dual_simplex import dual_simplex
 from print_simplex import print_simplex_table_cli, print_entering_leaving_vars, print_var_name
-from bigM_handler import check_artificial_basic_vars
+from elpee.algorithms.big_m import check_artificial_basic_vars
 from alternate_solutions import check_alternate_solutions, get_entering_cols_for_alternates, get_alternate_solutions
-from utilities import create_ratio_col, is_feasible, get_feasible, select_pivot_col, subsitute_big_M_for_row, get_subsets, round_off_simplex_matrix
+from elpee.utils.utilities import create_ratio_col, is_feasible, get_feasible, select_pivot_col, subsitute_big_M_for_row, get_subsets, round_off_simplex_matrix
 from sympy import Symbol
 
 def is_optimal(obj_row, is_max):
