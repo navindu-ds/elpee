@@ -1,4 +1,4 @@
-from elpee.utils.protocols.LPProblem import LPProblem
+from elpee.utils.protocols.lp_problem import LPProblem
 
 def check_artificial_basic_vars(problem: LPProblem):
         """

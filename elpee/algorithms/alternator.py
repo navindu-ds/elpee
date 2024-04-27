@@ -1,6 +1,6 @@
-from elpee.utils.FeasibleHandler import FeasibleHandler
+from elpee.utils.feasible import FeasibleHandler
 from elpee import LPProblem
-from elpee.utils.SimplexPrinter import SimplexPrinter
+from elpee.utils.printer import SimplexPrinter
 from elpee.utils.utilities import create_ratio_col, get_subsets
 
 class AlternateSolver():

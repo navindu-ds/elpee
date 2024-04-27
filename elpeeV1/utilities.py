@@ -1,5 +1,5 @@
-from elpee.algorithms.DualSimplexSolver import DualSimplexSolver
-from elpee.utils.protocols.LPProblem import LPProblem
+from elpee.algorithms.dual_simplex import DualSimplexSolver
+from elpee.utils.protocols.lp_problem import LPProblem
 from sympy import Symbol, preorder_traversal, Float
 
 DECIMALS = 3

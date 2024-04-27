@@ -1,4 +1,4 @@
-from elpee.utils.protocols.LPProblem import LPProblem
+from elpee.utils.protocols.lp_problem import LPProblem
 from elpee.utils.utilities import convert_num_to_padded_text
 
 WIDTH = 13

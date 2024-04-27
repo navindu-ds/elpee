@@ -1,7 +1,7 @@
 # elpee/algorithms/__init__.py
 
-from .AllStackStarter import AllStackStarter
-from .AlternateSolver import AlternateSolver
+from .all_stack_starter import AllStackStarter
+from .alternator import AlternateSolver
 """
 Export Algorithms to solve Linear Programming Problems
 

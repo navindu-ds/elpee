@@ -1,1 +1,1 @@
-from .utils.protocols.LPProblem import LPProblem
+from .utils.protocols.lp_problem import LPProblem

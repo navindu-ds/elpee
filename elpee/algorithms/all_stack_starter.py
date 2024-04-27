@@ -1,9 +1,9 @@
-from elpee.utils.FeasibleHandler import FeasibleHandler
-from elpee.utils.protocols.LPProblem import LPProblem
-from elpee.algorithms.AlternateSolver import AlternateSolver
-from elpee.algorithms.bigM_handler import check_artificial_basic_vars
+from elpee.utils.feasible import FeasibleHandler
+from elpee.utils.protocols.lp_problem import LPProblem
+from elpee.algorithms.alternator import AlternateSolver
+from elpee.algorithms.big_m import check_artificial_basic_vars
 from elpee.utils.utilities import create_ratio_col, round_off_simplex_matrix, select_pivot_col, subsitute_big_M_for_row
-from elpee.utils.SimplexPrinter import SimplexPrinter
+from elpee.utils.printer import SimplexPrinter
 
 class AllStackStarter():
     """
