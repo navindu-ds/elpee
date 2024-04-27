@@ -1,13 +1,36 @@
 from elpee.utils.FeasibleHandler import FeasibleHandler
-from elpee.utils.protocols.LPProblem import LPProblem
+from elpee import LPProblem
 from elpee.utils.SimplexPrinter import SimplexPrinter
 from elpee.utils.utilities import create_ratio_col, get_subsets
 
 class AlternateSolver():
     """
-    Class Description for methods to check and return alternate solutions for the 
-    problem given.
-    The problem given should be optimized by then 
+    A class to find and generate alternate solutions for the given optimal problems
+    
+    The given problem should be optimized
+
+    Attributes
+    ----------
+    problem : elpee.LPProblem
+        The optimized problem given to find alternate solutions
+    n_alternates : int
+        Number of alternate solutions available for given optimal LPProblem
+    simplex_printer : elpee.utils.SimplexPrinter 
+        An instance of printer to visualize the simplex table
+        of given LP problem
+    feasible_handler : elpee.utils.FeasibleHandler
+        An instance of handler object to retain feasibility of
+        LP problem and its solutions
+
+    Methods
+    -------
+    check_alternate_solutions() -> bool
+        Returns True/False if any alternate solutions are present
+    extract_alternate_solution(version_num) -> elpee.LPProblem
+        Returns one of the alternate solutions. Version num is in the range of
+        1 to n_alternates inclusive
+    display_all_alternate_solutions() -> None
+        Displays all alternate solutions for given optimal problem
     """
     def __init__(self, problem:LPProblem):
         self.problem = problem
@@ -21,10 +44,15 @@ class AlternateSolver():
     
     def check_alternate_solutions(self):
         """
-        Checks if the simplex matrix has any alternate optimal solutions
-        Compares and checks if there are higher number of zeros in the objective row
-        Returns True when there are alternative optimal solutions
+        Checks if the given problem has alternate solutions
+
+        Return
+        ------
+        True/False  
         """
+        # Checks if the simplex matrix has any alternate optimal solutions
+        # Compares and checks if there are higher number of zeros in the objective row
+        # Returns True when there are alternative optimal solutions
         num_zeros = self.problem.obj_row.count(0)
         if num_zeros > self.problem.n_constraints:
             return True
@@ -98,6 +126,15 @@ class AlternateSolver():
     def extract_alternate_solution(self, version_num):
         """
         Extracts an alternate solution based on version_num provided 
+
+        Parameters
+        ----------
+        version_num : int
+            index of the alternate solution to generate in the range 1 to num_alternates
+        
+        Return
+        ------
+        elpee.LPProblem containing alternate solution based on given index
         """
         if not self.problem.is_optimal:
             print(f"\nGiven problem is not optimal. No alternate solutions exist.")
@@ -119,6 +156,10 @@ class AlternateSolver():
             return None
         
     def display_all_alternate_solutions(self):
+        """
+        Display all alternate solutions for given optimal problem
+        """
+        
         print("\nDisplaying all Alternate Optimal Solutions for Simplex Table Provided...")
 
         if not self.problem.is_optimal:

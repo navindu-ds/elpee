@@ -11,7 +11,7 @@ class AllStackStarter():
 
     Attributes
     ----------
-    problem : elpee.utils.protocols.LPProblem
+    problem : elpee.LPProblem
         The problem given to the AllStackSolver to be solved
     is_max : bool
         Whether given LP problem is a maximization or 
@@ -39,7 +39,7 @@ class AllStackStarter():
 
     Methods
     -------
-    solver() -> elpee.utils.protocols.LPProblem
+    solver() -> elpee.LPProblem
         Solves the LP problem given to AllStackStarter instance
     """
 
@@ -47,7 +47,7 @@ class AllStackStarter():
         """
         Parameters
         ----------
-        problem : elpee.utils.protocols.LPProblem
+        problem : elpee.LPProblem
             LP problem to be solved using All Stack Starting Method
         """
         
