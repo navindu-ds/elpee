@@ -1,4 +1,4 @@
-from sympy import Symbol, preorder_traversal, Float
+from sympy import Symbol, preorder_traversal, Float, sympify
 
 DECIMALS = 3
 
@@ -143,4 +143,33 @@ def round_off_simplex_matrix(matrix):
             elem = matrix[i][j]
             if (isinstance(elem, int)) | (isinstance(elem, float)):
                 matrix[i][j] = round(elem, DECIMALS)
+    return matrix
+
+def convert_M_to_sympy(matrix):
+    """
+    Function to convert the big M in the config files from string to Sympy type
+    """
+
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            elem = matrix[i][j]
+            if (isinstance(elem, str)):
+                matrix[i][j] = sympify(elem)
+    return matrix
+
+def convert_sympy_to_text(matrix):
+    """
+    Function to convert the big M expressions in Sympy to text
+    """
+
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            elem = matrix[i][j]
+            # check if number is from sympy class
+            if not (isinstance(elem, int)) | (isinstance(elem, float)):
+                if elem.free_symbols:
+                    # round of the algebraic expression and add padded text to expression
+                    matrix[i][j] = str(round_off_expr_coefficients(elem))
+                else:
+                    matrix[i][j] = float(elem)
     return matrix
