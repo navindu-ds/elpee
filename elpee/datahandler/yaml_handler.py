@@ -1,6 +1,7 @@
 from sympy import Symbol
 import yaml
 
+from elpee.utils.printer import SimplexPrinter
 from elpee.utils.protocols.lp_problem import LPProblem
 from elpee.utils.utilities import convert_M_to_sympy, convert_sympy_to_text
 
@@ -47,3 +48,25 @@ class YamlHandler:
         # Save data to YAML file
         with open(yaml_path, 'w') as file:
             yaml.dump(data, file)
+
+    @classmethod
+    def print_lp_problem_from_yaml(self, yaml_path:str) -> None:
+        """
+        A function to print the LPProblem from the yaml to command terminal
+        """
+
+        # Load config from YAML file
+        with open(yaml_path, 'r') as file:
+            config = yaml.safe_load(file)
+
+        problem = LPProblem(
+            matrix=convert_M_to_sympy(config['matrix']),
+            basic_vars=config['basic_vars'],
+            n_decision_vars=config['n_decision_vars'],
+            n_artificials=config['n_artificials'],
+            is_max=config['is_max']
+        )
+
+        printer = SimplexPrinter()
+        
+        printer.print_simplex_table_cli(problem)
