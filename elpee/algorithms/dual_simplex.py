@@ -1,5 +1,5 @@
 from typing import List
-from elpee.utils.protocols.lp_problem import LPProblem
+from elpee.utils.protocols.st_problem import StandardProblem
 
 M = 1000000
 
@@ -8,7 +8,7 @@ class DualSimplexSolver():
     Class Description of Dual Simplex Solving Algorithm
     Used when the solution column of the matrix has negative values
     """
-    def __init__(self, problem: LPProblem):
+    def __init__(self, problem: StandardProblem):
         self.problem = problem
 
     def __select_pivot_col_dual_simplex(self, ratio_row:List, blocked_cols:List):

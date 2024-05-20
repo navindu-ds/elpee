@@ -3,7 +3,7 @@ from sympy import Symbol
 
 M = Symbol('M')
 
-class LPProblem():
+class StandardProblem():
     """
     Class to represent the problem description of any Linear Programming
     Optimization Problem to be solved
@@ -82,7 +82,7 @@ class LPProblem():
         return self.matrix[0][:-1]
     
     def copy(self):
-        return LPProblem(
+        return StandardProblem(
             matrix=self.matrix.copy(),
             basic_vars=self.basic_vars.copy(),
             n_decision_vars=self.n_decision_vars,
@@ -92,9 +92,9 @@ class LPProblem():
     
     def __eq__(self, other: object) -> bool:
         """
-        Compares between two objects in LPProblem class for similarity
+        Compares between two objects in StandardProblem class for similarity
         """
-        if isinstance(other, LPProblem):
+        if isinstance(other, StandardProblem):
             return (self.matrix == other.matrix) & \
             (self.basic_vars == other.basic_vars) & \
             (self.n_decision_vars == other.n_decision_vars) & \

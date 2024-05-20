@@ -1,4 +1,4 @@
-from elpee.utils.protocols.lp_problem import LPProblem
+from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.utils.utilities import convert_num_to_padded_text
 
 WIDTH = 13
@@ -11,7 +11,7 @@ class SimplexPrinter():
     def __init__(self):
         pass
 
-    def print_var_name(self, var_num, problem: LPProblem):
+    def print_var_name(self, var_num, problem: StandardProblem):
         """
         Prints the variable name as Decision, Slack or Artificial variable using the general index of the variable
         """
@@ -26,7 +26,7 @@ class SimplexPrinter():
             return f"A{var_idx}"
         return "Unknown"
     
-    def print_entering_leaving_vars(self, old_basic_vars, problem:LPProblem):
+    def print_entering_leaving_vars(self, old_basic_vars, problem:StandardProblem):
         """
         Prints the entering and leaving variable used after each iteration of optimization or dual simplex
         by comparing the previous basic_vars list and updated basic_vars list
@@ -55,7 +55,7 @@ class SimplexPrinter():
         var_names.append("Sol".center(WIDTH))
         return var_names
     
-    def __get_simplex_table_text(self, problem: LPProblem):
+    def __get_simplex_table_text(self, problem: StandardProblem):
         """
         Creates a list of text strings to display contents of the simplex table
         """
@@ -82,7 +82,7 @@ class SimplexPrinter():
         # return the list of rows saved as text
         return rows_list
     
-    def print_simplex_table_cli(self, problem:LPProblem):
+    def print_simplex_table_cli(self, problem:StandardProblem):
         """
         Prints the simplex table onto the command line interface
         """

@@ -1,5 +1,5 @@
 from elpee.algorithms.dual_simplex import DualSimplexSolver
-from elpee.utils.protocols.lp_problem import LPProblem
+from elpee.utils.protocols.st_problem import StandardProblem
 
 DECIMALS = 3
 
@@ -41,7 +41,7 @@ class FeasibleHandler():
                 return False
         return True
     
-    def is_feasible(self, problem:LPProblem):
+    def is_feasible(self, problem:StandardProblem):
         """
         Checks overall feasibility of the matrix based on the 2 criteria
         """
@@ -75,7 +75,7 @@ class FeasibleHandler():
                         scaled_piv_row = [element * self.problem.matrix[i][basic_var-1] for element in self.problem.matrix[row_i]]
                         self.problem.matrix[i] = [a-b for a,b in zip(self.problem.matrix[i], scaled_piv_row)]
 
-    def get_feasible(self, problem:LPProblem):
+    def get_feasible(self, problem:StandardProblem):
         """
         Applies the functionalities for correcting the matrix table to obtain feasibility
         If no feasible solution exists --> return None

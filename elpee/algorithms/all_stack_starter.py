@@ -1,5 +1,5 @@
 from elpee.utils.feasible import FeasibleHandler
-from elpee.utils.protocols.lp_problem import LPProblem
+from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.algorithms.alternator import AlternateSolver
 from elpee.algorithms.big_m import check_artificial_basic_vars
 from elpee.utils.utilities import create_ratio_col, round_off_simplex_matrix, select_pivot_col, subsitute_big_M_for_row
@@ -11,7 +11,7 @@ class AllStackStarter():
 
     Attributes
     ----------
-    problem : elpee.LPProblem
+    problem : elpee.StandardProblem
         The problem given to the AllStackSolver to be solved
     is_max : bool
         Whether given LP problem is a maximization or 
@@ -39,16 +39,16 @@ class AllStackStarter():
 
     Methods
     -------
-    solver() -> elpee.LPProblem
-        Solves the LP problem given to AllStackStarter instance
+    solver() -> elpee.StandardProblem
+        Solves the Standardized LP problem given to AllStackStarter instance
     """
 
-    def __init__(self, problem: LPProblem):
+    def __init__(self, problem: StandardProblem):
         """
         Parameters
         ----------
-        problem : elpee.LPProblem
-            LP problem to be solved using All Stack Starting Method
+        problem : elpee.StandardProblem
+            Standardized LP problem to be solved using All Stack Starting Method
         """
         
         self.problem = problem
@@ -155,7 +155,7 @@ class AllStackStarter():
 
     def __display_new_feasible_sol(self) -> None:
         """
-        Function to display the current contents of the LPProblem object
+        Function to display the current contents of the StandardProblem object
         as a simplex table 
 
         This function is called only after generating a feasible solution 
@@ -168,7 +168,7 @@ class AllStackStarter():
 
     def __set_infeasible_status(self) -> None:
         """
-        Function to update the status attributes of the LPProblem object
+        Function to update the status attributes of the StandardProblem object
         when the problem is infeasible to be solved
         """
 
@@ -176,15 +176,15 @@ class AllStackStarter():
         self.problem.update_optimal_reachability_status(False)
         self.problem.update_optimal_status(False)
 
-    def solver(self) -> LPProblem:
+    def solver(self) -> StandardProblem:
         """
         Executing function to solve the linear programming problems using 
         all stack starting method 
 
         Return
         ------
-        LPProblem object after optimizing using the all stack starting 
-        method. May return a suboptimal or infeasible LPProblem object if
+        StandardProblem object after optimizing using the all stack starting 
+        method. May return a suboptimal or infeasible StandardProblem object if
         the problem cannot be optimized. 
         """
 

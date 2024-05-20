@@ -1,6 +1,6 @@
-from elpee.utils.protocols.lp_problem import LPProblem
+from elpee.utils.protocols.st_problem import StandardProblem
 
-def check_artificial_basic_vars(problem: LPProblem):
+def check_artificial_basic_vars(problem: StandardProblem):
         """
         Checks if the optimal solution obtained has artificials variables remaining as basic variables
         Returns TRUE when there is at least one artificial basic variable
