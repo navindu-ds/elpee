@@ -94,6 +94,12 @@ class AllStackStarter():
                 # unsuccessfully optimized
                 return False
             ratio_col = create_ratio_col(self.problem.matrix, pivot_col_var)
+            if ratio_col == []:
+                # if the ratio column cannot be created due to a lack of constraints
+                print("\nNo constraints for optimization - the solution is unbounded")
+
+                # return cannot optimize
+                return False
             if min(ratio_col) == M:
                 # invalid ratio column with no suitable selections to be made
                 # will block the pivot col from being selected again 
