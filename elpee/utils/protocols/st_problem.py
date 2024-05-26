@@ -10,7 +10,7 @@ class StandardProblem():
     """
     
     def __init__(self, matrix: List[List], basic_vars: List[int], n_decision_vars: int, 
-                 is_max: bool = True, n_artificials: int = 0):
+                 is_max: bool = True, n_artificials: int = 0, var_name_list: List[str] = None):
         self.matrix = matrix
         self.basic_vars = basic_vars
         self.n_decision_vars = n_decision_vars
@@ -18,10 +18,22 @@ class StandardProblem():
         self.n_artificials = n_artificials
         self.n_slack_vars = self.__get_n_slack_vars()
         self.n_constraints = self.__get_n_constraints()
+        self.var_name_list = var_name_list
         self.__is_feasible = True # default
         self.__is_optimal = False # deafult
         self.__reachable_optimal = True # default - does the LP Problem reach an optimal solution
         self.__n_alternates = 0 # default
+
+        if self.var_name_list != None:
+            # if list of variable names are provided - the number of names provided should match 
+            # with number of decision variables
+            if len(self.var_name_list) != self.n_decision_vars:
+                raise ValueError(f"Number of variable names provided {len(self.var_name_list)} and" +
+                                  f" Number of Decision Variables {self.n_decision_vars} do not match.")
+
+        # if no variable name list is created, use a default naming of variables as X1, X2, X3, ...
+        else:
+            self.var_name_list = [f'X{i}' for i in range(1, self.n_decision_vars + 1)]
 
     def __get_n_slack_vars(self):
         """

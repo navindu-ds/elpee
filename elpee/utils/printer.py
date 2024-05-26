@@ -17,7 +17,7 @@ class SimplexPrinter():
         """
         var_idx = var_num
         if var_idx <= problem.n_decision_vars:
-            return f"X{var_num}"
+            return problem.var_name_list[var_idx-1]
         var_idx -= problem.n_decision_vars
         if var_idx <= problem.n_slack_vars:
             return f"S{var_idx}"
@@ -40,17 +40,17 @@ class SimplexPrinter():
                 print(f"\nTaking {leaving_var} = 0; Entering {entering_var} as a new basic variable;")
                 return  
 
-    def __get_var_list(self, n_decision_vars, n_slack_vars, n_artificials):
+    def __get_var_list(self, problem : StandardProblem):
         """
         Creates names of variables used in the problem
         Creates the list of variables including objective, decision, slack and artificial variables
         """
         var_names = ['P'.center(WIDTH)]
-        for i in range(n_decision_vars):
-            var_names.append(("X"+str(i+1)).center(WIDTH))
-        for i in range(n_slack_vars):
+        for i in range(problem.n_decision_vars):
+            var_names.append((problem.var_name_list[i]).center(WIDTH))
+        for i in range(problem.n_slack_vars):
             var_names.append(("S"+str(i+1)).center(WIDTH))
-        for i in range(n_artificials):
+        for i in range(problem.n_artificials):
             var_names.append(("A"+str(i+1)).center(WIDTH))
         var_names.append("Sol".center(WIDTH))
         return var_names
@@ -59,7 +59,7 @@ class SimplexPrinter():
         """
         Creates a list of text strings to display contents of the simplex table
         """
-        var_names = self.__get_var_list(problem.n_decision_vars, problem.n_slack_vars, problem.n_artificials)
+        var_names = self.__get_var_list(problem)
 
         rows_list = []
 
