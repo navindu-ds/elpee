@@ -47,6 +47,8 @@ class LPProblem():
         self.__check_objective(objective_expr)
         self._objective = objective_expr
         self.__standardize_objective()
+        self.__update_variable_list_with_objective()
+
     
     def add_constraint(self, constraint_expr: str) -> None:
         """
@@ -66,6 +68,7 @@ class LPProblem():
         self.__check_constraint(constraint_expr)
         self._constraints.append(constraint_expr)
         self.__generate_standard_constraint_list()
+        self.__update_variable_list_with_constraint()
 
     def use_dual_simplex(self):
         """
@@ -178,6 +181,28 @@ class LPProblem():
                 result = {'<=':coefficient_dict}
 
             self._standard_constraints.append(result)
+
+    def __update_variable_list_with_constraint(self):
+        """
+        Updates the list of variables used in the Linear Programming Problem
+        after new constraint is added
+        """
+        unique_vars = set(self._variables)
+        for _, variables in self._standard_constraints[-1].items():
+            for var in variables:
+                if var != 'sol':
+                    unique_vars.add(var)
+        self._variables = sorted(list(unique_vars))
+
+    def __update_variable_list_with_objective(self):
+        """
+        Updates the list of variables used in the Linear Programming Problem
+        after objective is added
+        """
+        unique_vars = set(self._variables)
+        for var in self._standard_objective:
+            unique_vars.add(var)
+        self._variables = sorted(list(unique_vars))
 
     def standardize_problem(self) -> StandardProblem:
 
