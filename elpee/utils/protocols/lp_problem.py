@@ -21,6 +21,8 @@ class LinearProblem():
         Configures the problem to be solved using Dual Simplex method
     use_bigM()
         Configures the problem to be solved using big M method
+    standardize_problem() -> StandardProblem
+        Converts the LinearProblem into standardized form for computation 
     """
     
     def __init__(self, is_maximization: bool = True, objective_expr: str=None) -> None:
@@ -284,14 +286,14 @@ class LinearProblem():
         # marking the relevant artificial variable for constraints with >= or =
         for j in range(self._n_artificials):
             if operator in ['>=', '=']:
-                if j == self.artificial_count:
+                if j == self._artificial_count:
                     row_list.append(1)
 
                     # add basic variable id for artificial variable
                     self._basic_vars.append(var_count)
                     
-                    self.artificial_count += 1
-                    for _ in range(self._n_artificials - self.artificial_count):
+                    self._artificial_count += 1
+                    for _ in range(self._n_artificials - self._artificial_count):
                         row_list.append(0)
                     
                     break
@@ -345,7 +347,7 @@ class LinearProblem():
         obj_row = self.__create_objective_row_from_lp()
         simplex_matrix.append(obj_row)
 
-        self.artificial_count = 0           # auxillary counter to mark position of each 
+        self._artificial_count = 0           # auxillary counter to mark position of each 
                                                 # artificial variables in the simplex matrix
         
         # generate the constraint row to add to simplex matrix 

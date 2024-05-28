@@ -1,4 +1,6 @@
+from typing import Union
 from elpee.utils.feasible import FeasibleHandler
+from elpee.utils.protocols.lp_problem import LinearProblem
 from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.algorithms.alternator import AlternateSolver
 from elpee.algorithms.big_m import check_artificial_basic_vars
@@ -43,13 +45,17 @@ class AllStackStarter():
         Solves the Standardized LP problem given to AllStackStarter instance
     """
 
-    def __init__(self, problem: StandardProblem):
+    def __init__(self, problem: Union[StandardProblem, LinearProblem]):
         """
         Parameters
         ----------
-        problem : elpee.StandardProblem
-            Standardized LP problem to be solved using All Stack Starting Method
+        problem : elpee.StandardProblem | elpee.LinearProblem
+            LP problem to be solved using All Stack Starting Method
+
+        elpee.LinearProblem will be converted to StandardProblem first.
         """
+        if isinstance(problem, LinearProblem):
+            problem = problem.standardize_problem()
         
         self.problem = problem
         self.is_max = problem.is_max
