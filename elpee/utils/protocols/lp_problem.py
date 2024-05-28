@@ -1,8 +1,12 @@
 import re
+from typing import Dict, List
+
+from sympy import Symbol
 from elpee.utils.protocols.st_problem import StandardProblem
+from elpee.utils.utilities import convert_gte_to_lte, obtain_coefficient_from_dict
 
 
-class LPProblem():
+class LinearProblem():
     """
     Class to represent the linear programming optimization problem
     with its objective function, constraints and other conditions
@@ -27,6 +31,9 @@ class LPProblem():
         self._variables = []
         self._use_dual_simplex = False
         self.is_max = is_maximization
+        self._n_slack_vars = 0
+        self._n_artificials = 0
+        self._basic_vars = []
 
     def add_objective(self, objective_expr: str) -> None:
         """
@@ -187,6 +194,7 @@ class LPProblem():
         Updates the list of variables used in the Linear Programming Problem
         after new constraint is added
         """
+
         unique_vars = set(self._variables)
         for _, variables in self._standard_constraints[-1].items():
             for var in variables:
@@ -199,11 +207,158 @@ class LPProblem():
         Updates the list of variables used in the Linear Programming Problem
         after objective is added
         """
+
         unique_vars = set(self._variables)
         for var in self._standard_objective:
             unique_vars.add(var)
         self._variables = sorted(list(unique_vars))
 
-    def standardize_problem(self) -> StandardProblem:
+    def __create_objective_row_from_lp(self) -> List:
+        """
+        Generates the contents of the objective row to be added to simplex matrix
+        """
+        
+        obj_row = []
+        # adding the coefficients of the variables in the objective function
+        for var in self._variables:
+            obj_coefficient = -obtain_coefficient_from_dict(self._standard_objective, var)
+            obj_row.append(obj_coefficient)
 
-        pass
+        # adding the values for the slack variable columns
+        for _ in range(self._n_slack_vars):
+            obj_row.append(0)
+
+        M = Symbol('M')
+
+        # adding the big M values to the artificial variable columns
+        for _ in range(self._n_artificials):
+            if self.is_max:
+                # if maximization problem, set value as 1*M
+                sign = 1
+            else:
+                # if minimization problem, set value as (-1*M)
+                sign = -1
+            obj_row.append(sign*M)
+        
+        # add initial solution value of 0
+        obj_row.append(0)
+
+        # add basic variable for objective
+        self._basic_vars.append(0)
+
+        # return objective row
+        return obj_row
+    
+    def __create_constraint_row_from_lp(self, constraint : Dict, constraint_id : int) -> List:
+        """
+        Generates the contents of the given constraint row to be added to simplex matrix
+        """
+
+        row_list = []
+        operator = next(iter(constraint)) # operator of type >=, <= or =
+        coefficient_dict = constraint[operator] # dictionary of decision variables and coefficients
+
+        # counter for adding the basic var id
+        var_count = 1
+
+        # adding the coefficients of each decision variable
+        for var in self._variables:
+            coeff_var = obtain_coefficient_from_dict(coefficient_dict, var)
+            row_list.append(coeff_var)
+            var_count += 1
+
+        # marking the relevant slack variable for each constraint based on constraint id
+        for i in range(self._n_slack_vars):
+            if i == constraint_id:
+                if operator == '<=':
+                    row_list.append(1)
+
+                    # add basic variable id for slack variable
+                    self._basic_vars.append(var_count)
+                elif operator == '>=':
+                    row_list.append(-1)
+            else:
+                row_list.append(0)
+            var_count += 1
+        
+        # marking the relevant artificial variable for constraints with >= or =
+        for j in range(self._n_artificials):
+            if operator in ['>=', '=']:
+                if j == self.artificial_count:
+                    row_list.append(1)
+
+                    # add basic variable id for artificial variable
+                    self._basic_vars.append(var_count)
+                    
+                    self.artificial_count += 1
+                    for _ in range(self._n_artificials - self.artificial_count):
+                        row_list.append(0)
+                    
+                    break
+                else:
+                    row_list.append(0)
+
+            else:
+                row_list.append(0)
+            var_count += 1
+
+        # add the RHS value of each constraint
+        row_list.append(coefficient_dict['sol'])
+        
+        # return the constraint row to add to simplex matrix
+        return row_list
+
+    def standardize_problem(self) -> StandardProblem:
+        """
+        Convert the given Linear Programming problem into a Standardized Linear 
+        Programming Problem for computation
+
+        Return
+        ---
+        StandardProblem object with LinearProblem converted for computation
+        """
+        
+        # calculating number of slack variables required
+        slack_var_operators = ['>=', '<=']
+        self._n_slack_vars = 0 
+        for constraint in self._standard_constraints:
+            for operator in constraint:
+                if operator in slack_var_operators:
+                    self._n_slack_vars += 1
+
+        # if using dual simplex, convert all >= constraints to <=
+        if self._use_dual_simplex:
+            self._standard_constraints = convert_gte_to_lte(self._standard_constraints)
+
+        # calculating number of artificial variables required
+        artificial_var_operators = ['=','>=']
+        self._n_artificials = 0 
+        for constraint in self._standard_constraints:
+            for operator in constraint:
+                if operator in artificial_var_operators:
+                    self._n_artificials += 1
+
+        # initialize simplex matrix
+        simplex_matrix = []
+
+        # generate objective row and add to simplex matrix
+        obj_row = self.__create_objective_row_from_lp()
+        simplex_matrix.append(obj_row)
+
+        self.artificial_count = 0           # auxillary counter to mark position of each 
+                                                # artificial variables in the simplex matrix
+        
+        # generate the constraint row to add to simplex matrix 
+        for c_id, constraint in enumerate(self._standard_constraints):
+            row_list = self.__create_constraint_row_from_lp(constraint, c_id)
+            simplex_matrix.append(row_list)
+        
+        # create the Standard Problem object
+        return StandardProblem(
+            matrix= simplex_matrix,
+            basic_vars= self._basic_vars,
+            n_decision_vars= len(self._variables),
+            is_max= self.is_max,
+            n_artificials= self._n_artificials,
+            var_name_list= self._variables
+        )
