@@ -1,3 +1,4 @@
+from typing import Dict
 from sympy import Symbol, preorder_traversal, Float, sympify
 
 DECIMALS = 3
@@ -173,3 +174,31 @@ def convert_sympy_to_text(matrix):
                 else:
                     matrix[i][j] = float(elem)
     return matrix
+
+def convert_gte_to_lte(expressions_dict):
+    """
+    Function to convert all standardized constraints from greater than or equal constraints 
+    to less than or equal constraints
+    """
+    
+    for expr in expressions_dict:
+        if '>=' in expr:
+            variables = expr.pop('>=')
+            negated_variables = {var: -coeff for var, coeff in variables.items()}
+            expr['<='] = negated_variables
+    return expressions_dict
+
+def obtain_coefficient_from_dict(var_dict : Dict, var_name: str):
+    """
+    Function to extract the coefficient from an objective or constraint expression for given
+    variable name. If variable not found, sets coefficient as 0
+    """
+
+    try:
+        obj_coefficient = var_dict[var_name]
+    except:
+        
+        # if variable name does not exist in the given constraint dictionary, set as 0
+        obj_coefficient = 0
+    
+    return obj_coefficient
