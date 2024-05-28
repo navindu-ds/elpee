@@ -1,2 +1,3 @@
-# Linear-Programmer
-Linear Programming Application using concepts of Operational Research
+# Elpee
+
+A linear programming library with step by step implementation. 
