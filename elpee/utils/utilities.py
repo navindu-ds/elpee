@@ -175,7 +175,7 @@ def convert_sympy_to_text(matrix):
                     matrix[i][j] = float(elem)
     return matrix
 
-def convert_gte_to_lte(expressions_dict):
+def convert_gte_to_lte(expressions_dict: Dict) -> Dict:
     """
     Function to convert all standardized constraints from greater than or equal constraints 
     to less than or equal constraints
@@ -187,6 +187,28 @@ def convert_gte_to_lte(expressions_dict):
             negated_variables = {var: -coeff for var, coeff in variables.items()}
             expr['<='] = negated_variables
     return expressions_dict
+
+def transform_to_positive_constraints(constraints: Dict) -> Dict:
+    """
+    Convert the constraints to contain positive values for the solution / RHS
+    in each constraint expression
+    """
+
+    for constraint in constraints:
+        operator = next(iter(constraint)) # operator of type >=, <= or =
+        coefficient_dict = constraint[operator] # dictionary of decision variables and coefficients
+
+        if coefficient_dict['sol'] <0: # if RHS is negative
+            variables = constraint.pop(operator)
+            negated_variables = {var: -coeff for var, coeff in variables.items()} # obtain negation of each variable
+            
+            # swap inequality sign
+            if operator == '>=':
+                operator = '<='
+            elif operator == '<=':
+                operator = '>='
+            constraint[operator] = negated_variables
+    return constraints
 
 def obtain_coefficient_from_dict(var_dict : Dict, var_name: str):
     """

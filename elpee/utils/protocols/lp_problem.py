@@ -3,7 +3,7 @@ from typing import Dict, List
 
 from sympy import Symbol
 from elpee.utils.protocols.st_problem import StandardProblem
-from elpee.utils.utilities import convert_gte_to_lte, obtain_coefficient_from_dict
+from elpee.utils.utilities import convert_gte_to_lte, obtain_coefficient_from_dict, transform_to_positive_constraints
 
 
 class LinearProblem():
@@ -331,6 +331,10 @@ class LinearProblem():
         # if using dual simplex, convert all >= constraints to <=
         if self._use_dual_simplex:
             self._standard_constraints = convert_gte_to_lte(self._standard_constraints)
+
+        # if using bigM method, convert all constraints to have a positive solution / RHS value
+        else:
+            self._standard_constraints = transform_to_positive_constraints(self._standard_constraints)
 
         # calculating number of artificial variables required
         artificial_var_operators = ['=','>=']
