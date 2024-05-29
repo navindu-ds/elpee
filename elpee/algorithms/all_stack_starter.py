@@ -126,7 +126,7 @@ class AllStackStarter():
         """
 
         print("\n...Generating Initial Feasible Solution for")
-        self.simplex_printer.print_simplex_table_cli(self.problem) # XXX format inputs to be encapsulated within self
+        self.simplex_printer.print_simplex_table_cli(self.problem) 
         self.__make_feasible()
     
     def __optimize_step(self) -> None:
@@ -188,10 +188,15 @@ class AllStackStarter():
         self.problem.update_optimal_reachability_status(False)
         self.problem.update_optimal_status(False)
 
-    def solver(self) -> StandardProblem:
+    def solver(self, do_step : bool = False) -> StandardProblem:
         """
         Executing function to solve the linear programming problems using 
         all stack starting method 
+
+        Parameters
+        ---------
+        do_step : bool (default : False)
+            Execute solution one step at a time when `do_step=True`
 
         Return
         ------
@@ -207,6 +212,8 @@ class AllStackStarter():
                 # no feasible solution
                 return self.problem
         
+        if self.feasible_count != 0:
+            self.feasible_count -= 1
         self.__display_new_feasible_sol()
         
         while not(self.__is_optimal()):
@@ -223,15 +230,18 @@ class AllStackStarter():
                 return self.problem
             
             self.__display_new_feasible_sol()
-
-        if (check_artificial_basic_vars(self.problem)):
-            self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
-            self.__set_infeasible_status()
-            print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
-            return self.problem
-        else:
-            self.problem.update_optimal_status(True)
-            print("\nOptimized Solution Received!")
+            if do_step:
+                break
+        
+        if (self.__is_optimal()):
+            if (check_artificial_basic_vars(self.problem)):
+                self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
+                self.__set_infeasible_status()
+                print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
+                return self.problem
+            else:
+                self.problem.update_optimal_status(True)
+                print("\nOptimized Solution Received!")
         
         alternator = AlternateSolver(self.problem)
         if alternator.n_alternates != 0:
@@ -240,7 +250,7 @@ class AllStackStarter():
             # print(f">> Use alternate_solutions.display_all_alternate_solutions() method to display all alternate solutions")
 
         # round off coefficients in matrix
-        self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
+        # self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
         return self.problem
 
             
