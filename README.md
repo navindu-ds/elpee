@@ -1,3 +1,5 @@
+<img src="https://github.com/navindu-ds/elpee/assets/114894532/9c8104a5-79cb-4b1b-bdcd-6b754caf078d" width="800" height="250">
+
 # Elpee
 
 A linear programming library with step by step implementation. 
