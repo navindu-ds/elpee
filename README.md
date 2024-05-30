@@ -1,4 +1,4 @@
-<img src="https://github.com/navindu-ds/elpee/assets/114894532/9c8104a5-79cb-4b1b-bdcd-6b754caf078d" width="800" height="250">
+<img src="https://github.com/navindu-ds/elpee/assets/114894532/81c9a74a-435d-4dd7-bef4-e9d88708cffb">
 
 # Elpee
 
