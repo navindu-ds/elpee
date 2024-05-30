@@ -1,6 +1,6 @@
 from elpee.algorithms import AllStackStarter
 from elpee.algorithms import AlternateSolver
-from elpee import LPProblem
+from elpee import StandardProblem
 
 M = 1000000
 
@@ -19,7 +19,7 @@ def test_solver01():
                      [0, 1, -0.125,  0.75,  1.5]]
     output_basic_vars = [0, 1, 2]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -28,7 +28,7 @@ def test_solver01():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -56,7 +56,7 @@ def test_solver02():
                      [0.0, 0.0, 0.375, -1.25, 1.0, 2.5]]
     output_basic_vars = [0, 1, 2, 5]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -65,7 +65,7 @@ def test_solver02():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -91,7 +91,7 @@ def test_solver03():
                      [1.0, -0.25, 0.25, 0.0, 2.0]]
     output_basic_vars = [0, 4, 1]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -100,7 +100,7 @@ def test_solver03():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -128,7 +128,7 @@ def test_solver04():
                      [0.0, -1.0, 0.0, 1.0, -1.0, -5.0, 2.0, 30.0]]
     output_basic_vars = [0, 1, 3, 4]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -137,7 +137,7 @@ def test_solver04():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -165,7 +165,7 @@ def test_solver05():
                      [0.0, 4.0, 0.0, 0.333, 0.333, 1.0, 15.0]]
     output_basic_vars = [0, 3, 1, 6]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -174,7 +174,7 @@ def test_solver05():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -203,7 +203,7 @@ def test_solver07():
                      [  5.0, 0.0, -1.0, 0.0, 0.0, 1.0,  13.0]]
     output_basic_vars = [0, 4, 2, 6]
     
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -212,7 +212,7 @@ def test_solver07():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -240,7 +240,7 @@ def test_solver16():
                      [0, 0,-1, 1, 1,  5]]
     output_basic_vars = [0, 2, 1, 5]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -249,7 +249,7 @@ def test_solver16():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -278,7 +278,7 @@ def test_solver17():
                      [0.3, 0.5, 1.0, 1.5, 0.0, 0.0, 0.1, 10.0]]
     output_basic_vars = [0, 5, 6, 3]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -287,7 +287,7 @@ def test_solver17():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -312,7 +312,7 @@ def test_solver18():
     output_matrix = matrix.copy()
     output_basic_vars = basic_vars.copy()
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -321,7 +321,7 @@ def test_solver18():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -338,7 +338,7 @@ def test_solver18():
                         [-1, 0, 1, 0,-1, 2, 0,    9],
                         [ 1, 0, 0, 1, 0,-3, 1,   69]]
     alternate_basic_vars = [0, 2, 3, 4]
-    alternate = LPProblem(
+    alternate = StandardProblem(
         matrix=alternate_matrix,
         basic_vars=alternate_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -369,7 +369,7 @@ def test_solver19():
                      [0, 1, 0, 0, -1, 0, 1, 1]]
     output_basic_vars = [0, 3, 1, 2]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -378,7 +378,7 @@ def test_solver19():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -406,7 +406,7 @@ def test_solver21():
                      [0, 1.25, -1,-1.25, 0, 1, 0, 3]]
     output_basic_vars = [0, 5, 1, 6]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -415,7 +415,7 @@ def test_solver21():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -443,7 +443,7 @@ def test_solver22():
                      [-1.0, 0.0, 1.0, 0.0, 1.0, -1.0, 0.0, 1.0]]
     output_basic_vars = [0, 4, 2, 3]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -452,7 +452,7 @@ def test_solver22():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -480,7 +480,7 @@ def test_solver23():
                      [7.6, 0.0, 0.0, 1.0, -1.0, 0.8, 2.8]]
     output_basic_vars = [0, 3, 2, 4]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -489,7 +489,7 @@ def test_solver23():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,
@@ -517,7 +517,7 @@ def test_solver26():
                      [0, -1,     0,  0,     1, 2    ]]
     output_basic_vars = [0, 3, 1, 5]
 
-    problem = LPProblem(
+    problem = StandardProblem(
         matrix=matrix,
         basic_vars=basic_vars,
         n_decision_vars=n_decision_vars,
@@ -526,7 +526,7 @@ def test_solver26():
     )
     all_stack_starter = AllStackStarter(problem)
 
-    solution = LPProblem(
+    solution = StandardProblem(
         matrix=output_matrix,
         basic_vars=output_basic_vars,
         n_decision_vars=n_decision_vars,

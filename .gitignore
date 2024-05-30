@@ -3,3 +3,12 @@ __pycache__
 
 # keep requirements.txt file for env hidden
 requirements.txt
+
+# main file
+main2.py 
+main3.py
+mainV1.py
+main4.py
+
+# test files for problem configs
+temp/

@@ -1,5 +1,5 @@
 from elpee.utils.feasible import FeasibleHandler
-from elpee import LPProblem
+from elpee import StandardProblem
 from elpee.utils.printer import SimplexPrinter
 from elpee.utils.utilities import create_ratio_col, get_subsets
 
@@ -11,10 +11,10 @@ class AlternateSolver():
 
     Attributes
     ----------
-    problem : elpee.LPProblem
+    problem : elpee.StandardProblem
         The optimized problem given to find alternate solutions
     n_alternates : int
-        Number of alternate solutions available for given optimal LPProblem
+        Number of alternate solutions available for given optimal StandardProblem
     simplex_printer : elpee.utils.SimplexPrinter 
         An instance of printer to visualize the simplex table
         of given LP problem
@@ -26,13 +26,13 @@ class AlternateSolver():
     -------
     check_alternate_solutions() -> bool
         Returns True/False if any alternate solutions are present
-    extract_alternate_solution(version_num) -> elpee.LPProblem
+    extract_alternate_solution(version_num) -> elpee.StandardProblem
         Returns one of the alternate solutions. Version num is in the range of
         1 to n_alternates inclusive
     display_all_alternate_solutions() -> None
         Displays all alternate solutions for given optimal problem
     """
-    def __init__(self, problem:LPProblem):
+    def __init__(self, problem:StandardProblem):
         self.problem = problem
         self.printer = SimplexPrinter()
         self.feasible_handler = FeasibleHandler()
@@ -134,7 +134,7 @@ class AlternateSolver():
         
         Return
         ------
-        elpee.LPProblem containing alternate solution based on given index
+        elpee.StandardProblem containing alternate solution based on given index
         """
         if not self.problem.is_optimal:
             print(f"\nGiven problem is not optimal. No alternate solutions exist.")

@@ -1,5 +1,7 @@
+from typing import Union
 from elpee.utils.feasible import FeasibleHandler
-from elpee.utils.protocols.lp_problem import LPProblem
+from elpee.utils.protocols.lp_problem import LinearProblem
+from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.algorithms.alternator import AlternateSolver
 from elpee.algorithms.big_m import check_artificial_basic_vars
 from elpee.utils.utilities import create_ratio_col, round_off_simplex_matrix, select_pivot_col, subsitute_big_M_for_row
@@ -11,7 +13,7 @@ class AllStackStarter():
 
     Attributes
     ----------
-    problem : elpee.LPProblem
+    problem : elpee.StandardProblem
         The problem given to the AllStackSolver to be solved
     is_max : bool
         Whether given LP problem is a maximization or 
@@ -39,17 +41,21 @@ class AllStackStarter():
 
     Methods
     -------
-    solver() -> elpee.LPProblem
-        Solves the LP problem given to AllStackStarter instance
+    solver() -> elpee.StandardProblem
+        Solves the Standardized LP problem given to AllStackStarter instance
     """
 
-    def __init__(self, problem: LPProblem):
+    def __init__(self, problem: Union[StandardProblem, LinearProblem]):
         """
         Parameters
         ----------
-        problem : elpee.LPProblem
+        problem : elpee.StandardProblem | elpee.LinearProblem
             LP problem to be solved using All Stack Starting Method
+
+        elpee.LinearProblem will be converted to StandardProblem first.
         """
+        if isinstance(problem, LinearProblem):
+            problem = problem.standardize_problem()
         
         self.problem = problem
         self.is_max = problem.is_max
@@ -94,6 +100,12 @@ class AllStackStarter():
                 # unsuccessfully optimized
                 return False
             ratio_col = create_ratio_col(self.problem.matrix, pivot_col_var)
+            if ratio_col == []:
+                # if the ratio column cannot be created due to a lack of constraints
+                print("\nNo constraints for optimization - the solution is unbounded")
+
+                # return cannot optimize
+                return False
             if min(ratio_col) == M:
                 # invalid ratio column with no suitable selections to be made
                 # will block the pivot col from being selected again 
@@ -114,7 +126,7 @@ class AllStackStarter():
         """
 
         print("\n...Generating Initial Feasible Solution for")
-        self.simplex_printer.print_simplex_table_cli(self.problem) # XXX format inputs to be encapsulated within self
+        self.simplex_printer.print_simplex_table_cli(self.problem) 
         self.__make_feasible()
     
     def __optimize_step(self) -> None:
@@ -155,7 +167,7 @@ class AllStackStarter():
 
     def __display_new_feasible_sol(self) -> None:
         """
-        Function to display the current contents of the LPProblem object
+        Function to display the current contents of the StandardProblem object
         as a simplex table 
 
         This function is called only after generating a feasible solution 
@@ -168,7 +180,7 @@ class AllStackStarter():
 
     def __set_infeasible_status(self) -> None:
         """
-        Function to update the status attributes of the LPProblem object
+        Function to update the status attributes of the StandardProblem object
         when the problem is infeasible to be solved
         """
 
@@ -176,15 +188,20 @@ class AllStackStarter():
         self.problem.update_optimal_reachability_status(False)
         self.problem.update_optimal_status(False)
 
-    def solver(self) -> LPProblem:
+    def solver(self, do_step : bool = False) -> StandardProblem:
         """
         Executing function to solve the linear programming problems using 
         all stack starting method 
 
+        Parameters
+        ---------
+        do_step : bool (default : False)
+            Execute solution one step at a time when `do_step=True`
+
         Return
         ------
-        LPProblem object after optimizing using the all stack starting 
-        method. May return a suboptimal or infeasible LPProblem object if
+        StandardProblem object after optimizing using the all stack starting 
+        method. May return a suboptimal or infeasible StandardProblem object if
         the problem cannot be optimized. 
         """
 
@@ -195,6 +212,8 @@ class AllStackStarter():
                 # no feasible solution
                 return self.problem
         
+        if self.feasible_count != 0:
+            self.feasible_count -= 1
         self.__display_new_feasible_sol()
         
         while not(self.__is_optimal()):
@@ -211,15 +230,18 @@ class AllStackStarter():
                 return self.problem
             
             self.__display_new_feasible_sol()
-
-        if (check_artificial_basic_vars(self.problem)):
-            self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
-            self.__set_infeasible_status()
-            print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
-            return self.problem
-        else:
-            self.problem.update_optimal_status(True)
-            print("\nOptimized Solution Received!")
+            if do_step:
+                break
+        
+        if (self.__is_optimal()):
+            if (check_artificial_basic_vars(self.problem)):
+                self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
+                self.__set_infeasible_status()
+                print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
+                return self.problem
+            else:
+                self.problem.update_optimal_status(True)
+                print("\nOptimized Solution Received!")
         
         alternator = AlternateSolver(self.problem)
         if alternator.n_alternates != 0:
@@ -228,7 +250,7 @@ class AllStackStarter():
             # print(f">> Use alternate_solutions.display_all_alternate_solutions() method to display all alternate solutions")
 
         # round off coefficients in matrix
-        self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
+        # self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
         return self.problem
 
             

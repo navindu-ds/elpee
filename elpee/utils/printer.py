@@ -1,4 +1,4 @@
-from elpee.utils.protocols.lp_problem import LPProblem
+from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.utils.utilities import convert_num_to_padded_text
 
 WIDTH = 13
@@ -11,13 +11,13 @@ class SimplexPrinter():
     def __init__(self):
         pass
 
-    def print_var_name(self, var_num, problem: LPProblem):
+    def print_var_name(self, var_num, problem: StandardProblem):
         """
         Prints the variable name as Decision, Slack or Artificial variable using the general index of the variable
         """
         var_idx = var_num
         if var_idx <= problem.n_decision_vars:
-            return f"X{var_num}"
+            return problem.var_name_list[var_idx-1]
         var_idx -= problem.n_decision_vars
         if var_idx <= problem.n_slack_vars:
             return f"S{var_idx}"
@@ -26,7 +26,7 @@ class SimplexPrinter():
             return f"A{var_idx}"
         return "Unknown"
     
-    def print_entering_leaving_vars(self, old_basic_vars, problem:LPProblem):
+    def print_entering_leaving_vars(self, old_basic_vars, problem:StandardProblem):
         """
         Prints the entering and leaving variable used after each iteration of optimization or dual simplex
         by comparing the previous basic_vars list and updated basic_vars list
@@ -40,26 +40,26 @@ class SimplexPrinter():
                 print(f"\nTaking {leaving_var} = 0; Entering {entering_var} as a new basic variable;")
                 return  
 
-    def __get_var_list(self, n_decision_vars, n_slack_vars, n_artificials):
+    def __get_var_list(self, problem : StandardProblem):
         """
         Creates names of variables used in the problem
         Creates the list of variables including objective, decision, slack and artificial variables
         """
         var_names = ['P'.center(WIDTH)]
-        for i in range(n_decision_vars):
-            var_names.append(("X"+str(i+1)).center(WIDTH))
-        for i in range(n_slack_vars):
+        for i in range(problem.n_decision_vars):
+            var_names.append((problem.var_name_list[i]).center(WIDTH))
+        for i in range(problem.n_slack_vars):
             var_names.append(("S"+str(i+1)).center(WIDTH))
-        for i in range(n_artificials):
+        for i in range(problem.n_artificials):
             var_names.append(("A"+str(i+1)).center(WIDTH))
         var_names.append("Sol".center(WIDTH))
         return var_names
     
-    def __get_simplex_table_text(self, problem: LPProblem):
+    def __get_simplex_table_text(self, problem: StandardProblem):
         """
         Creates a list of text strings to display contents of the simplex table
         """
-        var_names = self.__get_var_list(problem.n_decision_vars, problem.n_slack_vars, problem.n_artificials)
+        var_names = self.__get_var_list(problem)
 
         rows_list = []
 
@@ -82,7 +82,7 @@ class SimplexPrinter():
         # return the list of rows saved as text
         return rows_list
     
-    def print_simplex_table_cli(self, problem:LPProblem):
+    def print_simplex_table_cli(self, problem:StandardProblem):
         """
         Prints the simplex table onto the command line interface
         """

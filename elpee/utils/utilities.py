@@ -1,4 +1,5 @@
-from sympy import Symbol, preorder_traversal, Float
+from typing import Dict
+from sympy import Symbol, preorder_traversal, Float, sympify
 
 DECIMALS = 3
 
@@ -144,3 +145,82 @@ def round_off_simplex_matrix(matrix):
             if (isinstance(elem, int)) | (isinstance(elem, float)):
                 matrix[i][j] = round(elem, DECIMALS)
     return matrix
+
+def convert_M_to_sympy(matrix):
+    """
+    Function to convert the big M in the config files from string to Sympy type
+    """
+
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            elem = matrix[i][j]
+            if (isinstance(elem, str)):
+                matrix[i][j] = sympify(elem)
+    return matrix
+
+def convert_sympy_to_text(matrix):
+    """
+    Function to convert the big M expressions in Sympy to text
+    """
+
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            elem = matrix[i][j]
+            # check if number is from sympy class
+            if not (isinstance(elem, int)) | (isinstance(elem, float)):
+                if elem.free_symbols:
+                    # round of the algebraic expression and add padded text to expression
+                    matrix[i][j] = str(round_off_expr_coefficients(elem))
+                else:
+                    matrix[i][j] = float(elem)
+    return matrix
+
+def convert_gte_to_lte(expressions_dict: Dict) -> Dict:
+    """
+    Function to convert all standardized constraints from greater than or equal constraints 
+    to less than or equal constraints
+    """
+    
+    for expr in expressions_dict:
+        if '>=' in expr:
+            variables = expr.pop('>=')
+            negated_variables = {var: -coeff for var, coeff in variables.items()}
+            expr['<='] = negated_variables
+    return expressions_dict
+
+def transform_to_positive_constraints(constraints: Dict) -> Dict:
+    """
+    Convert the constraints to contain positive values for the solution / RHS
+    in each constraint expression
+    """
+
+    for constraint in constraints:
+        operator = next(iter(constraint)) # operator of type >=, <= or =
+        coefficient_dict = constraint[operator] # dictionary of decision variables and coefficients
+
+        if coefficient_dict['sol'] <0: # if RHS is negative
+            variables = constraint.pop(operator)
+            negated_variables = {var: -coeff for var, coeff in variables.items()} # obtain negation of each variable
+            
+            # swap inequality sign
+            if operator == '>=':
+                operator = '<='
+            elif operator == '<=':
+                operator = '>='
+            constraint[operator] = negated_variables
+    return constraints
+
+def obtain_coefficient_from_dict(var_dict : Dict, var_name: str):
+    """
+    Function to extract the coefficient from an objective or constraint expression for given
+    variable name. If variable not found, sets coefficient as 0
+    """
+
+    try:
+        obj_coefficient = var_dict[var_name]
+    except:
+        
+        # if variable name does not exist in the given constraint dictionary, set as 0
+        obj_coefficient = 0
+    
+    return obj_coefficient
