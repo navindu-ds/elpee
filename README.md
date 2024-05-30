@@ -2,6 +2,19 @@
 
 A linear programming library with step by step implementation. 
 
+Setup the environment using the following steps with conda and pip
+```
+# create new conda environment
+conda create -n <env_name>
+# select yes to allow installation
+
+# activate conda environment
+conda activate <env_name>
+
+# install the requirements for the library
+pip install -r requirements.txt
+```
+
 Define the Linear Programming Problem to be solved using the All Stack Starting Method by defining the Objective Function and the Constraint Expressions.
 ```
 from elpee import LinearProblem

@@ -1,9 +1,6 @@
 # ignore __pycache__ files
 __pycache__
 
-# keep requirements.txt file for env hidden
-requirements.txt
-
 # main file
 main2.py 
 main3.py
