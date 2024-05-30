@@ -2,7 +2,7 @@
 
 A linear programming library with step by step implementation. 
 
-Setup the environment using the following steps with conda and pip
+Setup the environment using the following steps with [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html).
 ```
 # create new conda environment
 conda create -n <env_name>
