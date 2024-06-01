@@ -1,3 +1,6 @@
+# Copyright 2024-2025 Navindu De Silva
+# SPDX-License-Identifier: Apache-2.0
+
 from typing import Union
 from elpee.utils.feasible import FeasibleHandler
 from elpee.utils.protocols.lp_problem import LinearProblem

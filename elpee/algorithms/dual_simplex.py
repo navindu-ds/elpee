@@ -1,3 +1,6 @@
+# Copyright 2024-2025 Navindu De Silva
+# SPDX-License-Identifier: Apache-2.0
+
 from typing import List
 from elpee.utils.protocols.st_problem import StandardProblem
 

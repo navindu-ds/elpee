@@ -1,3 +1,6 @@
+# Copyright 2024-2025 Navindu De Silva
+# SPDX-License-Identifier: Apache-2.0
+
 from elpee.utils.feasible import FeasibleHandler
 from elpee import StandardProblem
 from elpee.utils.printer import SimplexPrinter

@@ -1,3 +1,6 @@
+# Copyright 2024-2025 Navindu De Silva
+# SPDX-License-Identifier: Apache-2.0
+
 from typing import Dict
 from sympy import Symbol, preorder_traversal, Float, sympify
 
