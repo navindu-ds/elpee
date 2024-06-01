@@ -1,3 +1,6 @@
+# Copyright 2024-2025 Navindu De Silva
+# SPDX-License-Identifier: Apache-2.0
+
 from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.utils.utilities import convert_num_to_padded_text
 

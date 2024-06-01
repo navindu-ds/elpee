@@ -1,0 +1,22 @@
+Copyright 2024-2025 Navindu De Silva
+SPDX-License-Identifier: Apache-2.0
+
+NOTICE
+======
+
+This project incorporates software developed by various third parties.
+
+Third-Party Components
+----------------------
+
+- Library: Sympy
+  URL: https://github.com/sympy/sympy 
+  License: BSD 3-Clause License (https://opensource.org/licenses/BSD-3-Clause)
+
+- Library: pyyaml
+  URL: https://github.com/yaml/pyyaml
+  License: MIT License (https://opensource.org/license/mit)
+
+- Library: pyyaml
+  URL: https://github.com/pytest-dev/pytest
+  License: MIT License (https://opensource.org/license/mit)
