@@ -56,7 +56,7 @@ class AllStackStarter():
         problem : elpee.StandardProblem
             LP problem to be solved using All Stack Starting Method
         """
-        
+
         self.problem = problem
         self.is_max = problem.is_max
         self.n_decision_vars = problem.n_decision_vars
@@ -231,12 +231,14 @@ class AllStackStarter():
         self.yaml_handler = YamlHandler(create_yaml=create_yaml)
 
         while not(self.feasible_handler.is_feasible(self.problem)):
+            self.problem.update_feasible_status(False)
             self.__generate_initial_feasible_sol_step()
-            if not self.problem.is_feasible:
+            if not self.problem.is_optimal_reachable:
                 self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
                 # no feasible solution
                 return self.problem
         
+        self.problem.update_feasible_status(True)
         if self.feasible_count != 0:
             self.feasible_count -= 1
         self.__display_new_feasible_sol()
@@ -266,6 +268,7 @@ class AllStackStarter():
                 return self.problem
             else:
                 self.problem.update_optimal_status(True)
+                write_yaml(self.problem, f"solution\sol_step_{self.feasible_count}.yaml")
                 print("\nOptimized Solution Received!")
         
         alternator = AlternateSolver(self.problem)

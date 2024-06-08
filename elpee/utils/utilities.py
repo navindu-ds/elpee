@@ -166,6 +166,7 @@ def convert_sympy_to_text(matrix):
     """
     Function to convert the big M expressions in Sympy to text
     """
+    
     matrix_copy = copy.deepcopy(matrix)
 
     for i in range(len(matrix_copy)):
