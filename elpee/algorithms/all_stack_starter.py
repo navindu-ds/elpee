@@ -157,7 +157,7 @@ class AllStackStarter():
         old_basic_vars = self.problem.basic_vars.copy()
         self.problem = self.feasible_handler.get_feasible(self.problem)
         self.problem.update_feasible_status(self.feasible_handler.is_feasible(self.problem))
-        if self.problem.is_feasible == False:
+        if not self.problem.is_optimal_reachable:
             if self.feasible_count != 0:
                 print("\nNo further feasible solution found")
             else:

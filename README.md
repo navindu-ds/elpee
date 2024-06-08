@@ -4,6 +4,7 @@
 
 A linear programming library with step by step implementation. 
 
+## Setup
 Setup the environment using the following steps with [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html).
 ```
 # create new conda environment
@@ -17,6 +18,7 @@ conda activate <env_name>
 pip install -r requirements.txt
 ```
 
+## Example Problem
 Define the Linear Programming Problem to be solved using the All Stack Starting Method by defining the Objective Function and the Constraint Expressions.
 ```
 from elpee import LinearProblem
@@ -45,30 +47,48 @@ from elpee import ElpeeSolver
 
 solution = ElpeeSolver.solve(problem)
 ```
-Sample Output will be as follows.
+Sample Output will be as follows (using dual_simplex).
 ```
 ...Generating Initial Feasible Solution for
-     MIN           x            y            S1           S2           S3           A1          Sol
-      P           -1.0         -1.0          0            0            0            -M           0
-      S1          -1.0         1.0           1            0            0            0           2.0
-      S2          -6.0         -4.0          0            1            0            0           24.0
-      A1           0           1.0           0            0            -1           1           1.0
+     MIN           x            y            S1           S2           S3          Sol
+      P           -1.0         -1.0          0            0            0            0
+      S1          -1.0         1.0           1            0            0           2.0
+      S2          -6.0         -4.0          0            1            0          -24.0
+      S3           0           -1.0          0            0            1           -1.0
+===========================================================================================
+
+Taking S2 = 0; Entering x as a new basic variable;
+
+...Generating Initial Feasible Solution for
+     MIN           x            y            S1           S2           S3          Sol
+      P           0.0         -0.333        0.0         -0.167        0.0          4.0
+      S1          0.0         1.667         1.0         -0.167        0.0          6.0
+      x           1.0         0.667         -0.0        -0.167        -0.0         4.0
+      S3           0           -1.0          0            0            1           -1.0
+===========================================================================================
+
+Taking S3 = 0; Entering y as a new basic variable;
 
 Feasible Solution # 1
-     MIN           x            y            S1           S2           S3           A1          Sol
-      P           -1.0     1.0*M - 1.0       0            0            -M           0          1.0*M
-      S1          -1.0         1.0           1            0            0            0           2.0
-      S2          -6.0         -4.0          0            1            0            0           24.0
-      A1           0           1.0           0            0            -1           1           1.0
-
-Taking A1 = 0; Entering y as a new basic variable;
-
-Feasible Solution # 2
-     MIN           x            y            S1           S2           S3           A1          Sol
-      P           -1.0          0            0            0           -1.0     1.0 - 1.0*M      1.0
-      S1          -1.0         0.0          1.0          0.0          1.0          -1.0         1.0
-      S2          -6.0         0.0          0.0          1.0          -4.0         4.0          28.0
-      y            0           1.0           0            0            -1           1           1.0
+     MIN           x            y            S1           S2           S3          Sol
+      P           0.0          0.0          0.0         -0.167       -0.333       4.333
+      S1          0.0          0.0          1.0         -0.167       1.667        4.333
+      x           1.0          0.0          0.0         -0.167       0.667        3.333
+      y           -0.0         1.0          -0.0         -0.0         -1.0         1.0
+===========================================================================================
 
 Optimized Solution Received!
+```
+And obtain an interpretation to the solution
+```
+Minimum Value for Objective Function = 4.333
+
+Values for Decision Variables :
+      x       = 3.333
+      y       = 1.0
+
+Surplus & Slack variables
+  Constraint #1 Surplus    = 4.333 units
+  Constraint #2 Surplus    : Satisfied at Boundary
+  Constraint #3 Surplus    : Satisfied at Boundary
 ```
