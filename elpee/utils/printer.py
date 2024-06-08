@@ -101,12 +101,13 @@ class SimplexPrinter():
         Prints the Intepretation of the variables given by the partially/ fully solved
         LP standard problem
         """
+
         decision_variables = problem.var_name_list
         basic_vars_idx = problem.basic_vars
         matrix = problem.matrix
 
         objective_value = convert_num_to_padded_text([problem.matrix[0][-1]], 1, DECIMALS)
-        print(f"{'Maximum' if problem.is_max else 'Minimum'} Value for Objective Function = {objective_value[0]}")
+        print(f"\n{'Maximum' if problem.is_max else 'Minimum'} Value for Objective Function = {objective_value[0]}")
 
         print("\nValues for Decision Variables : ")
         for i, var in enumerate(decision_variables):

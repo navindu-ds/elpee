@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from typing import Union
+from elpee.datahandler.yaml_handler import YamlHandler, write_yaml
 from elpee.utils.feasible import FeasibleHandler
 from elpee.utils.protocols.lp_problem import LinearProblem
 from elpee.utils.protocols.st_problem import StandardProblem
@@ -52,13 +53,9 @@ class AllStackStarter():
         """
         Parameters
         ----------
-        problem : elpee.StandardProblem | elpee.LinearProblem
+        problem : elpee.StandardProblem
             LP problem to be solved using All Stack Starting Method
-
-        elpee.LinearProblem will be converted to StandardProblem first.
         """
-        if isinstance(problem, LinearProblem):
-            problem = problem.standardize_problem()
         
         self.problem = problem
         self.is_max = problem.is_max
@@ -68,8 +65,11 @@ class AllStackStarter():
         self.n_cols = len(problem.obj_row)
         self.n_constraints = problem.n_constraints
         self.feasible_count = 0
+        self.infeasible_sol_count = 0
+
         self.simplex_printer = SimplexPrinter()
         self.feasible_handler = FeasibleHandler()
+        self.yaml_handler = YamlHandler()
 
     def __is_optimal(self) -> bool:
         """
@@ -130,6 +130,9 @@ class AllStackStarter():
 
         print("\n...Generating Initial Feasible Solution for")
         self.simplex_printer.print_simplex_table_cli(self.problem) 
+        self.infeasible_sol_count += 1
+        if self.yaml_handler.create_yaml == "all":
+            write_yaml(self.problem, f"solution\infeasible_sol_{self.infeasible_sol_count}.yaml")
         self.__make_feasible()
     
     def __optimize_step(self) -> None:
@@ -180,6 +183,8 @@ class AllStackStarter():
         self.__increment_feasible_sol_num()
         print(f"\nFeasible Solution # {self.feasible_count}")
         self.simplex_printer.print_simplex_table_cli(self.problem)
+        if self.yaml_handler.create_yaml == "all":
+            write_yaml(self.problem, f"solution\sol_step_{self.feasible_count}.yaml")
 
     def __set_infeasible_status(self) -> None:
         """
@@ -191,7 +196,12 @@ class AllStackStarter():
         self.problem.update_optimal_reachability_status(False)
         self.problem.update_optimal_status(False)
 
-    def solver(self, do_step : bool = False, show_steps : bool =True, show_interpret : bool =True) -> StandardProblem:
+    def solver(
+            self, 
+            do_step : bool = False, 
+            show_steps : bool =True, 
+            show_interpret : bool =True,
+            create_yaml : str = None) -> StandardProblem:
         """
         Executing function to solve the linear programming problems using 
         all stack starting method 
@@ -204,6 +214,11 @@ class AllStackStarter():
             Display all iterations occurring in the simplex matrix
         show_interpret : bool (default : True)
             Display the interpretation of the solution at each iteration
+        create_yaml : str (default : None) (Options : ["all","final",None]) 
+            Save the steps in the solved LP problem. Expected options are 
+            "all"   : For saving all steps
+            "final" : For saving final result only
+            None    : No saving
 
         Return
         ------
@@ -213,6 +228,7 @@ class AllStackStarter():
         """
 
         self.simplex_printer = SimplexPrinter(show_steps, show_interpret)
+        self.yaml_handler = YamlHandler(create_yaml=create_yaml)
 
         while not(self.feasible_handler.is_feasible(self.problem)):
             self.__generate_initial_feasible_sol_step()
