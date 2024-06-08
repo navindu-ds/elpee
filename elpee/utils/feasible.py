@@ -88,7 +88,8 @@ class FeasibleHandler():
         if not(self.__check_feasible_positive_sol()):
             self.problem = ds_solver.solver()
  
-        if self.problem.is_feasible == True:
+        # if self.problem.is_feasible == True:
+        if not self.is_feasible(self.problem):
             self.__fix_feasible_0_1_pattern()
         
         return self.problem

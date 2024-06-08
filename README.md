@@ -20,30 +20,30 @@ pip install -r requirements.txt
 Define the Linear Programming Problem to be solved using the All Stack Starting Method by defining the Objective Function and the Constraint Expressions.
 ```
 from elpee import LinearProblem
-from elpee.algorithms import AllStackStarter
 
 # set up a maximization problem
-prob = LinearProblem(is_maximization=True)
+problem = LinearProblem(is_maximization=True)
 
 # define the objective function
-prob.add_objective('x + y')
+problem.add_objective('x + y')
 
 # add the constraints to the problem
-prob.add_constraint('-x + y <= 2')
-prob.add_constraint('-6*x -4*y <= 24')
-prob.add_constraint('-y <= -1')
+problem.add_constraint('-x + y <= 2')
+problem.add_constraint('6*x + 4*y >= 24')
+problem.add_constraint('y >= 1')
 ```
 
 Add additional configurations to apply Big-M or Dual Simplex Method
 ```
-prob.use_dual_simplex() # use to configure problem to use dual simplex method
-prob.use_bigM() # use to configure problem to use big M method
+problem.use_dual_simplex() # use to configure problem to use dual simplex method
+problem.use_bigM() # use to configure problem to use big M method
 ```
 
-Apply the All Stack Method Solver to solve the Linear Problem. The iterations to produce the results will be printed on the command line.
+Apply the Solver to solve the Linear Problem. The iterations to produce the results will be printed on the command line.
 ```
-solver = AllStackStarter(prob)
-solution = solver.solver()
+from elpee import ElpeeSolver
+
+solution = ElpeeSolver.solve(problem)
 ```
 Sample Output will be as follows.
 ```
@@ -71,9 +71,4 @@ Feasible Solution # 2
       y            0           1.0           0            0            -1           1           1.0
 
 Optimized Solution Received!
-```
-Each iteration can be individually run using `do_step=True` parameter
-```
-solver = AllStackStarter(prob)
-iteration1 = solver.solver(do_step=True)
 ```
