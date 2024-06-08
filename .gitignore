@@ -9,3 +9,7 @@ main4.py
 
 # test files for problem configs
 temp/
+
+# virtual env
+test_env/
+venv/

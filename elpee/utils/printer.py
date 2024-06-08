@@ -96,7 +96,7 @@ class SimplexPrinter():
         # return the list of rows saved as text
         return rows_list
     
-    def __interpret_simplex_table(self, problem:StandardProblem):
+    def interpret_problem(self, problem:StandardProblem):
         """
         Prints the Intepretation of the variables given by the partially/ fully solved
         LP standard problem
@@ -111,8 +111,8 @@ class SimplexPrinter():
         print("\nValues for Decision Variables : ")
         for i, var in enumerate(decision_variables):
             if (i+1) in basic_vars_idx:
-                sol_val = matrix[basic_vars_idx.index(i+1)][-1]
-                print(f"{str(var).center(WIDTH)} = {sol_val}")
+                sol_val = convert_num_to_padded_text([matrix[basic_vars_idx.index(i+1)][-1]], 1, DECIMALS)
+                print(f"{str(var).center(WIDTH)} = {sol_val[0]}")
             else:
                 print(f"{str(var).center(WIDTH)} = 0")
         
@@ -127,7 +127,7 @@ class SimplexPrinter():
                 if num_artificials_in_basic_vars > 0:
                     pass
                 else:
-                    print(f"{str(self.__print_slack_var_name(other_var, problem)).center(WIDTH*2)} : Satisfied on Boundary")
+                    print(f"{str(self.__print_slack_var_name(other_var, problem)).center(WIDTH*2)} : Satisfied at Boundary")
 
         if num_artificials_in_basic_vars > 0:
             print(f"\n There are {num_artificials_in_basic_vars} Artificial variable(s) to be handled")
@@ -143,7 +143,7 @@ class SimplexPrinter():
                 print(row)
 
         if self.show_interpret:
-            self.__interpret_simplex_table(problem=problem)   
+            self.interpret_problem(problem=problem)   
 
         if (self.show_interpret | self.show_steps):
             print("="*(len(problem.matrix[0])+1)*WIDTH)
