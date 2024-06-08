@@ -11,10 +11,21 @@ class SimplexPrinter():
     """
     Class Description for all functions for printing the contents of the LP Problem sent
     """
-    def __init__(self):
-        pass
+    def __init__(self, show_steps : bool = True, show_interpret : bool = True):
+        self.show_steps = show_steps
+        self.show_interpret = show_interpret
 
-    def print_var_name(self, var_num, problem: StandardProblem):
+    def __print_slack_var_name(self, var_num:int, problem:StandardProblem):
+        """
+        Print variable name for Slack variables for interpretation
+        """
+        var_idx = var_num
+        var_idx -= problem.n_decision_vars
+        if var_idx <= problem.n_slack_vars:
+            return f"Constraint #{var_idx} Surplus"
+        return "Unknown"
+
+    def print_var_name(self, var_num:int, problem: StandardProblem):
         """
         Prints the variable name as Decision, Slack or Artificial variable using the general index of the variable
         """
@@ -85,10 +96,55 @@ class SimplexPrinter():
         # return the list of rows saved as text
         return rows_list
     
+    def interpret_problem(self, problem:StandardProblem):
+        """
+        Prints the Intepretation of the variables given by the partially/ fully solved
+        LP standard problem
+        """
+
+        decision_variables = problem.var_name_list
+        basic_vars_idx = problem.basic_vars
+        matrix = problem.matrix
+
+        objective_value = convert_num_to_padded_text([problem.matrix[0][-1]], 1, DECIMALS)
+        print(f"\n{'Maximum' if problem.is_max else 'Minimum'} Value for Objective Function = {objective_value[0]}")
+
+        print("\nValues for Decision Variables : ")
+        for i, var in enumerate(decision_variables):
+            if (i+1) in basic_vars_idx:
+                sol_val = convert_num_to_padded_text([matrix[basic_vars_idx.index(i+1)][-1]], 1, DECIMALS)
+                print(f"{str(var).center(WIDTH)} = {sol_val[0]}")
+            else:
+                print(f"{str(var).center(WIDTH)} = 0")
+        
+        print("\nSurplus & Slack variables")
+        start_slack_var_idx = problem.n_decision_vars + 1
+        end_slack_var_idx = start_slack_var_idx + problem.n_constraints
+        num_artificials_in_basic_vars = sum(item >= end_slack_var_idx for item in basic_vars_idx)
+        for other_var in range(start_slack_var_idx, end_slack_var_idx):
+            if other_var in basic_vars_idx:
+                print(f"{str(self.__print_slack_var_name(other_var, problem)).center(WIDTH*2)} = {matrix[basic_vars_idx.index(other_var)][-1]} units")
+            else:
+                if num_artificials_in_basic_vars > 0:
+                    pass
+                else:
+                    print(f"{str(self.__print_slack_var_name(other_var, problem)).center(WIDTH*2)} : Satisfied at Boundary")
+
+        if num_artificials_in_basic_vars > 0:
+            print(f"\n There are {num_artificials_in_basic_vars} Artificial variable(s) to be handled")
+        
+    
     def print_simplex_table_cli(self, problem:StandardProblem):
         """
         Prints the simplex table onto the command line interface
         """
-        rows_list = self.__get_simplex_table_text(problem)
-        for row in rows_list:
-            print(row)
+        if self.show_steps:
+            rows_list = self.__get_simplex_table_text(problem)
+            for row in rows_list:
+                print(row)
+
+        if self.show_interpret:
+            self.interpret_problem(problem=problem)   
+
+        if (self.show_interpret | self.show_steps):
+            print("="*(len(problem.matrix[0])+1)*WIDTH)

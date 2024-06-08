@@ -1,6 +1,7 @@
 # Copyright 2024-2025 Navindu De Silva
 # SPDX-License-Identifier: Apache-2.0
 
+import copy
 from typing import Dict
 from sympy import Symbol, preorder_traversal, Float, sympify
 
@@ -165,18 +166,20 @@ def convert_sympy_to_text(matrix):
     """
     Function to convert the big M expressions in Sympy to text
     """
+    
+    matrix_copy = copy.deepcopy(matrix)
 
-    for i in range(len(matrix)):
-        for j in range(len(matrix[i])):
-            elem = matrix[i][j]
+    for i in range(len(matrix_copy)):
+        for j in range(len(matrix_copy[i])):
+            elem = matrix_copy[i][j]
             # check if number is from sympy class
             if not (isinstance(elem, int)) | (isinstance(elem, float)):
                 if elem.free_symbols:
                     # round of the algebraic expression and add padded text to expression
-                    matrix[i][j] = str(round_off_expr_coefficients(elem))
+                    matrix_copy[i][j] = str(round_off_expr_coefficients(elem))
                 else:
-                    matrix[i][j] = float(elem)
-    return matrix
+                    matrix_copy[i][j] = float(elem)
+    return matrix_copy
 
 def convert_gte_to_lte(expressions_dict: Dict) -> Dict:
     """

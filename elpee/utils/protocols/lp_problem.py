@@ -349,6 +349,7 @@ class LinearProblem():
 
         # initialize simplex matrix
         simplex_matrix = []
+        self._basic_vars = []
 
         # generate objective row and add to simplex matrix
         obj_row = self.__create_objective_row_from_lp()
