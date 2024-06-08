@@ -191,7 +191,7 @@ class AllStackStarter():
         self.problem.update_optimal_reachability_status(False)
         self.problem.update_optimal_status(False)
 
-    def solver(self, do_step : bool = False) -> StandardProblem:
+    def solver(self, do_step : bool = False, show_steps : bool =True, show_interpret : bool =True) -> StandardProblem:
         """
         Executing function to solve the linear programming problems using 
         all stack starting method 
@@ -200,13 +200,19 @@ class AllStackStarter():
         ---------
         do_step : bool (default : False)
             Execute solution one step at a time when `do_step=True`
+        show_steps : bool (default : True)
+            Display all iterations occurring in the simplex matrix
+        show_interpret : bool (default : True)
+            Display the interpretation of the solution at each iteration
 
         Return
         ------
         StandardProblem object after optimizing using the all stack starting 
-        method. May return a suboptimal or infeasible StandardProblem object if
+        method. Will return a suboptimal or infeasible StandardProblem object if
         the problem cannot be optimized. 
         """
+
+        self.simplex_printer = SimplexPrinter(show_steps, show_interpret)
 
         while not(self.feasible_handler.is_feasible(self.problem)):
             self.__generate_initial_feasible_sol_step()

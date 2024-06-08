@@ -11,8 +11,9 @@ class SimplexPrinter():
     """
     Class Description for all functions for printing the contents of the LP Problem sent
     """
-    def __init__(self):
-        pass
+    def __init__(self, show_steps : bool = True, show_interpret : bool = True):
+        self.show_steps = show_steps
+        self.show_interpret = show_interpret
 
     def __print_slack_var_name(self, var_num:int, problem:StandardProblem):
         """
@@ -104,6 +105,9 @@ class SimplexPrinter():
         basic_vars_idx = problem.basic_vars
         matrix = problem.matrix
 
+        objective_value = convert_num_to_padded_text([problem.matrix[0][-1]], 1, DECIMALS)
+        print(f"{'Maximum' if problem.is_max else 'Minimum'} Value for Objective Function = {objective_value[0]}")
+
         print("\nValues for Decision Variables : ")
         for i, var in enumerate(decision_variables):
             if (i+1) in basic_vars_idx:
@@ -133,10 +137,13 @@ class SimplexPrinter():
         """
         Prints the simplex table onto the command line interface
         """
-        rows_list = self.__get_simplex_table_text(problem)
-        for row in rows_list:
-            print(row)
+        if self.show_steps:
+            rows_list = self.__get_simplex_table_text(problem)
+            for row in rows_list:
+                print(row)
 
-        self.__interpret_simplex_table(problem=problem)   
+        if self.show_interpret:
+            self.__interpret_simplex_table(problem=problem)   
 
-        print("="*(len(problem.matrix[0])+1)*WIDTH)
+        if (self.show_interpret | self.show_steps):
+            print("="*(len(problem.matrix[0])+1)*WIDTH)
