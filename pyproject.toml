@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools >= 61.0", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "elpee"
+version = "0.1.0"
+authors = [
+    {name = "Navindu De Silva", email="navinduydds@gmail.com"
+]
+description = "A Linear Programming Library"
+readme = "README.md"
+requires-python = ">= 3.11"
+license = {file = "LICENSE"}
+keywords = ["linear programming","LP", "Operational Research","OR"]
+dynamic = ["version", "description"]

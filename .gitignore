@@ -6,6 +6,7 @@ main2.py
 main3.py
 mainV1.py
 main4.py
+__main__.py
 
 # test files for problem configs
 temp/
@@ -14,3 +15,9 @@ solution/
 # virtual env
 test_env/
 venv/
+
+# docs website
+docs/build
+
+# README.rst of the docs
+README.rst
