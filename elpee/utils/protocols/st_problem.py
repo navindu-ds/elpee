@@ -9,10 +9,10 @@ M = Symbol('M')
 class StandardProblem():
     """
     Class to represent the standardized linear programming
-    pptimization Problem to be solved 
+    optimization Problem to be solved 
     """
     
-    def __init__(self, matrix: List[List], basic_vars: List[int], n_decision_vars: int, 
+    def __init__(self, matrix: List[List[int]], basic_vars: List[int], n_decision_vars: int, 
                  is_max: bool = True, n_artificials: int = 0, var_name_list: List[str] = None):
         self.matrix = matrix
         self.basic_vars = basic_vars

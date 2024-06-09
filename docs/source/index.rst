@@ -1,4 +1,4 @@
-Welcome to Elpee's documentation!
+Step-by-Step Optimization with Elpee
 ===================================
 
 **Elpee** (short for **L** inear **P** rogramming) is a Python library for students and academics to viusalize
@@ -16,6 +16,7 @@ Contents
 --------
 
 .. toctree::
+   :maxdepth: 2
 
    usage
    api
