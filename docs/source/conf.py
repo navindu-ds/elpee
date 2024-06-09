@@ -2,9 +2,9 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'Elpee'
+copyright = '2024-2025, Navindu De Silva'
+author = 'Navindu De Silva'
 
 release = '0.1'
 version = '0.1.0'
@@ -18,6 +18,8 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
 ]
+
+pygments_style = 'sphinx'
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),

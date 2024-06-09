@@ -20,15 +20,17 @@ with its objective function, constraints and other conditions
 elpee.LinearProblem(is_maximization: bool = True)
 -------------------------------------------------
 
-.. data:: __init__(self, is_maximization: bool = True, objective_expr: str=None) -> None:
+.. data:: __init__(is_maximization: bool = True, objective_expr: str=None) -> None:
 
 Creates an empty `LinearProblem` to be solved with sense either 
 Maximize (`True`) or Minimize (`False`).
 
 Example Code ::
+.. code-block:: python
+
    lp_problem = LinearProblem(is_maximization=True)
 
-.. data:: add_objective(self, objective_expr: str) -> None:
+.. data:: add_objective(objective_expr: str) -> None:
 
 Define the objective function expression into the linear 
 programming problem. Replaces previous objective function.
@@ -40,3 +42,10 @@ objective_expr : str
 **Exceptions**
    ValueError is thrown when objective function expression is not
    valid
+
+Example Code ::
+.. code-block:: python
+
+   lp_problem.add_objective("5*x1 + 4*x2")
+
+
