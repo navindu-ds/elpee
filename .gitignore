@@ -18,3 +18,6 @@ venv/
 
 # docs website
 docs/build
+
+# README.rst of the docs
+README.rst
