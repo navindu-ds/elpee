@@ -25,8 +25,8 @@ elpee.LinearProblem(is_maximization: bool = True)
 Creates an empty `LinearProblem` to be solved with sense either 
 Maximize (`True`) or Minimize (`False`).
 
-Example Code ::
-.. code-block:: python
+**Example Code**
+.. code-block:: python::
 
    lp_problem = LinearProblem(is_maximization=True)
 
@@ -43,8 +43,8 @@ objective_expr : str
    ValueError is thrown when objective function expression is not
    valid
 
-Example Code ::
-.. code-block:: python
+**Example Code**
+.. code-block:: python::
 
    lp_problem.add_objective("5*x1 + 4*x2")
 
