@@ -6,7 +6,7 @@ the steps and iterations required to solve constrained linear optimization probl
 methods.
 
 Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+how to :doc:`install` the project.
 
 .. note::
 
