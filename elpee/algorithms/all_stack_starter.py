@@ -269,7 +269,8 @@ class AllStackStarter():
                 return self.problem
             else:
                 self.problem.update_optimal_status(True)
-                write_yaml(self.problem, f"solution\sol_step_{self.feasible_count}.yaml")
+                if create_yaml == "all":
+                    write_yaml(self.problem, f"solution\sol_step_{self.feasible_count}.yaml")
                 print("\nOptimized Solution Received!")
         
         alternator = AlternateSolver(self.problem)

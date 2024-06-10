@@ -1,3 +1,5 @@
+import pytest
+
 from elpee.algorithms import AllStackStarter
 from elpee.algorithms import AlternateSolver
 from elpee import StandardProblem
