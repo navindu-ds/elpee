@@ -1,15 +1,15 @@
-=================
-elpee.ElpeeSolver
-=================
+==================
+elpee.elpee_solver
+==================
 
 The Solver constructed to solve Linear Programming Problems
 
 Import
 ------
 
-.. code-block:: python::
+.. code-block:: python
 
-   from elpee import ElpeeSolver
+   from elpee import elpee_solver
 
 Methods
 -------

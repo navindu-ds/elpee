@@ -9,6 +9,7 @@ API
    :maxdepth: 3
 
    linear_problem
+   standard_problem
    elpee_solver
    alternator
-   standard_problem
+   yaml
