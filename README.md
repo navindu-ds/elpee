@@ -2,20 +2,18 @@
 
 # Elpee
 
-A linear programming library with step by step implementation. 
+*Solving linear programming problems one step at a time.*
 
-## Setup
-Setup the environment using the following steps with [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html).
+Elpee (short for **L** inear **P** rogramming) is a Python library for students and academics to viusalize the steps and iterations required to solve constrained linear optimization problems using linear programming methods.
+
+## Documentation
+
+Follow the documentation to get the best use of [elpee](https://elpee.readthedocs.io/).
+
+## Install
+To use elpee Python library, install it using [pip](https://pypi.org/project/elpee/):
 ```
-# create new conda environment
-conda create -n <env_name>
-# select yes to allow installation
-
-# activate conda environment
-conda activate <env_name>
-
-# install the requirements for the library
-pip install -r requirements.txt
+(.venv) $ pip install elpee
 ```
 
 ## Example Problem
