@@ -21,3 +21,6 @@ docs/build
 
 # README.rst of the docs
 README.rst
+
+# distribution folder
+dist
