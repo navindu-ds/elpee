@@ -6,7 +6,7 @@ from elpee.datahandler.yaml_handler import YamlHandler, write_yaml
 from elpee.utils.feasible import FeasibleHandler
 from elpee.utils.protocols.lp_problem import LinearProblem
 from elpee.utils.protocols.st_problem import StandardProblem
-from elpee.algorithms.alternator import AlternateSolver
+from elpee.alternator import AlternateSolver
 from elpee.algorithms.big_m import check_artificial_basic_vars
 from elpee.utils.utilities import create_ratio_col, round_off_simplex_matrix, select_pivot_col, subsitute_big_M_for_row
 from elpee.utils.printer import SimplexPrinter
@@ -269,7 +269,8 @@ class AllStackStarter():
                 return self.problem
             else:
                 self.problem.update_optimal_status(True)
-                write_yaml(self.problem, f"solution\sol_step_{self.feasible_count}.yaml")
+                if create_yaml == "all":
+                    write_yaml(self.problem, f"solution\sol_step_{self.feasible_count}.yaml")
                 print("\nOptimized Solution Received!")
         
         alternator = AlternateSolver(self.problem)

@@ -1,16 +1,24 @@
-[build-system]
-requires = ["setuptools >= 61.0", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "elpee"
-version = "0.1.0"
-authors = [
-    {name = "Navindu De Silva", email="navinduydds@gmail.com"
-]
-description = "A Linear Programming Library"
+version = "0.2.1"
+description = "Solving linear programming problems step-by-step"
+authors = ["Navindu De Silva <navinduydds@gmail.com >"]
 readme = "README.md"
-requires-python = ">= 3.11"
-license = {file = "LICENSE"}
-keywords = ["linear programming","LP", "Operational Research","OR"]
-dynamic = ["version", "description"]
+packages = [{include = "elpee"}]
+license = "Apache-2.0"
+repository = "https://github.com/navindu-ds/elpee"
+documentation = "https://elpee.readthedocs.io/"
+keywords = ["optimization", "linear programming", "operational research"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+sympy = "^1.12.1"
+pyyaml = "^6.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

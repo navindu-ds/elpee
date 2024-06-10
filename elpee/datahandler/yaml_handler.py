@@ -3,6 +3,7 @@
 
 import os
 import shutil
+from typing import Any
 from sympy import Symbol
 import yaml
 
@@ -64,10 +65,7 @@ def read_yaml(yaml_path: str) -> StandardProblem:
     with open(yaml_path, 'r') as file:
         config = yaml.safe_load(file)
 
-    try:
-        variable_names = config['variable_names']
-    except KeyError:
-        variable_names = None
+    variable_names = __read_optional_configs(config, "variable_names", None)
 
     # Access the values and create a new StandardProblem
     return StandardProblem(
@@ -78,6 +76,17 @@ def read_yaml(yaml_path: str) -> StandardProblem:
         is_max=config['is_max'],
         var_name_list=variable_names
     )
+
+def __read_optional_configs(config: Any, property: str, default_value: Any):
+    """
+    Function to read values from the yaml file if existing  
+    """
+    try:
+        value = config[property]
+    except KeyError:
+        value = default_value
+    return value
+
 
 def write_yaml(problem:StandardProblem, yaml_path:str):
     """

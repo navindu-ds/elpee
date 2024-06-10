@@ -1,15 +1,15 @@
-===========================
-elpee.algorithms.Alternator
-===========================
+================
+elpee.alternator
+================
 
 Module to assist the generation of alternate solutions for the given optimal problems
 
-Import
-------
+Import Functions
+----------------
 
-.. code-block:: python::
+.. code-block:: python
 
-    from elpee.algorithms import Alternator 
+    from elpee.alternator import *
 
 Functions
 ---------
@@ -29,13 +29,13 @@ Checks if the optimized `elpee.StandardProblem` has other alternate optimal solu
 
 **Example Code**
 
-.. code-block:: python::
+.. code-block:: python
 
-    from elpee.algorithms import Alternator 
+    from elpee.alternator import check_alternate_solutions
 
     # optimized_sol is an optimized solution obtained from elpee.ElpeeSolver.solve() 
 
-    has_alternates = Alternator.check_alternate_solutions(optimized_sol)
+    has_alternates = check_alternate_solutions(optimized_sol)
 
 
 
@@ -60,14 +60,14 @@ Extracts an alternate solution based on `version_num` provided
 
 **Example Code**
 
-.. code-block:: python::
+.. code-block:: python
 
-    from elpee.algorithms import Alternator 
+    from elpee.alternator import extract_alternate_solution
 
     # optimized_sol is an optimized solution obtained from elpee.ElpeeSolver.solve() 
 
     # returns the 2nd alternate solution
-    alternate_2_sol = Alternator.extract_alternate_solution(optimized_sol, 2)
+    alternate_2_sol = extract_alternate_solution(optimized_sol, 2)
 
 
 
@@ -86,11 +86,11 @@ Display all alternate solutions for given optimal problem
 
 **Example Code**
 
-.. code-block:: python::
+.. code-block:: python
 
-    from elpee.algorithms import Alternator 
+    from elpee.alternator import display_all_alternate_solutions 
 
     # optimized_sol is an optimized solution obtained from elpee.ElpeeSolver.solve() 
 
-    Alternator.display_all_alternate_solutions(optimized_sol)
+    display_all_alternate_solutions(optimized_sol)
 
