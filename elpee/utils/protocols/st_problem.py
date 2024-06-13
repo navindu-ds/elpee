@@ -1,8 +1,10 @@
 # Copyright 2024-2025 Navindu De Silva
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import List
+from typing import Dict, List
 from sympy import Symbol
+
+from elpee.utils.utilities import extract_elem_from_simplex_matrix
 
 M = Symbol('M')
 
@@ -10,6 +12,31 @@ class StandardProblem():
     """
     Class to represent the standardized linear programming
     optimization Problem to be solved 
+
+    Attributes
+    ----------
+    matrix : `List[List[int]]`
+        simplex matrix representation of the Standard Problem
+    basic_vars : `List[int]`
+        ordered list of basic variables of the given simplex matrix
+    is_max : `bool` [default = `True`]
+        set as True if maximization problem. Else False if minimization
+    n_decision_vars : `int`
+        number of decision variables
+    n_slack_vars : `int`
+        number of slack/surplus variables
+    n_artificials : `int`
+        number of artificial variables
+    n_constraints : `int`
+        number of constraints given to the problem
+    var_name_list : `List[str]`
+
+    Methods
+    -------
+    copy() -> `elpee.StandardProblem`
+        Creates a copy of the given Standard Problem
+    interpret() -> `Dict`
+        Creates a dictionary of variables and values for the given Standard Problem
     """
     
     def __init__(self, matrix: List[List[int]], basic_vars: List[int], n_decision_vars: int, 
@@ -98,6 +125,10 @@ class StandardProblem():
         return self.matrix[0][:-1]
     
     def copy(self):
+        """
+        Create a copy of the StandardProblem class
+        """
+        
         return StandardProblem(
             matrix=self.matrix.copy(),
             basic_vars=self.basic_vars.copy(),
@@ -123,3 +154,41 @@ class StandardProblem():
             (self.is_optimal == other.is_optimal) & \
             (self.num_alternates == other.num_alternates)
         return False
+    
+    def interpret(self) -> Dict:
+        """
+        Obtain a dictionary of variables and values corresponding to the generated `elpee.StandardProblem`
+
+        Return
+        ------
+
+        Dictionary containing the following keys
+        - Sol : The value of the objective function
+        - All basic variables & Decision variables
+        """
+
+        def get_variable_name(self, var_idx):
+            if var_idx <= self.n_decision_vars:
+                return self.var_name_list[var_idx-1]
+            var_idx -= self.n_decision_vars
+            if var_idx <= self.n_slack_vars:
+                return f"Slack_{var_idx}"
+            var_idx -= self.n_slack_vars
+            if var_idx <= self.n_artificials:
+                return f"Artificial{var_idx}"
+            return "Unknown"
+
+        interpret_dict = {}
+        interpret_dict['Sol'] = extract_elem_from_simplex_matrix(self.matrix, 0, -1)
+
+        var_id_list = list(set(self.basic_vars).union(set(list(range(1, self.n_decision_vars+1)))))
+
+        for var_id in var_id_list[1:]:
+            decision_var_name = get_variable_name(self, var_id)
+            
+            if var_id in self.basic_vars:
+                interpret_dict[decision_var_name] = extract_elem_from_simplex_matrix(self.matrix, self.basic_vars.index(var_id), -1)
+            else: 
+                interpret_dict[decision_var_name] = 0
+
+        return interpret_dict

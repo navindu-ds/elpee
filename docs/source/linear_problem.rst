@@ -1,3 +1,7 @@
+.. image:: assets/ElpeeBanner.png
+   :alt: Elpee Logo
+   :width: 200px
+   :align: right
 
 ===================
 elpee.LinearProblem
@@ -12,7 +16,7 @@ with its objective function, constraints and other conditions
 Import
 ------
 
-.. code-block:: python::
+.. code-block:: python
 
    from elpee import LinearProblem
 
@@ -34,7 +38,7 @@ Maximize (`True`) or Minimize (`False`).
 
 **Example Code**
 
-.. code-block:: python::
+.. code-block:: python
 
    lp_problem = LinearProblem(is_maximization=True)
 
@@ -57,7 +61,7 @@ programming problem. Replaces previous objective function.
 
 **Example Code**
 
-.. code-block:: python::
+.. code-block:: python
 
    lp_problem.add_objective("5*x1 + 4*x2")
 
@@ -80,7 +84,7 @@ Add a new constraint to existing LP Problem.
 
 **Example Code**
 
-.. code-block:: python::
+.. code-block:: python
 
    lp_problem.add_constraint("6*x1 + 4*x2 <= 24")
    lp_problem.add_constraint("x1 + 2*x2 <= 6")
@@ -110,6 +114,6 @@ Programming Problem for computation
 
 **Example Code**
 
-.. code-block:: python::
+.. code-block:: python
 
    lp_problem.standardize_problem()

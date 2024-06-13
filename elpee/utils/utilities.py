@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import copy
-from typing import Dict
+from typing import Dict, List
 from sympy import Symbol, preorder_traversal, Float, sympify
 
 DECIMALS = 3
@@ -230,3 +230,22 @@ def obtain_coefficient_from_dict(var_dict : Dict, var_name: str):
         obj_coefficient = 0
     
     return obj_coefficient
+
+def extract_elem_from_simplex_matrix(matrix : List[List], row:int, col:int):
+    """
+    Extract and round off elements in the simplex matrix according to data type
+    """
+
+    elem = matrix[row][col]
+
+    if (isinstance(elem, int)):
+        return elem
+    elif (isinstance(elem, float)):
+        return round(elem, DECIMALS)
+    else:
+        # elements belonging to sympy
+        if elem.free_symbols:
+            # round of the algebraic expression and add padded text to expression
+            return str(round_off_expr_coefficients(elem))
+        else:
+            return round(float(elem), DECIMALS)
