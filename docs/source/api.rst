@@ -1,3 +1,8 @@
+.. image:: assets/ElpeeBanner.png
+   :alt: Elpee Logo
+   :width: 200px
+   :align: right
+   
 ===
 API
 ===
