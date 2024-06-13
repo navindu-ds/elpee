@@ -2,6 +2,16 @@
 
 # Elpee
 
+<p align="left">
+     <img src="https://badgen.net/pypi/v/elpee" />
+     <a href="LICENSE.md"><img src="https://badgen.net/static/license/Apache-2.0/blue" /></a>
+<!--      <img src="https://badgen.net/github/releases/navindu-ds/elpee"/> -->
+     <img src="https://badgen.net/github/prs/navindu-ds/elpee" />
+     <img src="https://badgen.net/github/last-commit/navindu-ds/elpee" />
+<!--      <img src="https://badgen.net/github/stars/navindu-ds/elpee"/> -->
+     
+</p>
+
 *Solving linear programming problems one step at a time.*
 
 Elpee (short for **L** inear **P** rogramming) is a Python library for students and academics to viusalize the steps and iterations required to solve constrained linear optimization problems using linear programming methods.
