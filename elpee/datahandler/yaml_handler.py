@@ -25,27 +25,8 @@ class YamlHandler:
     """
 
     def __init__(self, create_yaml: str = None) -> None:
-        if create_yaml not in ["all", "final", None]:
-            raise ValueError(f"{create_yaml} is an invalid argument for create_yaml parameter.") 
-
-        self.create_yaml = create_yaml
+        super().__init__(freq=create_yaml)
         
-        # create the folder to store yaml file solutions
-        if (create_yaml == "all") | (create_yaml == "final"):
-            self.__create_solution_folder()
-
-    def __create_solution_folder(self):
-        """
-        Creates a folder in root to store the LP solutions as yaml files
-        """
-
-        # If the folder exists, delete it and its contents
-        solution_folder_path = "solution"
-
-        if os.path.exists(solution_folder_path):
-            shutil.rmtree(solution_folder_path)
-        # Create a new, empty folder
-        os.makedirs(solution_folder_path)
 
 def read_yaml(yaml_path: str) -> StandardProblem:
     """
