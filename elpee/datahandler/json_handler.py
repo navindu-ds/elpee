@@ -35,7 +35,7 @@ def read_json(json_path: str) -> StandardProblem:
     variable_names = __read_optional_configs(config, "variable_names", None)
 
     # Access the values and create a new StandardProblem
-    return StandardProblem(
+    st_problem = StandardProblem(
         matrix=convert_M_to_sympy(config['matrix']),
         basic_vars=config['basic_vars'],
         n_decision_vars=config['n_decision_vars'],
@@ -43,6 +43,20 @@ def read_json(json_path: str) -> StandardProblem:
         is_max=config['is_max'],
         var_name_list=variable_names
     )
+
+    is_feasible = __read_optional_configs(config, "feasibility", True)    
+    st_problem.update_feasible_status(is_feasible)
+
+    is_optimal = __read_optional_configs(config, "optimal_status", False)
+    st_problem.update_optimal_status(is_optimal)
+
+    can_reach_optimal = __read_optional_configs(config, "reachability_of_optimal", True)
+    st_problem.update_optimal_reachability_status(can_reach_optimal)
+
+    n_alternates = __read_optional_configs(config, "n_alternates", 0)
+    st_problem.set_num_alternates(n_alternates)
+
+    return st_problem
 
 def __read_optional_configs(config: Any, property: str, default_value: Any):
     """

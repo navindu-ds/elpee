@@ -27,14 +27,14 @@ def __check_file_type(file_path: str):
             # Try parsing as JSON
             try:
                 json.load(file)
-                return "JSON"
+                return "json"
             except json.JSONDecodeError as e:
                 return e
         else:
             # Try parsing as YAML
             try:
                 yaml.safe_load(file)
-                return "YAML"
+                return "yaml"
             except yaml.YAMLError as e:
                 return e
 
