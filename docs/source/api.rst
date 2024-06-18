@@ -17,4 +17,6 @@ API
    standard_problem
    elpee_solver
    alternator
+   data_handler
+   json
    yaml

@@ -2,15 +2,8 @@
 
 # Elpee
 
-<p align="left">
-     <img src="https://badgen.net/pypi/v/elpee" />
-     <a href="LICENSE.md"><img src="https://badgen.net/static/license/Apache-2.0/blue" /></a>
-<!--      <img src="https://badgen.net/github/releases/navindu-ds/elpee"/> -->
-     <img src="https://badgen.net/github/prs/navindu-ds/elpee" />
-     <img src="https://badgen.net/github/last-commit/navindu-ds/elpee" />
-<!--      <img src="https://badgen.net/github/stars/navindu-ds/elpee"/> -->
-     
-</p>
+[![PyPI Latest Release](https://img.shields.io/pypi/v/elpee.svg)](https://pypi.org/project/elpee/)  ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/elpee) [![PyPI Downloads](https://img.shields.io/pypi/dm/elpee.svg?label=PyPI%20downloads)](https://pypi.org/project/elpee/) [![License - Apache-2.0](https://img.shields.io/pypi/l/elpee.svg)](https://github.com/navindu-ds/elpee/blob/main/LICENSE) [![ReadtheDocs](https://img.shields.io/readthedocs/elpee)](https://elpee.readthedocs.io/) ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/elpee)
+
 
 *Solving linear programming problems one step at a time.*
 

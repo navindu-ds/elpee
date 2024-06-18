@@ -67,7 +67,7 @@ def save_file(problem: StandardProblem, file_format: str, file_path:str):
     Parameters
     ----------
     problem : StandardProblem
-        Standardized LP problem to be saved into yaml file
+        Standardized LP problem to be saved into file
     file_format : string (Options: ["json", "yaml"])
         Specifies file type used for saving solution 
     file_path : string

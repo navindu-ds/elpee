@@ -7,6 +7,10 @@
 elpee.yaml_handler
 ==================
 
+.. note::
+
+   The functionalities of this module are moved to the `elpee.data_handler` module. Check :doc:`data_handler` for its implementation.
+
 A module for reading & writing LP problem configurations with yaml files.
 
 Import
