@@ -4,7 +4,7 @@
 from typing import Union
 
 from elpee.algorithms.all_stack_starter import AllStackStarter
-from elpee.datahandler.yaml_handler import write_yaml
+from elpee.datahandler.data_handler import save_file
 from elpee.utils.protocols.lp_problem import LinearProblem
 from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.utils.printer import SimplexPrinter
@@ -27,7 +27,8 @@ class ElpeeSolver():
         single_iter : bool = False, 
         show_steps : bool =True, 
         show_interpret : bool =True,
-        create_yaml: str = None) -> StandardProblem:
+        file_format: str = None,
+        freq: str = None) -> StandardProblem:
         """
         Apply the Linear Programming solution methods to solve a given problem.
 
@@ -41,8 +42,12 @@ class ElpeeSolver():
             Display all iterations occurring in the simplex matrix
         show_interpret : bool (default : True)
             Display the interpretation of the solution at each iteration
-        create_yaml : str (default : None) (Options : ["all","final",None]) 
-            Save the steps in the solved LP problem. Expected options are 
+        file_format : `str` (default : `None`) (Options : ["yaml","json",`None`]) 
+            Save the steps on solution in `json` or `yaml` file formats if provided
+        freq : str (default : None) (Options : ["all","final",`None`]) 
+            Save the steps in the solved LP problem. The freuency is 
+            overidden to None if the file_format is `None`. Expected 
+            options are 
             "all"   : For saving all steps
             "final" : For saving final result only
             None    : No saving
@@ -53,6 +58,9 @@ class ElpeeSolver():
         method. Will return a suboptimal or infeasible `elpee.StandardProblem` object 
         if the problem cannot be optimized. 
         """
+
+        if file_format == None:
+            freq = None
         
         # convert the LinearProblem object to StandardProblem
         if isinstance(lp_problem, LinearProblem):
@@ -61,12 +69,13 @@ class ElpeeSolver():
         # configure all stack starter method to solve problem
         solver_app = AllStackStarter(lp_problem)
 
-        lp_solution = solver_app.solver(do_step=single_iter, show_steps=show_steps, show_interpret=show_interpret, create_yaml=create_yaml)
+        lp_solution = solver_app.solver(do_step=single_iter, show_steps=show_steps, show_interpret=show_interpret, 
+                                        file_format=file_format, freq=freq)
 
         if not (show_interpret):
             SimplexPrinter().interpret_problem(lp_solution)
 
-        if create_yaml == "final":
-            write_yaml(lp_solution, "solution\\final_sol.yaml")
+        if (freq == "final") & (file_format != None):
+            save_file(lp_solution, file_format=file_format, file_path=f"solution\\final_sol.{file_format}")
 
         return lp_solution
