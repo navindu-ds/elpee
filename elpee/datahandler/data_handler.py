@@ -14,47 +14,6 @@ from elpee.utils.protocols.st_problem import StandardProblem
 
 M = Symbol('M')
 
-class DataHandler(ABC):
-    """
-    An abstract class for reading & writing LP problem configurations files
-
-    Subclasses
-    ----------
-    JsonHandler
-        For handling and saving solution steps from LP problems in JSON format
-    YamlHandler 
-        For handling and saving solution steps from LP problems in YAML format
-
-    Attributes
-    ---------
-    create_json : string (default : None)
-        Configures the frequency of saving the iterations of the LP solution generation
-        Options allowed are [`"all"`, `"final"`, `None`]    
-    """
-
-    def __init__(self, freq : str = None) -> None:
-        if freq not in ["all", "final", None]:
-            raise ValueError(f"{freq} is an invalid argument for freq parameter.") 
-
-        self.create_json = freq
-        
-        # create the folder to store json file solutions
-        if (freq == "all") | (freq == "final"):
-            self.__create_solution_folder()
-
-    def __create_solution_folder(self):
-        """
-        Creates a folder in root to store the LP solutions into files
-        """
-
-        # If the folder exists, delete it and its contents
-        solution_folder_path = "solution"
-
-        if os.path.exists(solution_folder_path):
-            shutil.rmtree(solution_folder_path)
-        # Create a new, empty folder
-        os.makedirs(solution_folder_path)
-
 def __check_file_type(file_path: str):
     """
     Check if the file type given is a yaml or json file
@@ -94,7 +53,6 @@ def read_file(file_path: str) -> StandardProblem:
     """
 
     file_type = __check_file_type(file_path)
-    config = None
     if file_type == "json":
         return json_handler.read_json(file_path)
     elif file_type == "yaml":
@@ -112,12 +70,12 @@ def save_file(problem: StandardProblem, file_format: str, file_path:str):
         Standardized LP problem to be saved into yaml file
     file_format : string (Options: ["json", "yaml"])
         Specifies file type used for saving solution 
-    yaml_path : string
-        File path of yaml file to be written 
+    file_path : string
+        File path of file to be created 
     """
     if file_format == "json":
         json_handler.write_json(problem, file_path)
-    elif file_path == "yaml":
+    elif file_format == "yaml":
         yaml_handler.write_yaml(problem, file_path)
     else:
         raise ValueError("Incorrect File Type received. File should be json or yaml type")

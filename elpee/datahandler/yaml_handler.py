@@ -12,20 +12,6 @@ from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.utils.utilities import convert_M_to_sympy, convert_sympy_to_text
 
 M = Symbol('M')
-
-class YamlHandler:
-    """
-    A class for reading & writing LP problem configurations from yaml files.
-
-    Attributes
-    ---------
-    create_yaml : string (default : None)
-        Configures the frequency of saving the iterations of the LP solution generation
-        Options allowed are [`"all"`, `"final"`, `None`]    
-    """
-
-    def __init__(self, create_yaml: str = None) -> None:
-        super().__init__(freq=create_yaml)
         
 
 def read_yaml(yaml_path: str) -> StandardProblem:

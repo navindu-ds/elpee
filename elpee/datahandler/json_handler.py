@@ -10,45 +10,9 @@ import json
 from elpee.utils.printer import SimplexPrinter
 from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.utils.utilities import convert_M_to_sympy, convert_sympy_to_text
-from elpee.datahandler.data_handler import DataHandler
 
 M = Symbol('M')
 
-class JSONHandler(DataHandler):
-    """
-    A class for reading & writing LP problem configurations from json files.
-
-    Attributes
-    ---------
-    create_json : string (default : None)
-        Configures the frequency of saving the iterations of the LP solution generation
-        Options allowed are [`"all"`, `"final"`, `None`]    
-    """
-
-    def __init__(self, create_json: str = None) -> None:
-        super().__init__(freq=create_json)
-        
-        if create_json not in ["all", "final", None]:
-            raise ValueError(f"{create_json} is an invalid argument for create_json parameter.") 
-
-        self.create_json = create_json
-        
-        # create the folder to store json file solutions
-        if (create_json == "all") | (create_json == "final"):
-            self.__create_solution_folder()
-
-    def __create_solution_folder(self):
-        """
-        Creates a folder in root to store the LP solutions as json files
-        """
-
-        # If the folder exists, delete it and its contents
-        solution_folder_path = "solution"
-
-        if os.path.exists(solution_folder_path):
-            shutil.rmtree(solution_folder_path)
-        # Create a new, empty folder
-        os.makedirs(solution_folder_path)
 
 def read_json(json_path: str) -> StandardProblem:
     """
