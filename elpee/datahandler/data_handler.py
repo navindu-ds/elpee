@@ -12,6 +12,8 @@ from elpee.datahandler import json_handler, yaml_handler
 from elpee.utils.printer import SimplexPrinter
 from elpee.utils.protocols.st_problem import StandardProblem
 
+# TODO part of the refactor of handlers
+
 M = Symbol('M')
 
 def __check_file_type(file_path: str):

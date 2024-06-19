@@ -249,3 +249,42 @@ def extract_elem_from_simplex_matrix(matrix : List[List], row:int, col:int):
             return str(round_off_expr_coefficients(elem))
         else:
             return round(float(elem), DECIMALS)
+        
+def get_column_list(problem): # TODO part of the refactor of handlers
+    """
+    Obtain the columns used for the simplex matrix for given `elpee.StandardProblem`
+    """
+
+    columns = problem.var_name_list.copy()
+
+    for i in range(problem.n_slack_vars):
+        columns.append(f"S{i}")
+
+    for j in range(problem.n_artificials):
+        columns.append(f"A{j}")
+
+    columns.append("Sol")
+
+    return columns
+
+def get_basic_vars_names(problem): # TODO part of the refactor of handlers
+    """
+    Obtain the names of the basic variables for given simplex problem
+    """
+
+    basic_vars_names = []
+
+    for var in problem.basic_vars.copy():
+        if var == 0:
+            basic_vars_names.append("Objective")
+        elif var <= problem.n_decision_vars:
+            basic_vars_names.append(problem.var_name_list[var-1])
+        else:
+            var -= problem.n_decision_vars
+            if var <= problem.n_slack_vars:
+                basic_vars_names.append(f"S{var}")
+            else:
+                var -= problem.n_slack_vars
+                basic_vars_names.append(f"A{var}")
+
+    return basic_vars_names

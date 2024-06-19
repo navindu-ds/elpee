@@ -9,10 +9,11 @@ import json
 
 from elpee.utils.printer import SimplexPrinter
 from elpee.utils.protocols.st_problem import StandardProblem
-from elpee.utils.utilities import convert_M_to_sympy, convert_sympy_to_text
+from elpee.utils.utilities import convert_M_to_sympy, convert_sympy_to_text, get_basic_vars_names, get_column_list
 
 M = Symbol('M')
 
+# TODO part of the refactor of handlers
 
 def read_json(json_path: str) -> StandardProblem:
     """
@@ -84,6 +85,8 @@ def write_json(problem:StandardProblem, json_path:str):
     data = {
         "matrix": convert_sympy_to_text(problem.matrix),
         "basic_vars": problem.basic_vars,
+        "basic_vars_names": get_basic_vars_names(problem),
+        "matrix_columns": get_column_list(problem),
         "n_decision_vars": problem.n_decision_vars,
         "n_artificials": problem.n_artificials,
         "is_max": problem.is_max,
