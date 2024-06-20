@@ -3,7 +3,7 @@
 
 import copy
 from typing import Dict, List
-from sympy import Symbol, preorder_traversal, Float, sympify
+from sympy import Symbol, preorder_traversal, Float, sympify, Basic
 
 DECIMALS = 3
 
@@ -24,6 +24,9 @@ def create_ratio_col(matrix, pivot_col_var):
                 ratio_col[row_i-1] = M
         else:
             ratio_col[row_i-1] = M
+    # remove algebraic big M values in the ratio column and use numeric literal 
+    ratio_col = [M if isinstance(item, Basic) else item for item in ratio_col]
+
     return ratio_col
 
 def select_pivot_col(obj_row, is_max, blocked_cols):

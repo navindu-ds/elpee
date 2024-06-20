@@ -1,7 +1,7 @@
 # Copyright 2024-2025 Navindu De Silva
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Union
+from typing import Literal, Union
 from elpee.datahandler.data_handler import save_file
 from elpee.utils.protocols.handler import DataHandler
 from elpee.utils.feasible import FeasibleHandler
@@ -133,7 +133,7 @@ class AllStackStarter():
         self.simplex_printer.print_simplex_table_cli(self.problem) 
         self.infeasible_sol_count += 1
         if self.data_handler.freq == "all":
-            save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution\infeasible_sol_{self.infeasible_sol_count}.{self.data_handler.file_format}")
+            save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution/infeasible_sol_{self.infeasible_sol_count}.{self.data_handler.file_format}")
         self.__make_feasible()
     
     def __optimize_step(self) -> None:
@@ -186,7 +186,7 @@ class AllStackStarter():
         print(f"\nFeasible Solution # {self.feasible_count}")
         self.simplex_printer.print_simplex_table_cli(self.problem)
         if self.data_handler.freq == "all":
-            save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution\sol_step_{self.feasible_count}.{self.data_handler.file_format}")
+            save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution/sol_step_{self.feasible_count}.{self.data_handler.file_format}")
 
     def __set_infeasible_status(self) -> None:
         """
@@ -203,8 +203,8 @@ class AllStackStarter():
             do_step : bool = False, 
             show_steps : bool =True, 
             show_interpret : bool =True,
-            file_format : str = None,
-            freq : str = None) -> StandardProblem:
+            file_format: Literal['json', 'yaml', None] = None,
+            freq: Literal['all','final', None] = None) -> StandardProblem:
         """
         Executing function to solve the linear programming problems using 
         all stack starting method 
@@ -221,7 +221,8 @@ class AllStackStarter():
             Save the steps on solution in `json` or `yaml` file formats if provided
         freq : str (default : None) (Options : ["all","final",`None`]) 
             Save the steps in the solved LP problem. The freuency is 
-            overidden to None if the file_format is `None`. Expected 
+            overidden to None if the file_format is `None`. The frequency 
+            is overidden to `all` if a file format is specified. Expected 
             options are 
             "all"   : For saving all steps
             "final" : For saving final result only
@@ -276,7 +277,7 @@ class AllStackStarter():
             else:
                 self.problem.update_optimal_status(True)
                 if freq == "all":
-                    save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution\sol_step_{self.feasible_count}.{self.data_handler.file_format}")
+                    save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution/sol_step_{self.feasible_count}.{self.data_handler.file_format}")
                 print("\nOptimized Solution Received!")
         
         alternator = AlternateSolver(self.problem)

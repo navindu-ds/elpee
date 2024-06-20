@@ -1,7 +1,7 @@
 # Copyright 2024-2025 Navindu De Silva
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Union
+from typing import Literal, Union
 
 from elpee.algorithms.all_stack_starter import AllStackStarter
 from elpee.datahandler.data_handler import save_file
@@ -27,8 +27,8 @@ class ElpeeSolver():
         single_iter : bool = False, 
         show_steps : bool =True, 
         show_interpret : bool =True,
-        file_format: str = None,
-        freq: str = None) -> StandardProblem:
+        file_format: Literal['json', 'yaml', None] = None,
+        freq: Literal['all','final', None] = None) -> StandardProblem:
         """
         Apply the Linear Programming solution methods to solve a given problem.
 
@@ -46,7 +46,8 @@ class ElpeeSolver():
             Save the steps on solution in `json` or `yaml` file formats if provided
         freq : str (default : None) (Options : ["all","final",`None`]) 
             Save the steps in the solved LP problem. The freuency is 
-            overidden to None if the file_format is `None`. Expected 
+            overidden to None if the file_format is `None`. The frequency 
+            is overidden to `all` if a file format is specified. Expected 
             options are 
             "all"   : For saving all steps
             "final" : For saving final result only
@@ -59,8 +60,10 @@ class ElpeeSolver():
         if the problem cannot be optimized. 
         """
 
-        if file_format == None:
-            freq = None
+        if file_format == None:  # if file format not given
+            freq = None             # do not save solutions
+        elif freq == None:       # else if file format was given but freq given as None 
+            freq = "all"            # update freq to be all
         
         # convert the LinearProblem object to StandardProblem
         if isinstance(lp_problem, LinearProblem):
@@ -76,6 +79,6 @@ class ElpeeSolver():
             SimplexPrinter().interpret_problem(lp_solution)
 
         if (freq == "final") & (file_format != None):
-            save_file(lp_solution, file_format=file_format, file_path=f"solution\\final_sol.{file_format}")
+            save_file(lp_solution, file_format=file_format, file_path=f"solution/final_sol.{file_format}")
 
         return lp_solution
