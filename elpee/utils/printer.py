@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from elpee.utils.protocols.st_problem import StandardProblem
-from elpee.utils.utilities import convert_num_to_padded_text
+from elpee.utils.utilities import convert_num_to_padded_text, extract_elem_from_simplex_matrix
 
 WIDTH = 13
 DECIMALS = 3
@@ -119,11 +119,11 @@ class SimplexPrinter():
         
         print("\nSurplus & Slack variables")
         start_slack_var_idx = problem.n_decision_vars + 1
-        end_slack_var_idx = start_slack_var_idx + problem.n_constraints
-        num_artificials_in_basic_vars = sum(item >= end_slack_var_idx for item in basic_vars_idx)
-        for other_var in range(start_slack_var_idx, end_slack_var_idx):
+        end_slack_var_idx = start_slack_var_idx + problem.n_slack_vars -1
+        num_artificials_in_basic_vars = sum(item > end_slack_var_idx for item in basic_vars_idx)
+        for other_var in range(start_slack_var_idx, end_slack_var_idx+1):
             if other_var in basic_vars_idx:
-                print(f"{str(self.__print_slack_var_name(other_var, problem)).center(WIDTH*2)} = {matrix[basic_vars_idx.index(other_var)][-1]} units")
+                print(f"{str(self.__print_slack_var_name(other_var, problem)).center(WIDTH*2)} = {extract_elem_from_simplex_matrix(matrix, basic_vars_idx.index(other_var), -1)} units")
             else:
                 if num_artificials_in_basic_vars > 0:
                     pass

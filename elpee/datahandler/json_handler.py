@@ -5,33 +5,33 @@ import os
 import shutil
 from typing import Any
 from sympy import Symbol
-import yaml
+import json
 
 from elpee.utils.printer import SimplexPrinter
 from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.utils.utilities import convert_M_to_sympy, convert_sympy_to_text, get_basic_vars_names, get_column_list
 
 M = Symbol('M')
-        
+
 # TODO part of the refactor of handlers
 
-def read_yaml(yaml_path: str) -> StandardProblem:
+def read_json(json_path: str) -> StandardProblem:
     """
-    Read the standardized problem configuration from the yaml file
+    Read the standardized problem configuration from the json file
 
     Parameters
     ----------
-    yaml_path : str
-        File path to the yaml file containing LP problem to be read   
+    json_path : str
+        File path to the json file containing LP problem to be read   
 
     Returns
     -------
-    StandardProblem object of the LP problem in the yaml file
+    StandardProblem object of the LP problem in the json file
     """
         
-    # Load config from YAML file
-    with open(yaml_path, 'r') as file:
-        config = yaml.safe_load(file)
+    # Load config from json file
+    with open(json_path, 'r') as file:
+        config = json.load(file)
 
     variable_names = __read_optional_configs(config, "variable_names", None)
 
@@ -61,7 +61,7 @@ def read_yaml(yaml_path: str) -> StandardProblem:
 
 def __read_optional_configs(config: Any, property: str, default_value: Any):
     """
-    Function to read values from the yaml file if existing  
+    Function to read values from the json file if existing  
     """
     try:
         value = config[property]
@@ -70,16 +70,16 @@ def __read_optional_configs(config: Any, property: str, default_value: Any):
     return value
 
 
-def write_yaml(problem:StandardProblem, yaml_path:str):
+def write_json(problem:StandardProblem, json_path:str):
     """
-    Save the standardized problem configurations to yaml file 
+    Save the standardized problem configurations to json file 
 
     Parameters
     ----------
     problem : StandardProblem
-        Standardized LP problem to be saved into yaml file
-    yaml_path : string
-        File path of yaml file to be written 
+        Standardized LP problem to be saved into json file
+    json_path : string
+        File path of json file to be written 
     """
 
     data = {
@@ -97,23 +97,23 @@ def write_yaml(problem:StandardProblem, yaml_path:str):
         "n_alternates": problem.num_alternates
     }
 
-    # Save data to YAML file
-    with open(yaml_path, 'w') as file:
-        yaml.dump(data, file)
+    # Save data to json file
+    with open(json_path, 'w') as file:
+        json.dump(data, file, indent=2)
 
-def print_lp_problem_from_yaml(yaml_path:str, show_interpreter: bool=True) -> None:
+def print_lp_problem_from_json(json_path:str, show_interpreter: bool=True) -> None:
     """
-    A function to print the StandardProblem from the yaml to command terminal
+    A function to print the StandardProblem from the json to command terminal
 
     Parameters
     ----------
-    yaml_path : str
-        File path to the yaml file containing LP problem to be read   
+    json_path : str
+        File path to the json file containing LP problem to be read   
     show_interpreter : bool (default = True)
         Provides interpretation of values in simplex table when True
     """
 
-    problem = read_yaml(yaml_path)
+    problem = read_json(json_path)
 
     printer = SimplexPrinter(show_interpret=show_interpreter)
     printer.print_simplex_table_cli(problem)
