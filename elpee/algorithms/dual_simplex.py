@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from typing import List
+
+import sympy
 from elpee.utils.protocols.st_problem import StandardProblem
 
 M = 1000000
@@ -40,7 +42,7 @@ class DualSimplexSolver():
         sorted_idx = sorted(range(len(sol_col)), key=lambda k: sol_col[k])
 
         for i in range(neg_sol):
-            if self.problem.basic_vars[sorted_idx[i]+1] not in blocked_rows:
+            if sorted_idx[i]+1 not in blocked_rows:
                 return sorted_idx[i]+1
         print("\nNo suitable pivot row - Cannot make feasible solution")
         return -1
@@ -61,6 +63,9 @@ class DualSimplexSolver():
             else:
                 ratio_row[i] = abs(obj_row[i] / self.problem.matrix[pivot_row][i])
         ratio_row[pivot_row_var-1] = M
+
+        ratio_row = [M if isinstance(item, sympy.Basic) else item for item in ratio_row]
+
         return ratio_row
     
     def __set_infeasible_status(self):
