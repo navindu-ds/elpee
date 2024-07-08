@@ -129,8 +129,6 @@ class AllStackStarter():
         Function to obtain the initial feasible solutions step by step
         """
 
-        print("\n...Generating Initial Feasible Solution for")
-        self.simplex_printer.print_simplex_table_cli(self.problem) 
         self.infeasible_sol_count += 1
         if self.data_handler.freq == "all":
             save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution/infeasible_sol_{self.infeasible_sol_count}.{self.data_handler.file_format}")
@@ -240,6 +238,8 @@ class AllStackStarter():
 
         while not(self.feasible_handler.is_feasible(self.problem)):
             self.problem.update_feasible_status(False)
+            print("\n...Generating Initial Feasible Solution for")
+            self.simplex_printer.print_simplex_table_cli(self.problem) 
             self.__generate_initial_feasible_sol_step()
             if not self.problem.is_optimal_reachable:
                 self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
@@ -254,6 +254,9 @@ class AllStackStarter():
         while not(self.__is_optimal()):
             self.__optimize_step()
             if not self.problem.is_optimal_reachable:
+                # update the last file saved with reachability status
+                if freq == "all":
+                    save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution/sol_step_{self.feasible_count}.{self.data_handler.file_format}")
                 self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
                 # cannot be optimized
                 return self.problem
