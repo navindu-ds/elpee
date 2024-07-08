@@ -261,10 +261,10 @@ def get_column_list(problem): # TODO part of the refactor of handlers
     columns = problem.var_name_list.copy()
 
     for i in range(problem.n_slack_vars):
-        columns.append(f"S{i}")
+        columns.append(f"S{i+1}")
 
     for j in range(problem.n_artificials):
-        columns.append(f"A{j}")
+        columns.append(f"A{j+1}")
 
     columns.append("Sol")
 

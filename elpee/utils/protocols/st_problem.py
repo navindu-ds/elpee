@@ -175,7 +175,7 @@ class StandardProblem():
                 return f"Slack_{var_idx}"
             var_idx -= self.n_slack_vars
             if var_idx <= self.n_artificials:
-                return f"Artificial{var_idx}"
+                return f"Artificial_{var_idx}"
             return "Unknown"
 
         interpret_dict = {}

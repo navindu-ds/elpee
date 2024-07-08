@@ -51,9 +51,9 @@ For using dual simplex method
 
 .. code-block:: python
 
-    from elpee import ElpeeSolver
+    from elpee import elpee_solver
 
-    solution = ElpeeSolver.solve(problem)
+    solution = elpee_solver.solve(problem)
 
 The output received will follow the format below
 
