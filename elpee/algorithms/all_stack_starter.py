@@ -243,6 +243,8 @@ class AllStackStarter():
             self.__generate_initial_feasible_sol_step()
             if not self.problem.is_optimal_reachable:
                 self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
+                if self.data_handler.freq == "all":
+                    save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution/infeasible_sol_{self.infeasible_sol_count}.{self.data_handler.file_format}")
                 # no feasible solution
                 return self.problem
         
@@ -275,6 +277,8 @@ class AllStackStarter():
             if (check_artificial_basic_vars(self.problem)):
                 self.problem.matrix = round_off_simplex_matrix(self.problem.matrix)
                 self.__set_infeasible_status()
+                if freq == "all":
+                    save_file(self.problem, file_format=self.data_handler.file_format, file_path=f"solution/sol_step_{self.feasible_count}.{self.data_handler.file_format}")
                 print("\nArtificial variables found in optimal soltion.\nProblem is infeasible.")
                 return self.problem
             else:
