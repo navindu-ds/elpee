@@ -20,6 +20,11 @@ how to :doc:`install` the project.
 
    This project is under active development.
 
+Demo
+----
+
+View how linear programming problems can be solved using |Demo|
+
 Contents
 --------
 
@@ -47,3 +52,6 @@ Contents
 
 .. |Python Versions| image:: https://img.shields.io/pypi/pyversions/elpee
    :alt: PyPI - Python Version
+
+.. |Demo| image:: https://img.shields.io/badge/streamlit-elpee--calc.streamlit.app-red?style=for-the-badge&logo=streamlit
+   :target: https://elpee-calc.streamlit.app

@@ -2,14 +2,22 @@
 
 # Elpee
 
-[![PyPI Latest Release](https://img.shields.io/pypi/v/elpee.svg)](https://pypi.org/project/elpee/)  ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/elpee) [![PyPI Downloads](https://img.shields.io/pypi/dm/elpee.svg?label=PyPI%20downloads)](https://pypi.org/project/elpee/) [![License - Apache-2.0](https://img.shields.io/pypi/l/elpee.svg)](https://github.com/navindu-ds/elpee/blob/main/LICENSE) [![ReadtheDocs](https://img.shields.io/readthedocs/elpee)](https://elpee.readthedocs.io/) ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/elpee)
+[![PyPI Latest Release](https://img.shields.io/pypi/v/elpee.svg)](https://pypi.org/project/elpee/)  ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/elpee) [![PyPI Downloads](https://img.shields.io/pypi/dm/elpee.svg?label=PyPI%20downloads)](https://pypistats.org/packages/elpee) [![License - Apache-2.0](https://img.shields.io/pypi/l/elpee.svg)](https://github.com/navindu-ds/elpee/blob/main/LICENSE) [![ReadtheDocs](https://img.shields.io/readthedocs/elpee)](https://elpee.readthedocs.io/) ![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/elpee)
 
 
 *Solving linear programming problems one step at a time.*
 
 Elpee (short for **L** inear **P** rogramming) is a Python library for students and academics to viusalize the steps and iterations required to solve constrained linear optimization problems using linear programming methods.
 
+## Demo
+
+[![Static Badge](https://img.shields.io/badge/streamlit-elpee--calc.streamlit.app-red?style=for-the-badge&logo=streamlit)](https://elpee-calc.streamlit.app/)
+
+View how linear programming problems can be solved using the [elpee-calc.streamlit.app](https://elpee-calc.streamlit.app) powered by the elpee library. 
+
 ## Documentation
+
+[![Static Badge](https://img.shields.io/badge/readthedocs-elpee.readthedocs.io-blue?style=for-the-badge&logo=readthedocs)](https://elpee.readthedocs.io/)
 
 Follow the documentation to get the best use of [elpee](https://elpee.readthedocs.io/).
 
