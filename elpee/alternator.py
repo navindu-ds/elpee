@@ -69,7 +69,8 @@ class AlternateSolver():
         # create a ratio column for the pivot col provided
         ratio_col = create_ratio_col(self.problem.matrix, pivot_col_var)
         if min(ratio_col) == M:
-            return None, None
+            return None, None 
+            # TODO #XXX An error if a solution has says having alternate solutions - but turns out it is not feasible
         else:
             # selecting the leaving variable
             pivot_row = ratio_col.index(min(ratio_col)) + 1
