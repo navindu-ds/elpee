@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "elpee"
-version = "0.4.4"
+version = "0.4.5"
 description = "Solving linear programming problems step-by-step"
 authors = ["Navindu De Silva <navinduydds@gmail.com >"]
 readme = "README.md"
