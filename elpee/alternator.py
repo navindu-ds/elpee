@@ -52,9 +52,19 @@ class AlternateSolver():
 
         cols_for_alternates = []
         for i in range(len(self.problem.obj_row)):
+            # for every zero in the objective row that is not a basic variable
             if i+1 not in self.problem.basic_vars:
                 if self.problem.obj_row[i] == 0:
-                    cols_for_alternates.append(i+1)
+
+                    # check if that column has at least 1 non-zero value. 
+                    zero_col = []
+                    for j in range(self.problem.n_constraints):
+                        zero_col.append(self.problem.matrix[j+1][i])
+                    if not all(element == 0 for element in zero_col):
+                        cols_for_alternates.append(i+1)
+                    # If the whole column is zero values - cannot do a pivot change
+                        # Helps avoid some of the infeasible alternate solutions
+
         return cols_for_alternates
     
     def __apply_simplex_update(self, pivot_col_var):
@@ -70,7 +80,6 @@ class AlternateSolver():
         ratio_col = create_ratio_col(self.problem.matrix, pivot_col_var)
         if min(ratio_col) == M:
             return None, None 
-            # TODO #XXX An error if a solution has says having alternate solutions - but turns out it is not feasible
         else:
             # selecting the leaving variable
             pivot_row = ratio_col.index(min(ratio_col)) + 1
@@ -132,13 +141,13 @@ def check_alternate_solutions(problem: StandardProblem):
     alternator = AlternateSolver(problem=problem)
 
     # Checks if the simplex matrix has any alternate optimal solutions
-    # Compares and checks if there are higher number of zeros in the objective row
+    # Compares and checks if there are combinations of changing the basic variables 
+        # with get_alterations_combo_list() function
     # Returns True when there are alternative optimal solutions
-    num_zeros = alternator.problem.obj_row.count(0)
     if alternator.problem.is_optimal:
-        if num_zeros > alternator.problem.n_constraints:
+        if len(alternator.get_alterations_combo_list()) > 0:
             return True
-        elif num_zeros == alternator.problem.n_constraints:
+        else:
             return False
     else:
         print("\nSolution not optimal")
