@@ -282,6 +282,8 @@ class LinearProblem():
                     self._basic_vars.append(var_count)
                 elif operator == '>=':
                     row_list.append(-1)
+                elif operator == '=':
+                    row_list.append(0)
             else:
                 row_list.append(0)
             var_count += 1
