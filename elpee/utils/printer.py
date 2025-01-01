@@ -3,9 +3,11 @@
 
 from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.utils.utilities import convert_num_to_padded_text, extract_elem_from_simplex_matrix
+from elpee.utils.utilities import load_config
 
-WIDTH = 13
-DECIMALS = 3
+config = load_config()
+DECIMALS = config['settings']['DECIMALS']
+WIDTH = config['settings']['WIDTH']
 
 class SimplexPrinter():
     """

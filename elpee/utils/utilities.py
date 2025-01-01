@@ -1,11 +1,25 @@
 # Copyright 2024-2025 Navindu De Silva
 # SPDX-License-Identifier: Apache-2.0
 
-import copy
+import copy, yaml
 from typing import Dict, List
 from sympy import Symbol, preorder_traversal, Float, sympify, Basic
 
-DECIMALS = 3
+def load_config(file_path="elpee/configs.yaml"):
+    """
+    Load configuration settings from a YAML file.
+
+    Args:
+        file_path (str): Path to the YAML file.
+
+    Returns:
+        dict: Configuration settings as a dictionary.
+    """
+    with open(file_path, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
+
+DECIMALS = load_config()['settings']['DECIMALS']
 
 def create_ratio_col(matrix, pivot_col_var):
     """
