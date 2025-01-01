@@ -17,8 +17,9 @@ def load_config():
     ------
     A dictionary with configuration settings
     """
-    with importlib.resources.open_text(package_name, config_file_name) as file:
-        config = yaml.safe_load(file)
+    with importlib.resources.path(package_name, config_file_name) as file_path:
+        with open(file_path, 'r') as file:
+            config = yaml.safe_load(file)
     return config
 
 def set_config_values(setting_name: str, new_value : int):
@@ -33,8 +34,9 @@ def set_config_values(setting_name: str, new_value : int):
         New value to be updated
     """
     # Load the existing config
-    with importlib.resources.open_text(package_name, config_file_name) as file:
-        config = yaml.safe_load(file)
+    with importlib.resources.path(package_name, config_file_name) as file_path:
+        with open(file_path, 'r') as file:
+            config = yaml.safe_load(file)
     
     # Update the DECIMALS value
     config['settings'][setting_name] = new_value
