@@ -3,9 +3,6 @@
 
 from elpee.algorithms.dual_simplex import DualSimplexSolver
 from elpee.utils.protocols.st_problem import StandardProblem
-from elpee.utils.utilities import load_config
-
-DECIMALS = load_config()['settings']['DECIMALS']
 
 class FeasibleHandler():
     """

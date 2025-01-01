@@ -4,22 +4,7 @@
 import copy, yaml
 from typing import Dict, List
 from sympy import Symbol, preorder_traversal, Float, sympify, Basic
-
-def load_config(file_path="elpee/configs.yaml"):
-    """
-    Load configuration settings from a YAML file.
-
-    Args:
-        file_path (str): Path to the YAML file.
-
-    Returns:
-        dict: Configuration settings as a dictionary.
-    """
-    with open(file_path, 'r') as file:
-        config = yaml.safe_load(file)
-    return config
-
-DECIMALS = load_config()['settings']['DECIMALS']
+from elpee.utils.configs import load_config
 
 def create_ratio_col(matrix, pivot_col_var):
     """
@@ -160,6 +145,8 @@ def round_off_expr_coefficients(expression):
     return rounded_expression
 
 def round_off_simplex_matrix(matrix):
+    DECIMALS = load_config()['settings']['DECIMALS'] 
+
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
             elem = matrix[i][j]
@@ -252,6 +239,7 @@ def extract_elem_from_simplex_matrix(matrix : List[List], row:int, col:int):
     """
     Extract and round off elements in the simplex matrix according to data type
     """
+    DECIMALS = load_config()['settings']['DECIMALS']
 
     elem = matrix[row][col]
 
