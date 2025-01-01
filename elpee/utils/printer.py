@@ -3,9 +3,7 @@
 
 from elpee.utils.protocols.st_problem import StandardProblem
 from elpee.utils.utilities import convert_num_to_padded_text, extract_elem_from_simplex_matrix
-
-WIDTH = 13
-DECIMALS = 3
+from elpee.utils.configs import load_config
 
 class SimplexPrinter():
     """
@@ -59,6 +57,8 @@ class SimplexPrinter():
         Creates names of variables used in the problem
         Creates the list of variables including objective, decision, slack and artificial variables
         """
+        WIDTH = load_config().get('WIDTH')
+
         var_names = ['P'.center(WIDTH)]
         for i in range(problem.n_decision_vars):
             var_names.append((problem.var_name_list[i]).center(WIDTH))
@@ -73,6 +73,10 @@ class SimplexPrinter():
         """
         Creates a list of text strings to display contents of the simplex table
         """
+        config = load_config()
+        DECIMALS = config.get('DECIMALS')
+        WIDTH = config.get('WIDTH')
+
         var_names = self.__get_var_list(problem)
 
         rows_list = []
@@ -101,6 +105,9 @@ class SimplexPrinter():
         Prints the Intepretation of the variables given by the partially/ fully solved
         LP standard problem
         """
+        config = load_config()
+        DECIMALS = config.get('DECIMALS')
+        WIDTH = config.get('WIDTH')
 
         decision_variables = problem.var_name_list
         basic_vars_idx = problem.basic_vars
@@ -138,6 +145,8 @@ class SimplexPrinter():
         """
         Prints the simplex table onto the command line interface
         """
+        WIDTH = load_config().get('WIDTH')
+
         if self.show_steps:
             rows_list = self.__get_simplex_table_text(problem)
             for row in rows_list:

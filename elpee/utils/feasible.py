@@ -4,8 +4,6 @@
 from elpee.algorithms.dual_simplex import DualSimplexSolver
 from elpee.utils.protocols.st_problem import StandardProblem
 
-DECIMALS = 3
-
 class FeasibleHandler():
     """
     Class description for performing updates to Linear Programming Problem to have 

@@ -6,8 +6,8 @@ project = 'Elpee'
 copyright = '2024-2025, Navindu De Silva'
 author = 'Navindu De Silva'
 
-release = '0.4'
-version = '0.4.5'
+release = '1.0'
+version = '1.0.3'
 
 # -- General configuration
 

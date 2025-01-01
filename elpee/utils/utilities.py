@@ -1,11 +1,10 @@
 # Copyright 2024-2025 Navindu De Silva
 # SPDX-License-Identifier: Apache-2.0
 
-import copy
+import copy, yaml
 from typing import Dict, List
 from sympy import Symbol, preorder_traversal, Float, sympify, Basic
-
-DECIMALS = 3
+from elpee.utils.configs import load_config
 
 def create_ratio_col(matrix, pivot_col_var):
     """
@@ -146,6 +145,8 @@ def round_off_expr_coefficients(expression):
     return rounded_expression
 
 def round_off_simplex_matrix(matrix):
+    DECIMALS = load_config().get('DECIMALS')
+
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
             elem = matrix[i][j]
@@ -238,6 +239,7 @@ def extract_elem_from_simplex_matrix(matrix : List[List], row:int, col:int):
     """
     Extract and round off elements in the simplex matrix according to data type
     """
+    DECIMALS = load_config().get('DECIMALS')
 
     elem = matrix[row][col]
 
