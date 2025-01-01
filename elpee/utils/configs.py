@@ -2,8 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import yaml
+import importlib.resources
 
-config_file_path = "elpee/configs.yaml"
+package_name = "elpee"
+config_file_name = "configs.yaml"
 DEFAULT_DECIMAL_SIZE = 2
 DEFAULT_CELL_WIDTH = 13
 
@@ -15,7 +17,7 @@ def load_config():
     ------
     A dictionary with configuration settings
     """
-    with open(config_file_path, 'r') as file:
+    with importlib.resources.open_text(package_name, config_file_name) as file:
         config = yaml.safe_load(file)
     return config
 
@@ -31,15 +33,17 @@ def set_config_values(setting_name: str, new_value : int):
         New value to be updated
     """
     # Load the existing config
-    with open(config_file_path, 'r') as file:
+    with importlib.resources.open_text(package_name, config_file_name) as file:
         config = yaml.safe_load(file)
     
     # Update the DECIMALS value
     config['settings'][setting_name] = new_value
     
     # Write the updated config back to the file
-    with open(config_file_path, 'w') as file:
-        yaml.safe_dump(config, file)
+    with importlib.resources.path(package_name, config_file_name) as file_path:
+        with open(file_path, 'w') as file:
+            yaml.safe_dump(config, file)
+        
 
 def set_decimal_size(num_decimals: int = DEFAULT_DECIMAL_SIZE):
     """
