@@ -7,7 +7,7 @@ copyright = '2024-2025, Navindu De Silva'
 author = 'Navindu De Silva'
 
 release = '1.0'
-version = '1.0.2'
+version = '1.0.3'
 
 # -- General configuration
 
