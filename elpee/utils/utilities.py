@@ -145,7 +145,7 @@ def round_off_expr_coefficients(expression):
     return rounded_expression
 
 def round_off_simplex_matrix(matrix):
-    DECIMALS = load_config()['settings']['DECIMALS'] 
+    DECIMALS = load_config().get('DECIMALS')
 
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
@@ -239,7 +239,7 @@ def extract_elem_from_simplex_matrix(matrix : List[List], row:int, col:int):
     """
     Extract and round off elements in the simplex matrix according to data type
     """
-    DECIMALS = load_config()['settings']['DECIMALS']
+    DECIMALS = load_config().get('DECIMALS')
 
     elem = matrix[row][col]
 

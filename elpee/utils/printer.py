@@ -57,7 +57,7 @@ class SimplexPrinter():
         Creates names of variables used in the problem
         Creates the list of variables including objective, decision, slack and artificial variables
         """
-        WIDTH = load_config()['settings']['WIDTH']
+        WIDTH = load_config().get('WIDTH')
 
         var_names = ['P'.center(WIDTH)]
         for i in range(problem.n_decision_vars):
@@ -74,8 +74,8 @@ class SimplexPrinter():
         Creates a list of text strings to display contents of the simplex table
         """
         config = load_config()
-        DECIMALS = config['settings']['DECIMALS']
-        WIDTH = config['settings']['WIDTH']
+        DECIMALS = config.get('DECIMALS')
+        WIDTH = config.get('WIDTH')
 
         var_names = self.__get_var_list(problem)
 
@@ -106,8 +106,8 @@ class SimplexPrinter():
         LP standard problem
         """
         config = load_config()
-        DECIMALS = config['settings']['DECIMALS']
-        WIDTH = config['settings']['WIDTH']
+        DECIMALS = config.get('DECIMALS')
+        WIDTH = config.get('WIDTH')
 
         decision_variables = problem.var_name_list
         basic_vars_idx = problem.basic_vars
@@ -145,7 +145,7 @@ class SimplexPrinter():
         """
         Prints the simplex table onto the command line interface
         """
-        WIDTH = load_config()['settings']['WIDTH']
+        WIDTH = load_config().get('WIDTH')
 
         if self.show_steps:
             rows_list = self.__get_simplex_table_text(problem)
